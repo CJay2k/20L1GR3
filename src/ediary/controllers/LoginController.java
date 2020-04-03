@@ -52,16 +52,16 @@ public class LoginController {
     }
 
     private int authenticateUser() {
-        if(loginLabel.getText().equals("dyrektor") && passwordLabel.getText().equals("dyrektor")){
+        if(loginLabel.getText().toLowerCase().equals("dyrektor") && passwordLabel.getText().equals("dyrektor")){
             return 0;
 
-        }else if(loginLabel.getText().equals("nauczyciel") && passwordLabel.getText().equals("nauczyciel")){
+        }else if(loginLabel.getText().toLowerCase().equals("nauczyciel") && passwordLabel.getText().equals("nauczyciel")){
             return 1;
 
-        }else if(loginLabel.getText().equals("rodzic") && passwordLabel.getText().equals("rodzic")){
+        }else if(loginLabel.getText().toLowerCase().equals("rodzic") && passwordLabel.getText().equals("rodzic")){
             return 2;
 
-        }else if(loginLabel.getText().equals("uczen") && passwordLabel.getText().equals("uczen")){
+        }else if(loginLabel.getText().toLowerCase().equals("uczen") && passwordLabel.getText().equals("uczen")){
             return 3;
 
         }else {
