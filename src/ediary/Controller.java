@@ -1,4 +1,4 @@
-package sample;
+package ediary;
 
 public class Controller {
 }
