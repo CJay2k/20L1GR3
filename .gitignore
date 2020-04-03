@@ -23,6 +23,6 @@
 hs_err_pid*
 
 # InteliJ
-.idea/
+#.idea/
 20L1GR3.iml
 out/
