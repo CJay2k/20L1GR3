@@ -1,4 +1,4 @@
-package ediary;
+package ediary.controllers;
 
 public class LoginController {
 }
