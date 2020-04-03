@@ -1,4 +1,4 @@
-package ediary.controllers;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,7 +70,7 @@ public class LoginController {
     }
 
     private void loadDiary(String title) throws IOException {
-        Parent pane = FXMLLoader.load(getClass().getResource("../fxmls/temp.fxml"));
+        Parent pane = FXMLLoader.load(getClass().getResource("../../../resources/fxmls/temp.fxml"));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
         primaryStage.setTitle(title);
 
