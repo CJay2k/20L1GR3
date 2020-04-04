@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// Class handling Login Window actions
 public class LoginController {
     public Button loginBT;
     public Button closeBT;
@@ -20,6 +21,8 @@ public class LoginController {
     public Label infoLabel;
 
 
+//    Function that handle Login button clicks
+//    If the user is authenticated, opens the window depending on his role
     @FXML
     public void handleLoginButtonAction() throws IOException {
         switch (authenticateUser()) {
@@ -45,12 +48,16 @@ public class LoginController {
         }
     }
 
+//    Function that handle Close button clicks
+//    Closes application
     @FXML
     public void handleCloseButtonAction(){
         Stage stage = (Stage) closeBT.getScene().getWindow();
         stage.close();
     }
 
+//    Function that checks if login and password matches
+//    If so returns user role
     private int authenticateUser() {
         if(loginLabel.getText().toLowerCase().equals("dyrektor") && passwordLabel.getText().equals("dyrektor")){
             return 0;
@@ -69,6 +76,7 @@ public class LoginController {
         }
     }
 
+//    Function that load main diary window with given window title
     private void loadDiary(String title) throws IOException {
         Parent pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxmls/temp.fxml"));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
