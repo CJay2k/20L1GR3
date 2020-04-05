@@ -1,7 +1,488 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" prefHeight="400.0" prefWidth="600.0" fx:controller="controllers.EdiaryController">
-
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EdiaryController">
+   <children>
+      <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab fx:id="tabOceny" text="Oceny">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="685.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Data" />
+                                  <TableColumn prefWidth="250.0" text="Przedmiot" />
+                                    <TableColumn prefWidth="150.0" text="Ocena" />
+                                    <TableColumn prefWidth="470.0" text="Za co" />
+                                </columns>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TableView>
+                              <Button mnemonicParsing="false" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin></Button>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabNieobecnosci" text="Nieobecności">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER" layoutX="33.0" layoutY="595.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Data" />
+                                    <TableColumn minWidth="0.0" prefWidth="100.0" text="Godzina" />
+                                  <TableColumn prefWidth="250.0" text="Przedmiot" />
+                                    <TableColumn prefWidth="150.0" text="Usprawiedliwiona" />
+                                </columns>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TableView>
+                              <Button mnemonicParsing="false" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin></Button>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tabUwagi" text="Uwagi">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" layoutX="188.0" layoutY="685.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Data" />
+                                  <TableColumn prefWidth="250.0" text="Przedmiot" />
+                                    <TableColumn prefWidth="650.0" text="Treść uwagi" />
+                                </columns>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TableView>
+                              <Button mnemonicParsing="false" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Button>
+                           </children></VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabUsprawiedliwienia" text="Usprawiedliwienia">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="CENTER" layoutY="470.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Data" />
+                                  <TableColumn prefWidth="100.0" text="Godzina" />
+                                    <TableColumn prefWidth="250.0" text="Przedmiot" />
+                                    <TableColumn prefWidth="500.0" text="Treść usprawiedliwienia" />
+                                </columns>
+                              </TableView>
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Treść usprawiedliwienia:" textAlignment="CENTER" />
+                              <TextArea>
+                                 <VBox.margin>
+                                    <Insets left="100.0" right="100.0" />
+                                 </VBox.margin></TextArea>
+                              <HBox alignment="TOP_CENTER" spacing="10.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                    <Button mnemonicParsing="false" text="Odśwież" />
+                                    <Button mnemonicParsing="false" text="Wyczyść" />
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets bottom="10.0" />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabListaUczniow" text="Lista uczniów">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="595.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Klasa" />
+                                  <TableColumn prefWidth="150.0" text="Nazwisko" />
+                                    <TableColumn prefWidth="150.0" text="Imię" />
+                                </columns>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </TableView>
+                              <Button mnemonicParsing="false" text="Odśwież">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin></Button>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabDodawanieUwag" text="Dodawanie uwag">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <VBox layoutX="83.0" layoutY="465.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <children>
+                                    <TableView VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn prefWidth="150.0" text="Klasa" />
+                                            <TableColumn prefWidth="150.0" text="Nazwisko" />
+                                            <TableColumn prefWidth="150.0" text="Imię" />
+                                        </columns>
+                                        <VBox.margin>
+                                            <Insets bottom="10.0" />
+                                        </VBox.margin>
+                                    </TableView>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints halignment="RIGHT" percentWidth="25.0" />
+                                            <ColumnConstraints hgrow="ALWAYS" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        </rowConstraints>
+                                        <children>
+                                            <Label text="Data:" />
+                                            <Label text="Godzina:" GridPane.rowIndex="1" />
+                                            <Label text="Przedmiot:" GridPane.rowIndex="2" />
+                                            <DatePicker maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                                            <TextArea GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                            <Label text="Treść uwagi:" GridPane.rowIndex="3" />
+                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                <children>
+                                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                                    <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Odśwież" />
+                                                </children>
+                                            </HBox>
+                                        </children>
+                                        <padding>
+                                            <Insets bottom="10.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets left="200.0" right="200.0" />
+                                        </VBox.margin>
+                                    </GridPane>
+                                </children></VBox>
+                        </children></AnchorPane>
+                </content>
+            </Tab>
+            <Tab fx:id="tabDodajOcene" text="Dodawanie ocen">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <VBox layoutX="83.0" layoutY="465.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <children>
+                                    <TableView VBox.vgrow="ALWAYS">
+                                        <columns>
+                                            <TableColumn prefWidth="150.0" text="Klasa" />
+                                            <TableColumn prefWidth="150.0" text="Nazwisko" />
+                                            <TableColumn prefWidth="150.0" text="Imię" />
+                                        </columns>
+                                        <VBox.margin>
+                                            <Insets bottom="10.0" />
+                                        </VBox.margin>
+                                    </TableView>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints halignment="RIGHT" percentWidth="25.0" />
+                                            <ColumnConstraints hgrow="ALWAYS" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        </rowConstraints>
+                                        <children>
+                                            <Label text="Data:" />
+                                            <Label text="Godzina:" GridPane.rowIndex="1" />
+                                            <Label text="Przedmiot:" GridPane.rowIndex="2" />
+                                            <DatePicker maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                                            <TextArea GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                            <Label text="Za co:" GridPane.rowIndex="3" />
+                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                                <children>
+                                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                                    <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Odśwież" />
+                                                </children>
+                                            </HBox>
+                                        </children>
+                                        <padding>
+                                            <Insets bottom="10.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets left="200.0" right="200.0" />
+                                        </VBox.margin>
+                                    </GridPane>
+                                </children></VBox>
+                        </children></AnchorPane>
+                </content>
+            </Tab>
+            <Tab fx:id="tabWpisywanieNieobecnosci" text="Wpisywanie nieobecności">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="100.0" layoutY="463.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Klasa" />
+                                  <TableColumn prefWidth="150.0" text="Nazwisko" />
+                                    <TableColumn prefWidth="150.0" text="Imię" />
+                                    <TableColumn prefWidth="150.0" text="Obecność" />
+                                </columns>
+                              </TableView>
+                              <GridPane hgap="10.0" vgap="10.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="25.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                     <DatePicker maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+                                       <VBox.margin>
+                                          <Insets right="200.0" />
+                                       </VBox.margin>
+                                    </DatePicker>
+                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                     <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                       <children>
+                                           <Button mnemonicParsing="false" text="Dodaj" />
+                                           <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Odśwież" />
+                                       </children>
+                                    </HBox>
+                                     <Label text="Data:" />
+                                     <Label text="Godzina:" GridPane.rowIndex="1" />
+                                     <Label text="Przedmiot:" GridPane.rowIndex="2" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="200.0" right="200.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabAkceptacjaUsprawiedliwien" text="Akceptacja usprawiedliwień">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" layoutX="181.0" layoutY="104.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView VBox.vgrow="ALWAYS">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Klasa" />
+                                  <TableColumn prefWidth="150.0" text="Nazwisko" />
+                                    <TableColumn prefWidth="150.0" text="Imię" />
+                                    <TableColumn prefWidth="100.0" text="Data" />
+                                    <TableColumn prefWidth="100.0" text="Godzina" />
+                                    <TableColumn prefWidth="150.0" text="Przedmiot" />
+                                    <TableColumn prefWidth="219.0" text="Treść usprawiedliwienia" />
+                                </columns>
+                              </TableView>
+                              <Label text="Treść usprawiedliwienia:" />
+                              <TextArea editable="false">
+                                 <VBox.margin>
+                                    <Insets left="100.0" right="100.0" />
+                                 </VBox.margin></TextArea>
+                              <HBox alignment="TOP_CENTER" spacing="10.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Akceptuj" />
+                                    <Button mnemonicParsing="false" text="Odśwież" />
+                                    <Button mnemonicParsing="false" text="Odrzuć" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabDodajUczniow" text="Dodaj uczniów">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="137.0" layoutY="348.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <GridPane hgap="10.0" vgap="10.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="25.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Imię:" />
+                                    <Label text="Nazwisko:" GridPane.rowIndex="1" />
+                                    <Label text="PESEL:" GridPane.rowIndex="2" />
+                                    <Label text="Klasa:" GridPane.rowIndex="7" />
+                                    <Label text="Imię ojca:" GridPane.rowIndex="3" />
+                                    <Label text="Nazwisko ojca:" GridPane.rowIndex="4" />
+                                    <Label text="Imię matki:" GridPane.rowIndex="5" />
+                                    <Label text="Nazwisko matki:" GridPane.rowIndex="6" />
+                                    <TextField GridPane.columnIndex="1" />
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="200.0" right="200.0" top="10.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                              <HBox alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                    <Button mnemonicParsing="false" text="Wyczyść" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabDodajNauczycieli" text="Dodaj nauczycieli">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                         <VBox layoutX="137.0" layoutY="348.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                             <children>
+                                 <GridPane hgap="10.0" vgap="10.0">
+                                     <columnConstraints>
+                                         <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="25.0" />
+                                         <ColumnConstraints hgrow="SOMETIMES" />
+                                     </columnConstraints>
+                                     <rowConstraints>
+                                         <RowConstraints vgrow="SOMETIMES" />
+                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                     </rowConstraints>
+                                     <children>
+                                         <Label text="Imię:" />
+                                         <Label text="Nazwisko:" GridPane.rowIndex="1" />
+                                         <Label text="PESEL:" GridPane.rowIndex="2" />
+                                         <TextField GridPane.columnIndex="1" />
+                                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                     </children>
+                                     <VBox.margin>
+                                         <Insets bottom="10.0" left="200.0" right="200.0" top="10.0" />
+                                     </VBox.margin>
+                                 </GridPane>
+                                 <HBox alignment="CENTER" spacing="10.0">
+                                     <children>
+                                         <Button mnemonicParsing="false" text="Dodaj" />
+                                         <Button mnemonicParsing="false" text="Wyczyść" />
+                                     </children>
+                                 </HBox>
+                             </children>
+                         </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabPrzydzielDoKlas" text="Przydziel do klas">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                         <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="595.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                             <children>
+                                 <TableView VBox.vgrow="ALWAYS">
+                                     <columns>
+                                         <TableColumn prefWidth="150.0" text="PESEL" />
+                                         <TableColumn prefWidth="150.0" text="Nazwisko" />
+                                         <TableColumn prefWidth="150.0" text="Imię" />
+                                     </columns>
+                                     <VBox.margin>
+                                         <Insets bottom="10.0" />
+                                     </VBox.margin>
+                                 </TableView>
+                              <GridPane hgap="10.0" vgap="10.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="25.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints vgrow="SOMETIMES" />
+                                  <RowConstraints />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Klasa:" />
+                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                    <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Przypisz" />
+                                             <Button mnemonicParsing="false" text="Odśwież" />
+                                       </children></HBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="200.0" right="200.0" />
+                                 </VBox.margin>
+                              </GridPane>
+                             </children>
+                         </VBox>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
 </AnchorPane>

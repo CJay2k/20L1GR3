@@ -21,6 +21,7 @@ public class LoginController {
     public PasswordField passwordLabel;
     public Label infoLabel;
 
+    public static int userRole = -1;
 
 //    Function that handle Login button clicks
 //    If the user is authenticated, opens the window depending on his role
@@ -28,18 +29,22 @@ public class LoginController {
     public void handleLoginButtonAction() throws IOException {
         switch (authenticateUser()) {
             case 0:
+                userRole = 0;
                 loadDiary("Okno dyrektora");
 
                 break;
             case 1:
+                userRole = 1;
                 loadDiary("Okno nauczyciela");
 
                 break;
             case 2:
+                userRole = 2;
                 loadDiary("Okno rodzica");
 
                 break;
             case 3:
+                userRole = 3;
                 loadDiary("Okno ucznia");
 
                 break;
