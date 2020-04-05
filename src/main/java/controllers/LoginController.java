@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 // Class handling Login Window actions
 public class LoginController {
@@ -78,7 +79,7 @@ public class LoginController {
 
 //    Function that load main diary window with given window title
     private void loadDiary(String title) throws IOException {
-        Parent pane = FXMLLoader.load(getClass().getClassLoader().getResource("fxmls/temp.fxml"));
+        Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxmls/ediary.fxml")));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
         primaryStage.setTitle(title);
 
