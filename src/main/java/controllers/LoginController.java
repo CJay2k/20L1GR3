@@ -29,23 +29,19 @@ public class LoginController {
     public void handleLoginButtonAction() throws IOException {
         switch (authenticateUser()) {
             case 0:
-                userRole = 0;
-                loadDiary("Okno dyrektora");
+                loadDiary(0,"Okno dyrektora");
 
                 break;
             case 1:
-                userRole = 1;
-                loadDiary("Okno nauczyciela");
+                loadDiary(1,"Okno nauczyciela");
 
                 break;
             case 2:
-                userRole = 2;
-                loadDiary("Okno rodzica");
+                loadDiary(2,"Okno rodzica");
 
                 break;
             case 3:
-                userRole = 3;
-                loadDiary("Okno ucznia");
+                loadDiary(3,"Okno ucznia");
 
                 break;
             default:
@@ -83,7 +79,9 @@ public class LoginController {
     }
 
 //    Function that load main diary window with given window title
-    private void loadDiary(String title) throws IOException {
+    private void loadDiary(int role, String title) throws IOException {
+        userRole = role;
+
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxmls/ediary.fxml")));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
         primaryStage.setTitle(title);
