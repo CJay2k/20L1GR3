@@ -12,6 +12,7 @@ public class MainFX extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("fxmls/login.fxml"));
         primaryStage.setTitle("Logowanie e-Dziennik");
         primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

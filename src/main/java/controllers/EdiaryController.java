@@ -19,8 +19,10 @@ public class EdiaryController {
     public Tab tabWpisywanieNieobecnosci;
     public Tab tabAkceptacjaUsprawiedliwien;
     public Tab tabDodajUczniow;
-    public Tab tabDodajNauczycieli;
-    public Tab tabPrzydzielDoKlas;
+    public Tab tabDodajUsunNauczycieli;
+    public Tab tabDodajUsunPrzedmiot;
+    public Tab tabPrzydzielNauczycielaDoPrzedmiotu;
+    public Tab tabPrzydzielPrzedmiotDoKlasy;
 
 
     //    Function run when user logs on
@@ -46,8 +48,10 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabUwagi);
             tabPane.getTabs().remove(tabUsprawiedliwienia);
             tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabPrzydzielDoKlas);
+            tabPane.getTabs().remove(tabDodajUsunNauczycieli);
+            tabPane.getTabs().remove(tabDodajUsunPrzedmiot);
+            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
+            tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
         }else if(userRole == 2){ // Role Rodzic
             tabPane.getTabs().remove(tabListaUczniow);
@@ -56,8 +60,10 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
             tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
             tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabPrzydzielDoKlas);
+            tabPane.getTabs().remove(tabDodajUsunNauczycieli);
+            tabPane.getTabs().remove(tabDodajUsunPrzedmiot);
+            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
+            tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
         }else if(userRole == 3){ // Role Uczen
             tabPane.getTabs().remove(tabUsprawiedliwienia);
@@ -67,8 +73,10 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
             tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
             tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabPrzydzielDoKlas);
+            tabPane.getTabs().remove(tabDodajUsunNauczycieli);
+            tabPane.getTabs().remove(tabDodajUsunPrzedmiot);
+            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
+            tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
         }
     }

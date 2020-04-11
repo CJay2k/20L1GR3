@@ -85,6 +85,7 @@ public class LoginController {
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxmls/ediary.fxml")));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
         primaryStage.setTitle(title);
+        primaryStage.setResizable(true);
 
         primaryStage.setScene(new Scene(pane, 1024, 768));
     }
