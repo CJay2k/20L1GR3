@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="mapping.Nauczyciel" table="nauczyciel" catalog="dziennik_elektroniczny" optimistic-lock="version">
+        <id name="pesel" type="long">
+            <column name="pesel"/>
+            <generator class="foreign">
+                <param name="property">autoryzacja</param>
+            </generator>
+        </id>
+        <one-to-one name="autoryzacja" class="mapping.Autoryzacja" constrained="true"/>
+        <property name="imie" type="string">
+            <column name="imie" length="30"/>
+        </property>
+        <property name="nazwisko" type="string">
+            <column name="nazwisko" length="30"/>
+        </property>
+        <set name="klasas" table="klasa" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="wychowawca"/>
+            </key>
+            <one-to-many class="mapping.Klasa"/>
+        </set>
+        <set name="zajecias" table="zajecia" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="prowadzacy" not-null="true"/>
+            </key>
+            <one-to-many class="mapping.Zajecia"/>
+        </set>
+    </class>
+</hibernate-mapping>
