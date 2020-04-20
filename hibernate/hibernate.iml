@@ -20,5 +20,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Hibernate 5.4.11-5.4.11" level="project" />
     <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:5.1.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.ibatis:ibatis-sqlmap:2.3.4.726" level="project" />
   </component>
 </module>
