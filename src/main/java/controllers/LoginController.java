@@ -24,7 +24,7 @@ public class LoginController {
     public PasswordField passwordLabel;
     public Label infoLabel;
 
-    public static long loggedUserPK = -1;
+    public static long loggedUserRole = -1;
 
 //    Function that handle Login button clicks
 //    If the user is authenticated, opens the window depending on his role
@@ -77,17 +77,17 @@ public class LoginController {
 
 //            Check PK and role of logged and assing it to variable
             if(!resault.isEmpty()) {
-                loggedUserPK = resault.get(0).getPesel();
                 rola = resault.get(0).getRola();
             }
         }
+        session.close();
 
         return rola;
     }
 
 //    Function that load main diary window with given window title
     private void loadDiary(int role, String title) throws IOException {
-        loggedUserPK = role;
+        loggedUserRole = role;
 
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxmls/ediary.fxml")));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();

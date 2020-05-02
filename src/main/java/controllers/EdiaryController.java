@@ -3,7 +3,7 @@ package controllers;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-import static controllers.LoginController.userRole;
+import static controllers.LoginController.loggedUserRole;
 
 // Class handling Ediary Window actions
 public class EdiaryController {
@@ -32,7 +32,7 @@ public class EdiaryController {
 
 //    Function that removes tabs id user has no privileges to see them
     private void hideElements(){
-        if(userRole == 0){ // Role Dyrektor
+        if(loggedUserRole == 0){ // Role Dyrektor
             tabPane.getTabs().remove(tabOceny);
             tabPane.getTabs().remove(tabNieobecnosci);
             tabPane.getTabs().remove(tabUwagi);
@@ -42,7 +42,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
             tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
 
-        }else if(userRole == 1){ // Role Nauczyciel
+        }else if(loggedUserRole == 1){ // Role Nauczyciel
             tabPane.getTabs().remove(tabOceny);
             tabPane.getTabs().remove(tabNieobecnosci);
             tabPane.getTabs().remove(tabUwagi);
@@ -53,7 +53,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
-        }else if(userRole == 2){ // Role Rodzic
+        }else if(loggedUserRole == 2){ // Role Rodzic
             tabPane.getTabs().remove(tabListaUczniow);
             tabPane.getTabs().remove(tabDodawanieUwag);
             tabPane.getTabs().remove(tabDodajOcene);
@@ -65,7 +65,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
-        }else if(userRole == 3){ // Role Uczen
+        }else if(loggedUserRole == 3){ // Role Uczen
             tabPane.getTabs().remove(tabUsprawiedliwienia);
             tabPane.getTabs().remove(tabListaUczniow);
             tabPane.getTabs().remove(tabDodawanieUwag);
