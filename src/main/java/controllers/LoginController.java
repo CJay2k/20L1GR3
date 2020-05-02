@@ -9,8 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import mapping.Autoryzacja;
+import org.hibernate.Session;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 // Class handling Login Window actions
@@ -21,7 +24,7 @@ public class LoginController {
     public PasswordField passwordLabel;
     public Label infoLabel;
 
-    public static int userRole = -1;
+    public static long loggedUserPK = -1;
 
 //    Function that handle Login button clicks
 //    If the user is authenticated, opens the window depending on his role
@@ -61,26 +64,30 @@ public class LoginController {
 //    Function that checks if login and password matches
 //    If so returns user role
     private int authenticateUser() {
-        if(loginLabel.getText().toLowerCase().equals("dyrektor") && passwordLabel.getText().equals("dyrektor")){
-            return 0;
+        Session session = SessionController.getSession();
 
-        }else if(loginLabel.getText().toLowerCase().equals("nauczyciel") && passwordLabel.getText().equals("nauczyciel")){
-            return 1;
+        String login = loginLabel.getText().toLowerCase();
+        String pass = passwordLabel.getText();
+        int rola = -1;
 
-        }else if(loginLabel.getText().toLowerCase().equals("rodzic") && passwordLabel.getText().equals("rodzic")){
-            return 2;
+//        Check if login and password field are not empty
+        if(!login.isEmpty() && !pass.isEmpty()){
+//            Select object from database with matching login and password
+            List<Autoryzacja> resault = session.createQuery("FROM Autoryzacja a WHERE a.login='" + login + "' and a.haslo='" + pass + "'").list();
 
-        }else if(loginLabel.getText().toLowerCase().equals("uczen") && passwordLabel.getText().equals("uczen")){
-            return 3;
-
-        }else {
-            return -1;
+//            Check PK and role of logged and assing it to variable
+            if(!resault.isEmpty()) {
+                loggedUserPK = resault.get(0).getPesel();
+                rola = resault.get(0).getRola();
+            }
         }
+
+        return rola;
     }
 
 //    Function that load main diary window with given window title
     private void loadDiary(int role, String title) throws IOException {
-        userRole = role;
+        loggedUserPK = role;
 
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxmls/ediary.fxml")));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
