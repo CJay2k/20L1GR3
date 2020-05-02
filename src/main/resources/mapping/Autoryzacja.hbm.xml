@@ -15,8 +15,8 @@
         <property name="haslo" type="string">
             <column name="haslo" length="30" not-null="true"/>
         </property>
-        <property name="kto" type="string">
-            <column name="kto" length="1" not-null="true"/>
+        <property name="rola" type="int">
+            <column name="rola" length="1" not-null="true"/>
         </property>
         <one-to-one name="nauczyciel" class="mapping.Nauczyciel"/>
         <one-to-one name="uczen" class="mapping.Uczen"/>

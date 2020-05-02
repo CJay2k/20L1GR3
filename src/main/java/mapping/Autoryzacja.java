@@ -5,7 +5,7 @@ public class Autoryzacja implements java.io.Serializable {
     private long pesel;
     private String login;
     private String haslo;
-    private String kto;
+    private int rola;
 
     private Nauczyciel nauczyciel;
     private Uczen uczen;
@@ -14,23 +14,23 @@ public class Autoryzacja implements java.io.Serializable {
     public Autoryzacja() {
     }
 
-    public Autoryzacja(Nauczyciel nauczyciel, String login, String haslo, String kto) {
+    public Autoryzacja(Nauczyciel nauczyciel, String login, String haslo, int rola) {
         this.nauczyciel = nauczyciel;
     }
 
-    public Autoryzacja(long pesel, String login, String haslo, String kto) {
+    public Autoryzacja(long pesel, String login, String haslo, int rola) {
         this.pesel = pesel;
         this.login = login;
         this.haslo = haslo;
-        this.kto = kto;
+        this.rola = rola;
     }
 
-    public Autoryzacja(long pesel, String login, String haslo, String kto, Nauczyciel nauczyciel, Uczen uczen, Rodzic rodzic) {
+    public Autoryzacja(long pesel, String login, String haslo, int rola, Nauczyciel nauczyciel, Uczen uczen, Rodzic rodzic) {
         this.pesel = pesel;
 
         this.login = login;
         this.haslo = haslo;
-        this.kto = kto;
+        this.rola = rola;
         this.nauczyciel = nauczyciel;
         this.uczen = uczen;
         this.rodzic = rodzic;
@@ -68,12 +68,12 @@ public class Autoryzacja implements java.io.Serializable {
         this.haslo = haslo;
     }
 
-    public String getKto() {
-        return this.kto;
+    public int getRola() {
+        return this.rola;
     }
 
-    public void setKto(String kto) {
-        this.kto = kto;
+    public void setRola(int kto) {
+        this.rola = kto;
     }
 
     public Uczen getUczen() {
