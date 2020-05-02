@@ -1,7 +1,22 @@
 package controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import mapping.Autoryzacja;
+import mapping.Uczen;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+import java.util.Iterator;
+import java.util.List;
 
 import static controllers.LoginController.loggedUserRole;
 
@@ -23,11 +38,32 @@ public class EdiaryController {
     public Tab tabDodajUsunPrzedmiot;
     public Tab tabPrzydzielNauczycielaDoPrzedmiotu;
     public Tab tabPrzydzielPrzedmiotDoKlasy;
+    public TableView<Uczen> listaUczniowTableView;
+    public TableColumn<Uczen, String> listaUczniowColumnKlasa;
+    public TableColumn<Uczen, String> listaUczniowColumnNazwisko;
+    public TableColumn<Uczen, String> listaUczniowColumnImie;
 
 
     //    Function run when user logs on
     public void initialize() {
         hideElements();
+
+        tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+            Session session = SessionController.getSession();
+
+            if(newTab.equals(tabListaUczniow)) {
+                Query query = session.createQuery("SELECT u FROM Uczen u");
+                ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
+
+                listaUczniowColumnKlasa.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwaKlasy"));
+                listaUczniowColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
+                listaUczniowColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+
+                listaUczniowTableView.setItems(listaUczniow);
+            }
+
+//            session.close();
+        });
     }
 
 //    Function that removes tabs id user has no privileges to see them
@@ -79,5 +115,10 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
         }
+    }
+
+    @FXML
+    private void refreshTab(){
+
     }
 }

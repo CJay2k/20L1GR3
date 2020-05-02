@@ -154,11 +154,11 @@
                                        <Insets bottom="10.0" left="300.0" right="300.0" />
                                    </VBox.margin>
                                </GridPane>
-                              <TableView VBox.vgrow="ALWAYS">
+                              <TableView fx:id="listaUczniowTableView" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn prefWidth="150.0" text="Klasa" />
-                                  <TableColumn prefWidth="150.0" text="Nazwisko" />
-                                    <TableColumn prefWidth="150.0" text="Imię" />
+                                  <TableColumn fx:id="listaUczniowColumnKlasa" prefWidth="150.0" text="Klasa" />
+                                  <TableColumn fx:id="listaUczniowColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                    <TableColumn fx:id="listaUczniowColumnImie" prefWidth="150.0" text="Imię" />
                                 </columns>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />

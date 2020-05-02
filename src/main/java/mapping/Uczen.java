@@ -1,5 +1,7 @@
 package mapping;
 
+import org.hibernate.annotations.common.reflection.XProperty;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -105,6 +107,13 @@ public class Uczen implements java.io.Serializable {
         this.skladKlasies = skladKlasies;
     }
 
+    public String getNazwaKlasy() {
+        return this.klasa.getNazwaKlasy();
+    }
+
+    public void setNazwaKlasy(String nazwa) {
+        this.klasa.setNazwaKlasy(nazwa);
+    }
 
 }
 
