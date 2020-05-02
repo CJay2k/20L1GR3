@@ -5,18 +5,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import mapping.Autoryzacja;
-import mapping.Uczen;
+import mapping.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static controllers.LoginController.loggedUserRole;
 
@@ -42,6 +39,21 @@ public class EdiaryController {
     public TableColumn<Uczen, String> listaUczniowColumnKlasa;
     public TableColumn<Uczen, String> listaUczniowColumnNazwisko;
     public TableColumn<Uczen, String> listaUczniowColumnImie;
+    public TableView<Uczen> dodawanieUwagTableView;
+    public TableColumn<Uczen, String> dodawanieUwagColumnNazwisko;
+    public TableColumn<Uczen, String> dodawanieUwagColumnImie;
+    public TableView<Uczen> dodawanieOcenTableView;
+    public TableColumn<Uczen, String> dodawanieOcenColumnNazwisko;
+    public TableColumn<Uczen, String> dodawanieOcenColumnImie;
+    public TableView<Uczen> wpisywanieNieobecnosciTableView;
+    public TableColumn<Uczen, String> wpisywanieNieobecnosciColumnNazwisko;
+    public TableColumn<Uczen, String> wpisywanieNieobecnosciColumnImie;
+    public TableView<Uczen> akceptacjaUsprawiedliwienTableView;
+    public TableColumn<Uczen, String> akceptacjaUsprawiedliwienColumnNazwisko;
+    public TableColumn<Uczen, String> akceptacjaUsprawiedliwienColumnImie;
+    public TableColumn akceptacjaUsprawiedliwienColumnData;
+    public TableColumn akceptacjaUsprawiedliwienColumnGodzina;
+    public ChoiceBox<Klasa> listaUczniowChoiceBoxKlasa;
 
 
     //    Function run when user logs on
@@ -49,21 +61,72 @@ public class EdiaryController {
         hideElements();
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
-            Session session = SessionController.getSession();
-
             if(newTab.equals(tabListaUczniow)) {
-                Query query = session.createQuery("SELECT u FROM Uczen u");
-                ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
-
-                listaUczniowColumnKlasa.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwaKlasy"));
-                listaUczniowColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
-                listaUczniowColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
-
-                listaUczniowTableView.setItems(listaUczniow);
+                loadData(tabListaUczniow);
+            }else if(newTab.equals(tabDodawanieUwag)) {
+                loadData(tabDodawanieUwag);
+            }else if(newTab.equals(tabDodajOcene)) {
+                loadData(tabDodajOcene);
+            }else if(newTab.equals(tabWpisywanieNieobecnosci)) {
+                loadData(tabWpisywanieNieobecnosci);
+            }else if(newTab.equals(tabAkceptacjaUsprawiedliwien)) {
+                loadData(tabAkceptacjaUsprawiedliwien);
             }
-
-//            session.close();
         });
+    }
+
+    private void loadData(Tab tab){
+        Session session = SessionController.getSession();
+
+        if(tab.equals(tabListaUczniow)){
+//            Query query1 = session.createQuery("SELECT k FROM Klasa k");
+//            ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
+//
+//            listaUczniowChoiceBoxKlasa.setItems(listaKlas);
+//            listaUczniowChoiceBoxKlasa.getSelectionModel().select(0);
+//
+//            Query query2 = session.createQuery("SELECT u FROM Uczen u, Klasa k WHERE k.nazwaKlasy='" + listaUczniowChoiceBoxKlasa.getSelectionModel().getSelectedItem() +"'");
+//            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query2.list());
+//            System.out.println(listaUczniowChoiceBoxKlasa.getSelectionModel().getSelectedItem().toString());
+//
+//            listaUczniowColumnKlasa.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwaKlasy"));
+//            listaUczniowColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
+//            listaUczniowColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+//
+//            listaUczniowTableView.setItems(listaUczniow);
+        }else if(tab.equals(tabDodawanieUwag)) {
+            Query query = session.createQuery("SELECT u FROM Uczen u");
+            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
+
+            dodawanieUwagColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
+            dodawanieUwagColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+
+            dodawanieUwagTableView.setItems(listaUczniow);
+        }else if(tab.equals(tabDodajOcene)) {
+            Query query = session.createQuery("SELECT u FROM Uczen u");
+            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
+
+            dodawanieOcenColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
+            dodawanieOcenColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+
+            dodawanieOcenTableView.setItems(listaUczniow);
+        }else if(tab.equals(tabWpisywanieNieobecnosci)) {
+            Query query = session.createQuery("SELECT u FROM Uczen u");
+            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
+
+            wpisywanieNieobecnosciColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
+            wpisywanieNieobecnosciColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+
+            wpisywanieNieobecnosciTableView.setItems(listaUczniow);
+        }else if(tab.equals(tabAkceptacjaUsprawiedliwien)) {
+            Query query = session.createQuery("SELECT u FROM Uczen u");
+            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
+
+            akceptacjaUsprawiedliwienColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
+            akceptacjaUsprawiedliwienColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+
+            akceptacjaUsprawiedliwienTableView.setItems(listaUczniow);
+        }
     }
 
 //    Function that removes tabs id user has no privileges to see them

@@ -145,7 +145,7 @@
                                    </rowConstraints>
                                    <children>
                                        <Label text="Klasa:" GridPane.rowIndex="1" />
-                                       <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                       <ChoiceBox fx:id="listaUczniowChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                            <GridPane.margin>
                                                <Insets />
                                            </GridPane.margin></ChoiceBox>
@@ -203,10 +203,10 @@
                                     <Insets bottom="10.0" left="200.0" right="200.0" />
                                  </VBox.margin>
                               </GridPane>
-                                    <TableView VBox.vgrow="ALWAYS">
+                                    <TableView fx:id="dodawanieUwagTableView" VBox.vgrow="ALWAYS">
                                         <columns>
-                                            <TableColumn prefWidth="150.0" text="Nazwisko" />
-                                            <TableColumn prefWidth="150.0" text="Imię" />
+                                            <TableColumn fx:id="dodawanieUwagColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                            <TableColumn fx:id="dodawanieUwagColumnImie" prefWidth="150.0" text="Imię" />
                                         </columns>
                                         <VBox.margin>
                                             <Insets bottom="10.0" />
@@ -275,10 +275,10 @@
                                             <Insets bottom="10.0" left="200.0" right="200.0" />
                                         </VBox.margin>
                                     </GridPane>
-                                    <TableView VBox.vgrow="ALWAYS">
+                                    <TableView fx:id="dodawanieOcenTableView" VBox.vgrow="ALWAYS">
                                         <columns>
-                                            <TableColumn prefWidth="150.0" text="Nazwisko" />
-                                            <TableColumn prefWidth="150.0" text="Imię" />
+                                            <TableColumn fx:id="dodawanieOcenColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                            <TableColumn fx:id="dodawanieOcenColumnImie" prefWidth="150.0" text="Imię" />
                                         </columns>
                                         <VBox.margin>
                                             <Insets bottom="10.0" />
@@ -350,10 +350,10 @@
                                        <Insets left="200.0" right="200.0" />
                                    </VBox.margin>
                                </GridPane>
-                              <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="wpisywanieNieobecnosciTableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn prefWidth="150.0" text="Nazwisko" />
-                                    <TableColumn prefWidth="150.0" text="Imię" />
+                                  <TableColumn fx:id="wpisywanieNieobecnosciColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                    <TableColumn fx:id="wpisywanieNieobecnosciColumnImie" prefWidth="150.0" text="Imię" />
                                     <TableColumn prefWidth="150.0" text="Obecność" />
                                 </columns>
                               </TableView>
@@ -422,12 +422,12 @@
                                        <Insets left="200.0" right="200.0" />
                                    </VBox.margin>
                                </GridPane>
-                              <TableView VBox.vgrow="ALWAYS">
+                              <TableView fx:id="akceptacjaUsprawiedliwienTableView" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn prefWidth="150.0" text="Nazwisko" />
-                                    <TableColumn prefWidth="150.0" text="Imię" />
-                                    <TableColumn prefWidth="100.0" text="Data" />
-                                    <TableColumn prefWidth="100.0" text="Godzina" />
+                                  <TableColumn fx:id="akceptacjaUsprawiedliwienColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnImie" prefWidth="150.0" text="Imię" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnData" prefWidth="100.0" text="Data" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnGodzina" prefWidth="100.0" text="Godzina" />
                                     <TableColumn prefWidth="520.0" text="Treść usprawiedliwienia" />
                                 </columns>
                               </TableView>
