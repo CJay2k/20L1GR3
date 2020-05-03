@@ -81,6 +81,7 @@ public class Klasa implements java.io.Serializable {
     public String toString() {
         return nazwaKlasy;
     }
+
 }
 
 

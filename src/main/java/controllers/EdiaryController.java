@@ -5,10 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import mapping.Klasa;
-import mapping.Przedmiot;
-import mapping.Uczen;
-import mapping.Usprawiedliwienia;
+import mapping.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -63,6 +60,23 @@ public class EdiaryController {
     public ChoiceBox<Klasa> dodawanieNieobecnosciChoiceBoxKlasa;
     public ChoiceBox<Przedmiot> akceptacjaUsprawiedliwienChoiceBoxPrzedmiot;
     public ChoiceBox<Klasa> akceptacjaUsprawiedliwienChoiceBoxKlasa;
+    public TableView<Ocena> ocenyTableEdiary;
+
+    public TableColumn<Ocena, Date> ocenyColumnData;
+    public TableColumn<Ocena, String> ocenyColumnPrzedmiot;
+    public TableColumn<Ocena, String> ocenyColumnOcena;
+    public TableColumn<Ocena, String> ocenyColumnZaCo;
+
+    public TableView<Nauczyciel> przydzielNauczycielaTableView;
+    public TableColumn<Nauczyciel, String> przydzielNauczycielaColumnNazwisko;
+    public TableColumn<Nauczyciel, String> przydzielNauczycielaColumnImie;
+    public ChoiceBox<Przedmiot> przydzielNauczycielaChoiceBoxPrzedmiot;
+
+    public TableView<Zajecia> przydzielPrzedmiotDoKlasyTableView;
+    public TableColumn<Zajecia, String> przydzielPrzedmiotDoKlasyColumnKlasa;
+    public TableColumn<Zajecia, String> przydzielPrzedmiotDoKlasyColumnPrzedmioty;
+    public ChoiceBox<Zajecia> przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot;
+    public ChoiceBox<Zajecia> przydzielPrzedmiotDoKlasyChoiceBoxKlasa;
 
     private Tab currentTab;
 
@@ -213,8 +227,72 @@ public class EdiaryController {
             akceptacjaUsprawiedliwienTableView.setItems(listaUsprawiedliwien);
 
             /*
-             *************
+                Rodzic
              */
+
+
+        } else if (tab.equals(tabOceny)) {
+
+            Query query1 = session.createQuery("SELECT o FROM Ocena o");
+            ObservableList<Ocena> listaOcen = FXCollections.observableArrayList(query1.list());
+
+            ocenyColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+            ocenyColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("nazwaPrzedmiotu"));
+            ocenyColumnOcena.setCellValueFactory(new PropertyValueFactory<>("stopien"));
+            ocenyColumnZaCo.setCellValueFactory(new PropertyValueFactory<>("opis"));
+
+            ocenyTableEdiary.setItems(listaOcen);
+
+        }
+                        /*
+                Dyrektor
+             */
+        else if (tab.equals(tabPrzydzielNauczycielaDoPrzedmiotu)) {
+
+            Query query1 = session.createQuery("SELECT n FROM Nauczyciel n");
+            ObservableList<Nauczyciel> listaNauczycieli = FXCollections.observableArrayList(query1.list());
+
+            przydzielNauczycielaColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
+            przydzielNauczycielaColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+
+            przydzielNauczycielaTableView.setItems(listaNauczycieli);
+
+            Query query2 = session.createQuery("SELECT p.nazwaPrzedmiotu FROM Przedmiot p");
+            ObservableList<Przedmiot> listaPrzedmiotow = FXCollections.observableArrayList(query2.list());
+
+            przydzielNauczycielaChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
+
+            if (przydzielNauczycielaChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
+                przydzielNauczycielaChoiceBoxPrzedmiot.getSelectionModel().select(0);
+            }
+
+
+        } else if (tab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+
+            Query query1 = session.createQuery("SELECT z FROM Zajecia z");
+            ObservableList<Zajecia> listaZajec = FXCollections.observableArrayList(query1.list());
+
+            przydzielPrzedmiotDoKlasyColumnKlasa.setCellValueFactory(new PropertyValueFactory<>("nazwaKlasy"));
+            przydzielPrzedmiotDoKlasyColumnPrzedmioty.setCellValueFactory(new PropertyValueFactory<>("nazwaPrzedmiotu"));
+
+            przydzielPrzedmiotDoKlasyTableView.setItems(listaZajec);
+
+            if (przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                Query query2 = session.createQuery("SELECT k FROM Klasa k");
+                ObservableList listaKlas = FXCollections.observableArrayList(query2.list());
+
+                przydzielPrzedmiotDoKlasyChoiceBoxKlasa.setItems(listaKlas);
+                przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getSelectionModel().select(0);
+            }
+
+            Query query3 = session.createQuery("SELECT z.przedmiot.nazwaPrzedmiotu FROM Zajecia z WHERE z.klasa.nazwaKlasy='" + przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getValue() + "'");
+            ObservableList listaPrzedmiotow = FXCollections.observableArrayList(query3.list());
+
+            przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
+
+            if (przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
+                przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot.getSelectionModel().select(0);
+            }
 
 
         }
@@ -290,6 +368,12 @@ public class EdiaryController {
             loadData(tabWpisywanieNieobecnosci);
         } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
             loadData(tabAkceptacjaUsprawiedliwien);
+        } else if (currentTab.equals(tabOceny)) {
+            loadData(tabOceny);
+        } else if (currentTab.equals(tabPrzydzielNauczycielaDoPrzedmiotu)) {
+            loadData(tabPrzydzielNauczycielaDoPrzedmiotu);
+        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+            loadData(tabPrzydzielPrzedmiotDoKlasy);
         }
     }
 }

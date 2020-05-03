@@ -14,12 +14,12 @@
                      <children>
                         <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="685.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView VBox.vgrow="ALWAYS">
+                              <TableView fx:id="ocenyTableEdiary" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn prefWidth="150.0" text="Data" />
-                                  <TableColumn prefWidth="250.0" text="Przedmiot" />
-                                    <TableColumn prefWidth="150.0" text="Ocena" />
-                                    <TableColumn prefWidth="470.0" text="Za co" />
+                                  <TableColumn fx:id="ocenyColumnData" prefWidth="150.0" text="Data" />
+                                  <TableColumn fx:id="ocenyColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
+                                    <TableColumn fx:id="ocenyColumnOcena" prefWidth="150.0" text="Ocena" />
+                                    <TableColumn fx:id="ocenyColumnZaCo" prefWidth="470.0" text="Za co" />
                                 </columns>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
@@ -585,10 +585,10 @@
                      <children>
                          <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="595.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                              <children>
-                                 <TableView VBox.vgrow="ALWAYS">
+                                 <TableView fx:id="przydzielNauczycielaTableView" VBox.vgrow="ALWAYS">
                                      <columns>
-                                         <TableColumn prefWidth="150.0" text="Nazwisko" />
-                                         <TableColumn prefWidth="150.0" text="Imię" />
+                                         <TableColumn fx:id="przydzielNauczycielaColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                         <TableColumn fx:id="przydzielNauczycielaColumnImie" prefWidth="150.0" text="Imię" />
                                      </columns>
                                      <VBox.margin>
                                          <Insets bottom="10.0" />
@@ -605,7 +605,7 @@
                                 </rowConstraints>
                                  <children>
                                     <Label text="Przedmiot:" />
-                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                    <ChoiceBox fx:id="przydzielNauczycielaChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                     <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
                                           <Button mnemonicParsing="false" text="Przypisz" />
@@ -627,10 +627,10 @@
                       <children>
                           <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="595.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                               <children>
-                                  <TableView VBox.vgrow="ALWAYS">
+                                  <TableView fx:id="przydzielPrzedmiotDoKlasyTableView" VBox.vgrow="ALWAYS">
                                       <columns>
-                                          <TableColumn prefWidth="150.0" text="Klasy" />
-                                    <TableColumn prefWidth="150.0" text="Przedmioty" />
+                                          <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnKlasa" prefWidth="150.0" text="Klasy" />
+                                    <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnPrzedmioty" prefWidth="150.0" text="Przedmioty" />
                                       </columns>
                                       <VBox.margin>
                                           <Insets bottom="10.0" />
@@ -649,14 +649,14 @@
                                       </rowConstraints>
                                       <children>
                                           <Label text="Przedmiot:" GridPane.columnIndex="2" />
-                                          <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
+                                          <ChoiceBox fx:id="przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
                                           <HBox spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
                                                   <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                           <Button mnemonicParsing="false" text="Usuń" />
                                        </children></HBox>
                                     <Label text="Klasa:" />
-                                    <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" />
+                                    <ChoiceBox fx:id="przydzielPrzedmiotDoKlasyChoiceBoxKlasa" prefWidth="150.0" GridPane.columnIndex="1" />
                                             <Button mnemonicParsing="false" text="Przypisz" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                       </children>
                                       <VBox.margin>
