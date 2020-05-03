@@ -5,12 +5,10 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
-        <property name="connection.url">
-            jdbc:mysql://54.38.143.86:3306/dziennik_elektroniczny?createDatabaseIfNotExist=true
-        </property>
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://54.38.143.86:3306/dziennik_elektroniczny?createDatabaseIfNotExist=true</property>
         <property name="connection.username">ediary</property>
         <property name="connection.password">ZAQ!2wsx</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping resource="mapping/Ocena.hbm.xml"/>
@@ -24,5 +22,6 @@
         <mapping resource="mapping/Obecnosc.hbm.xml"/>
         <mapping resource="mapping/Rodzic.hbm.xml"/>
         <mapping resource="mapping/SkladKlasy.hbm.xml"/>
+        <mapping resource="mapping/Usprawiedliwienia.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

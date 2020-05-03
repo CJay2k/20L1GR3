@@ -70,6 +70,20 @@ public class Zajecia implements java.io.Serializable {
         this.dzien = dzien;
     }
 
+    public String getNazwaPrzedmiotu() {
+        return this.przedmiot.getNazwaPrzedmiotu();
+    }
+
+    public void setNazwaPrzedmiotu(String nazwaPrzedmiotu) {
+        this.przedmiot.setNazwaPrzedmiotu(nazwaPrzedmiotu);
+    }
+    public String getNazwaKlasy() {
+        return this.przedmiot.getNazwaPrzedmiotu();
+    }
+
+    public void setNazwaKlasy(String nazwaKlasy) {
+        this.klasa.setNazwaKlasy(nazwaKlasy);
+    }
 
 }
 

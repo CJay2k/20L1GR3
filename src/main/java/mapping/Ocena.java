@@ -8,8 +8,9 @@ public class Ocena implements java.io.Serializable {
     private Przedmiot przedmiot;
     private RodzajOceny rodzajOceny;
     private Uczen uczen;
-    private Integer stopien;
+    private String stopien;
     private Date data;
+    private String opis;
 
     public Ocena() {
     }
@@ -19,12 +20,15 @@ public class Ocena implements java.io.Serializable {
         this.uczen = uczen;
     }
 
-    public Ocena(Przedmiot przedmiot, RodzajOceny rodzajOceny, Uczen uczen, Integer stopien, Date data) {
+
+
+    public Ocena(Przedmiot przedmiot, RodzajOceny rodzajOceny, Uczen uczen, String stopien, Date data, String opis) {
         this.przedmiot = przedmiot;
         this.rodzajOceny = rodzajOceny;
         this.uczen = uczen;
         this.stopien = stopien;
         this.data = data;
+        this.opis = opis;
     }
 
     public Integer getId() {
@@ -59,11 +63,11 @@ public class Ocena implements java.io.Serializable {
         this.uczen = uczen;
     }
 
-    public Integer getStopien() {
+    public String getStopien() {
         return this.stopien;
     }
 
-    public void setStopien(Integer stopien) {
+    public void setStopien(String stopien) {
         this.stopien = stopien;
     }
 
@@ -73,6 +77,22 @@ public class Ocena implements java.io.Serializable {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
+
+    public String getNazwaPrzedmiotu() {
+        return przedmiot.getNazwaPrzedmiotu();
+    }
+
+    public void setNazwaPrzedmiotu(String nazwaPrzedmiotu) {
+        this.przedmiot.setNazwaPrzedmiotu(nazwaPrzedmiotu);
     }
 
 

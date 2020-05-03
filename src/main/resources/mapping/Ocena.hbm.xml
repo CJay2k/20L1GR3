@@ -11,17 +11,20 @@
         <many-to-one name="przedmiot" class="mapping.Przedmiot" fetch="select">
             <column name="przedmiot" length="30"/>
         </many-to-one>
-        <many-to-one name="rodzajOceny" class="mapping.RodzajOceny" fetch="select">
-            <column name="opis" length="4"/>
-        </many-to-one>
+<!--        <many-to-one name="rodzajOceny" class="mapping.RodzajOceny" fetch="select">-->
+<!--            <column name="opis" length="4"/>-->
+<!--        </many-to-one>-->
         <many-to-one name="uczen" class="mapping.Uczen" fetch="select">
             <column name="pesel" not-null="true"/>
         </many-to-one>
-        <property name="stopien" type="java.lang.Integer">
+        <property name="stopien" type="string">
             <column name="stopien"/>
         </property>
         <property name="data" type="date">
             <column name="data" length="10"/>
+        </property>
+        <property name="opis" type="string">
+            <column name="opis" length="50"/>
         </property>
     </class>
 </hibernate-mapping>
