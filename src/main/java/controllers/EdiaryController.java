@@ -1,19 +1,19 @@
 package controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import mapping.*;
+import mapping.Klasa;
+import mapping.Przedmiot;
+import mapping.Uczen;
+import mapping.Usprawiedliwienia;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Predicate;
+import java.sql.Time;
+import java.util.Date;
 
 import static controllers.LoginController.loggedUserRole;
 
@@ -51,87 +51,180 @@ public class EdiaryController {
     public TableView<Uczen> akceptacjaUsprawiedliwienTableView;
     public TableColumn<Uczen, String> akceptacjaUsprawiedliwienColumnNazwisko;
     public TableColumn<Uczen, String> akceptacjaUsprawiedliwienColumnImie;
-    public TableColumn akceptacjaUsprawiedliwienColumnData;
-    public TableColumn akceptacjaUsprawiedliwienColumnGodzina;
+    public TableColumn<Usprawiedliwienia, Date> akceptacjaUsprawiedliwienColumnData;
+    public TableColumn<Usprawiedliwienia, Time> akceptacjaUsprawiedliwienColumnGodzina;
+    public TableColumn<Usprawiedliwienia, String> akceptacjaUsprawiedliwienColumnTresc;
     public ChoiceBox<Klasa> listaUczniowChoiceBoxKlasa;
+    public ChoiceBox<Przedmiot> dodawanieUwagChoiceBoxPrzedmiot;
+    public ChoiceBox<Klasa> dodawanieUwagChoiceBoxKlasa;
+    public ChoiceBox<Przedmiot> dodawanieOcenChoiceBoxPrzedmiot;
+    public ChoiceBox<Klasa> dodawanieOcenChoiceBoxKlasa;
+    public ChoiceBox<Przedmiot> dodawanieNieobecnosciChoiceBoxPrzedmiot;
+    public ChoiceBox<Klasa> dodawanieNieobecnosciChoiceBoxKlasa;
+    public ChoiceBox<Przedmiot> akceptacjaUsprawiedliwienChoiceBoxPrzedmiot;
+    public ChoiceBox<Klasa> akceptacjaUsprawiedliwienChoiceBoxKlasa;
 
+    private Tab currentTab;
 
     //    Function run when user logs on
     public void initialize() {
         hideElements();
 
+        currentTab = tabPane.getSelectionModel().getSelectedItem();
+        refresh();
+
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
-            if(newTab.equals(tabListaUczniow)) {
-                loadData(tabListaUczniow);
-            }else if(newTab.equals(tabDodawanieUwag)) {
-                loadData(tabDodawanieUwag);
-            }else if(newTab.equals(tabDodajOcene)) {
-                loadData(tabDodajOcene);
-            }else if(newTab.equals(tabWpisywanieNieobecnosci)) {
-                loadData(tabWpisywanieNieobecnosci);
-            }else if(newTab.equals(tabAkceptacjaUsprawiedliwien)) {
-                loadData(tabAkceptacjaUsprawiedliwien);
-            }
+            currentTab = newTab;
+            refresh();
         });
     }
 
-    private void loadData(Tab tab){
+    //    Function that load data from database to tableviews
+    private void loadData(Tab tab) {
         Session session = SessionController.getSession();
 
-        if(tab.equals(tabListaUczniow)){
-//            Query query1 = session.createQuery("SELECT k FROM Klasa k");
-//            ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
-//
-//            listaUczniowChoiceBoxKlasa.setItems(listaKlas);
-//            listaUczniowChoiceBoxKlasa.getSelectionModel().select(0);
-//
-//            Query query2 = session.createQuery("SELECT u FROM Uczen u, Klasa k WHERE k.nazwaKlasy='" + listaUczniowChoiceBoxKlasa.getSelectionModel().getSelectedItem() +"'");
-//            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query2.list());
-//            System.out.println(listaUczniowChoiceBoxKlasa.getSelectionModel().getSelectedItem().toString());
-//
-//            listaUczniowColumnKlasa.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwaKlasy"));
-//            listaUczniowColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
-//            listaUczniowColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
-//
-//            listaUczniowTableView.setItems(listaUczniow);
-        }else if(tab.equals(tabDodawanieUwag)) {
-            Query query = session.createQuery("SELECT u FROM Uczen u");
+        /*
+            NAUCZYCIEL
+         */
+
+        if (tab.equals(tabListaUczniow)) {
+            if (listaUczniowChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                Query query1 = session.createQuery("SELECT k FROM Klasa k");
+                ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
+
+                listaUczniowChoiceBoxKlasa.setItems(listaKlas);
+                listaUczniowChoiceBoxKlasa.getSelectionModel().select(0);
+            }
+
+            Query query2 = session.createQuery("SELECT u FROM Uczen u, Klasa k WHERE u.klasa = k and k.nazwaKlasy='" + listaUczniowChoiceBoxKlasa.getValue() + "'");
+            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query2.list());
+
+            listaUczniowColumnKlasa.setCellValueFactory(new PropertyValueFactory<>("nazwaKlasy"));
+            listaUczniowColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+            listaUczniowColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
+
+            listaUczniowTableView.setItems(listaUczniow);
+
+        } else if (tab.equals(tabDodawanieUwag)) {
+            if (dodawanieUwagChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                Query query1 = session.createQuery("SELECT k FROM Klasa k");
+                ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
+
+                dodawanieUwagChoiceBoxKlasa.setItems(listaKlas);
+                dodawanieUwagChoiceBoxKlasa.getSelectionModel().select(0);
+            }
+
+            Query query1 = session.createQuery("SELECT z.przedmiot.nazwaPrzedmiotu FROM Zajecia z WHERE z.klasa.nazwaKlasy='" + dodawanieUwagChoiceBoxKlasa.getValue() + "'");
+            ObservableList listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
+
+            dodawanieUwagChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
+
+            if (dodawanieUwagChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
+                dodawanieUwagChoiceBoxPrzedmiot.getSelectionModel().select(0);
+            }
+
+            Query query = session.createQuery("SELECT u FROM Uczen u, Klasa k WHERE u.klasa='" + dodawanieUwagChoiceBoxKlasa.getValue() + "' and u.klasa=k");
             ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
 
-            dodawanieUwagColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
-            dodawanieUwagColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+            dodawanieUwagColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+            dodawanieUwagColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
 
             dodawanieUwagTableView.setItems(listaUczniow);
-        }else if(tab.equals(tabDodajOcene)) {
-            Query query = session.createQuery("SELECT u FROM Uczen u");
+
+        } else if (tab.equals(tabDodajOcene)) {
+            if (dodawanieOcenChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                Query query1 = session.createQuery("SELECT k FROM Klasa k");
+                ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
+
+                dodawanieOcenChoiceBoxKlasa.setItems(listaKlas);
+                dodawanieOcenChoiceBoxKlasa.getSelectionModel().select(0);
+            }
+
+            Query query1 = session.createQuery("SELECT z.przedmiot.nazwaPrzedmiotu FROM Zajecia z WHERE z.klasa.nazwaKlasy='" + dodawanieOcenChoiceBoxKlasa.getValue() + "'");
+            ObservableList listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
+
+            dodawanieOcenChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
+
+            if (dodawanieOcenChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
+                dodawanieOcenChoiceBoxPrzedmiot.getSelectionModel().select(0);
+            }
+
+            Query query = session.createQuery("SELECT u FROM Uczen u, Klasa k WHERE u.klasa='" + dodawanieOcenChoiceBoxKlasa.getValue() + "' and u.klasa=k");
             ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
 
-            dodawanieOcenColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
-            dodawanieOcenColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+            dodawanieOcenColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+            dodawanieOcenColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
 
             dodawanieOcenTableView.setItems(listaUczniow);
-        }else if(tab.equals(tabWpisywanieNieobecnosci)) {
-            Query query = session.createQuery("SELECT u FROM Uczen u");
+
+        } else if (tab.equals(tabWpisywanieNieobecnosci)) {
+            if (dodawanieNieobecnosciChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                Query query1 = session.createQuery("SELECT k FROM Klasa k");
+                ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
+
+                dodawanieNieobecnosciChoiceBoxKlasa.setItems(listaKlas);
+                dodawanieNieobecnosciChoiceBoxKlasa.getSelectionModel().select(0);
+            }
+
+            Query query1 = session.createQuery("SELECT z.przedmiot.nazwaPrzedmiotu FROM Zajecia z WHERE z.klasa.nazwaKlasy='" + dodawanieNieobecnosciChoiceBoxKlasa.getValue() + "'");
+            ObservableList listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
+
+            dodawanieNieobecnosciChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
+
+            if (dodawanieNieobecnosciChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
+                dodawanieNieobecnosciChoiceBoxPrzedmiot.getSelectionModel().select(0);
+            }
+
+            Query query = session.createQuery("SELECT u FROM Uczen u, Klasa k WHERE u.klasa='" + dodawanieNieobecnosciChoiceBoxKlasa.getValue() + "' and u.klasa=k");
             ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
 
-            wpisywanieNieobecnosciColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
-            wpisywanieNieobecnosciColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+            wpisywanieNieobecnosciColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+            wpisywanieNieobecnosciColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
 
             wpisywanieNieobecnosciTableView.setItems(listaUczniow);
-        }else if(tab.equals(tabAkceptacjaUsprawiedliwien)) {
-            Query query = session.createQuery("SELECT u FROM Uczen u");
-            ObservableList<Uczen> listaUczniow = FXCollections.observableArrayList(query.list());
 
-            akceptacjaUsprawiedliwienColumnNazwisko.setCellValueFactory(new PropertyValueFactory<Uczen, String>("nazwisko"));
-            akceptacjaUsprawiedliwienColumnImie.setCellValueFactory(new PropertyValueFactory<Uczen, String>("imie"));
+        } else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
+            if (akceptacjaUsprawiedliwienChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                Query query1 = session.createQuery("SELECT k FROM Klasa k");
+                ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
 
-            akceptacjaUsprawiedliwienTableView.setItems(listaUczniow);
+                akceptacjaUsprawiedliwienChoiceBoxKlasa.setItems(listaKlas);
+                akceptacjaUsprawiedliwienChoiceBoxKlasa.getSelectionModel().select(0);
+            }
+
+            Query query1 = session.createQuery("SELECT z.przedmiot.nazwaPrzedmiotu FROM Zajecia z WHERE z.klasa.nazwaKlasy='" + akceptacjaUsprawiedliwienChoiceBoxKlasa.getValue() + "'");
+            ObservableList listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
+
+            akceptacjaUsprawiedliwienChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
+
+            if (akceptacjaUsprawiedliwienChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
+                akceptacjaUsprawiedliwienChoiceBoxPrzedmiot.getSelectionModel().select(0);
+            }
+
+            Query query = session.createQuery("SELECT us FROM Usprawiedliwienia us, Klasa k WHERE us.uczen.klasa.nazwaKlasy='" + akceptacjaUsprawiedliwienChoiceBoxKlasa.getValue() + "' and us.uczen.klasa=k");
+            ObservableList listaUsprawiedliwien = FXCollections.observableArrayList(query.list());
+
+            akceptacjaUsprawiedliwienColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+            akceptacjaUsprawiedliwienColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
+            akceptacjaUsprawiedliwienColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+            akceptacjaUsprawiedliwienColumnGodzina.setCellValueFactory(new PropertyValueFactory<>("godzina"));
+            akceptacjaUsprawiedliwienColumnTresc.setCellValueFactory(new PropertyValueFactory<>("tresc"));
+
+            akceptacjaUsprawiedliwienTableView.setItems(listaUsprawiedliwien);
+
+            /*
+             *************
+             */
+
+
         }
+
+//        session.close();
     }
 
-//    Function that removes tabs id user has no privileges to see them
-    private void hideElements(){
-        if(loggedUserRole == 0){ // Role Dyrektor
+    //    Function that removes tabs id user has no privileges to see them
+    private void hideElements() {
+        if (loggedUserRole == 0) { // Role Dyrektor
             tabPane.getTabs().remove(tabOceny);
             tabPane.getTabs().remove(tabNieobecnosci);
             tabPane.getTabs().remove(tabUwagi);
@@ -141,7 +234,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
             tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
 
-        }else if(loggedUserRole == 1){ // Role Nauczyciel
+        } else if (loggedUserRole == 1) { // Role Nauczyciel
             tabPane.getTabs().remove(tabOceny);
             tabPane.getTabs().remove(tabNieobecnosci);
             tabPane.getTabs().remove(tabUwagi);
@@ -152,7 +245,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
-        }else if(loggedUserRole == 2){ // Role Rodzic
+        } else if (loggedUserRole == 2) { // Role Rodzic
             tabPane.getTabs().remove(tabListaUczniow);
             tabPane.getTabs().remove(tabDodawanieUwag);
             tabPane.getTabs().remove(tabDodajOcene);
@@ -164,7 +257,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
 
-        }else if(loggedUserRole == 3){ // Role Uczen
+        } else if (loggedUserRole == 3) { // Role Uczen
             tabPane.getTabs().remove(tabUsprawiedliwienia);
             tabPane.getTabs().remove(tabListaUczniow);
             tabPane.getTabs().remove(tabDodawanieUwag);
@@ -180,8 +273,23 @@ public class EdiaryController {
         }
     }
 
-    @FXML
-    private void refreshTab(){
+    //    Handle refresh button action
+    public void refreshActionHandle(ActionEvent actionEvent) {
+        refresh();
+    }
 
+    //    Function that refresh actually selected tab
+    private void refresh() {
+        if (currentTab.equals(tabListaUczniow)) {
+            loadData(tabListaUczniow);
+        } else if (currentTab.equals(tabDodawanieUwag)) {
+            loadData(tabDodawanieUwag);
+        } else if (currentTab.equals(tabDodajOcene)) {
+            loadData(tabDodajOcene);
+        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
+            loadData(tabWpisywanieNieobecnosci);
+        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
+            loadData(tabAkceptacjaUsprawiedliwien);
+        }
     }
 }

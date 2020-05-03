@@ -25,7 +25,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </TableView>
-                              <Button mnemonicParsing="false" text="Odśwież">
+                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin></Button>
@@ -51,7 +51,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </TableView>
-                              <Button mnemonicParsing="false" text="Odśwież">
+                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin></Button>
@@ -76,7 +76,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </TableView>
-                              <Button mnemonicParsing="false" text="Odśwież">
+                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -113,7 +113,7 @@
                               <HBox alignment="TOP_CENTER" spacing="10.0">
                                  <children>
                                     <Button mnemonicParsing="false" text="Dodaj" />
-                                    <Button mnemonicParsing="false" text="Odśwież" />
+                                    <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                     <Button mnemonicParsing="false" text="Wyczyść" />
                                  </children>
                                  <opaqueInsets>
@@ -164,7 +164,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </TableView>
-                              <Button mnemonicParsing="false" text="Odśwież">
+                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin></Button>
@@ -191,10 +191,10 @@
                                     <RowConstraints />
                                 </rowConstraints>
                                  <children>
-                                            <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                            <ChoiceBox fx:id="dodawanieUwagChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                     <Label text="Klasa:" GridPane.rowIndex="1" />
                                     <Label text="Przedmiot:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                    <ChoiceBox fx:id="dodawanieUwagChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets right="50.0" />
                                        </GridPane.margin></ChoiceBox>
@@ -233,7 +233,7 @@
                                             <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                 <children>
                                                     <Button mnemonicParsing="false" text="Dodaj" />
-                                                    <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Odśwież" />
+                                                    <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                                 </children>
                                             </HBox>
                                         </children>
@@ -263,10 +263,10 @@
                                             <RowConstraints />
                                         </rowConstraints>
                                         <children>
-                                            <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                            <ChoiceBox fx:id="dodawanieOcenChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                             <Label text="Klasa:" GridPane.rowIndex="1" />
                                             <Label text="Przedmiot:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                            <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                            <ChoiceBox fx:id="dodawanieOcenChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                                 <GridPane.margin>
                                                     <Insets right="50.0" />
                                                 </GridPane.margin></ChoiceBox>
@@ -305,7 +305,7 @@
                                             <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                 <children>
                                                     <Button mnemonicParsing="false" text="Dodaj" />
-                                                    <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Odśwież" />
+                                                    <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                                 </children>
                                             </HBox>
                                         </children>
@@ -338,10 +338,10 @@
                                        <RowConstraints />
                                    </rowConstraints>
                                    <children>
-                                       <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                       <ChoiceBox fx:id="dodawanieNieobecnosciChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                        <Label text="Klasa:" GridPane.rowIndex="1" />
                                        <Label text="Przedmiot:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                       <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                       <ChoiceBox fx:id="dodawanieNieobecnosciChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                            <GridPane.margin>
                                                <Insets right="50.0" />
                                            </GridPane.margin></ChoiceBox>
@@ -377,7 +377,7 @@
                                     <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <children>
                                            <Button mnemonicParsing="false" text="Dodaj" />
-                                           <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Odśwież" />
+                                           <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                        </children>
                                     </HBox>
                                      <Label text="Data:" />
@@ -410,10 +410,10 @@
                                        <RowConstraints />
                                    </rowConstraints>
                                    <children>
-                                       <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                                       <ChoiceBox fx:id="akceptacjaUsprawiedliwienChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                        <Label text="Klasa:" GridPane.rowIndex="1" />
                                        <Label text="Przedmiot:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                       <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                       <ChoiceBox fx:id="akceptacjaUsprawiedliwienChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                            <GridPane.margin>
                                                <Insets right="50.0" />
                                            </GridPane.margin></ChoiceBox>
@@ -428,7 +428,7 @@
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnImie" prefWidth="150.0" text="Imię" />
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnData" prefWidth="100.0" text="Data" />
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnGodzina" prefWidth="100.0" text="Godzina" />
-                                    <TableColumn prefWidth="520.0" text="Treść usprawiedliwienia" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="520.0" text="Treść usprawiedliwienia" />
                                 </columns>
                               </TableView>
                               <Label text="Treść usprawiedliwienia:" />
@@ -439,7 +439,7 @@
                               <HBox alignment="TOP_CENTER" spacing="10.0">
                                  <children>
                                     <Button mnemonicParsing="false" text="Akceptuj" />
-                                    <Button mnemonicParsing="false" text="Odśwież" />
+                                    <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                     <Button mnemonicParsing="false" text="Odrzuć" />
                                  </children>
                                  <VBox.margin>
@@ -609,7 +609,7 @@
                                     <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
                                           <Button mnemonicParsing="false" text="Przypisz" />
-                                             <Button mnemonicParsing="false" text="Odśwież" />
+                                             <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                        </children></HBox>
                                  </children>
                                  <VBox.margin>
@@ -652,7 +652,7 @@
                                           <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
                                           <HBox spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                                  <Button mnemonicParsing="false" text="Odśwież" />
+                                                  <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                           <Button mnemonicParsing="false" text="Usuń" />
                                        </children></HBox>
                                     <Label text="Klasa:" />

@@ -76,6 +76,11 @@ public class Klasa implements java.io.Serializable {
     public void setUczens(Set uczens) {
         this.uczens = uczens;
     }
+
+    @Override
+    public String toString() {
+        return nazwaKlasy;
+    }
 }
 
 
