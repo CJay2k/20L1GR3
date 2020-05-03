@@ -92,4 +92,13 @@ public class Usprawiedliwienia implements Serializable {
     public void setImie(String imie) {
         this.uczen.setImie(imie);
     }
+
+    public String getNazwaPrzedmiotu() {
+        return this.obecnosc.getPrzedmiot().getNazwaPrzedmiotu();
+    }
+
+    public void setNazwaPrzedmiotu(String nazwaPrzedmiotu) {
+        this.obecnosc.getPrzedmiot().setNazwaPrzedmiotu(nazwaPrzedmiotu);
+    }
+
 }

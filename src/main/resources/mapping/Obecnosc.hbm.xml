@@ -20,5 +20,8 @@
         <property name="wartosc" type="string">
             <column name="wartosc"/>
         </property>
+        <property name="godzina" type="time">
+            <column name="godzina"/>
+        </property>
     </class>
 </hibernate-mapping>

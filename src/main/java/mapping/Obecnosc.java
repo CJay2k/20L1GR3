@@ -1,5 +1,6 @@
 package mapping;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class Obecnosc implements java.io.Serializable {
@@ -9,15 +10,18 @@ public class Obecnosc implements java.io.Serializable {
     private Uczen uczen;
     private Date data;
     private String wartosc;
+    private Time godzina;
 
     public Obecnosc() {
     }
 
-    public Obecnosc(Przedmiot przedmiot, Uczen uczen, Date data, String wartosc) {
+
+    public Obecnosc(Przedmiot przedmiot, Uczen uczen, Date data, Time godzina, String wartosc) {
         this.przedmiot = przedmiot;
         this.uczen = uczen;
         this.data = data;
         this.wartosc = wartosc;
+        this.godzina = godzina;
     }
 
     public Long getId() {
@@ -58,6 +62,22 @@ public class Obecnosc implements java.io.Serializable {
 
     public void setWartosc(String wartosc) {
         this.wartosc = wartosc;
+    }
+
+    public Time getGodzina() {
+        return godzina;
+    }
+
+    public void setGodzina(Time godzina) {
+        this.godzina = godzina;
+    }
+
+    public String getNazwaPrzedmiotu() {
+        return this.przedmiot.getNazwaPrzedmiotu();
+    }
+
+    public void setNazwaPrzedmiotu(String nazwaPrzedmiotu) {
+        this.przedmiot.setNazwaPrzedmiotu(nazwaPrzedmiotu);
     }
 
 

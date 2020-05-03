@@ -40,21 +40,25 @@
                      <children>
                         <VBox alignment="CENTER" layoutX="33.0" layoutY="595.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView VBox.vgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn prefWidth="150.0" text="Data" />
-                                    <TableColumn minWidth="0.0" prefWidth="100.0" text="Godzina" />
-                                  <TableColumn prefWidth="250.0" text="Przedmiot" />
-                                    <TableColumn prefWidth="150.0" text="Usprawiedliwiona" />
-                                </columns>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </TableView>
-                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin></Button>
+                               <TableView fx:id="nieobecnosciTableView" VBox.vgrow="ALWAYS">
+                                   <columns>
+                                       <TableColumn fx:id="nieobecnosciColumnData" prefWidth="150.0" text="Data"/>
+                                       <TableColumn fx:id="nieobecnosciColumnGodzina" minWidth="0.0" prefWidth="100.0"
+                                                    text="Godzina"/>
+                                       <TableColumn fx:id="nieobecnosciColumnPrzedmiot" prefWidth="250.0"
+                                                    text="Przedmiot"/>
+                                       <TableColumn fx:id="nieobecnosciColumnUsprawiedliwiona" prefWidth="150.0"
+                                                    text="Usprawiedliwiona"/>
+                                   </columns>
+                                   <VBox.margin>
+                                       <Insets bottom="10.0"/>
+                                   </VBox.margin>
+                               </TableView>
+                               <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
+                                   <VBox.margin>
+                                       <Insets bottom="10.0"/>
+                                   </VBox.margin>
+                               </Button>
                            </children>
                         </VBox>
                      </children></AnchorPane>
@@ -65,23 +69,23 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <VBox alignment="TOP_CENTER" layoutX="188.0" layoutY="685.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView VBox.vgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn prefWidth="150.0" text="Data" />
-                                  <TableColumn prefWidth="250.0" text="Przedmiot" />
-                                    <TableColumn prefWidth="650.0" text="Treść uwagi" />
-                                </columns>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </TableView>
-                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children></VBox>
+                            <children>
+                                <TableView fx:id="uwagiTableView" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="uwagiColumnData" prefWidth="150.0" text="Data"/>
+                                        <TableColumn fx:id="uwagiColumnPrzedmiot" prefWidth="250.0" text="Przedmiot"/>
+                                        <TableColumn fx:id="uwagiColumnUwagi" prefWidth="650.0" text="Treść uwagi"/>
+                                    </columns>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0"/>
+                                    </VBox.margin>
+                                </TableView>
+                                <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0"/>
+                                    </VBox.margin>
+                                </Button>
+                            </children></VBox>
                      </children></AnchorPane>
                </content>
             </Tab>
@@ -90,28 +94,34 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <VBox alignment="CENTER" layoutY="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView VBox.vgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn prefWidth="150.0" text="Data" />
-                                  <TableColumn prefWidth="100.0" text="Godzina" />
-                                    <TableColumn prefWidth="250.0" text="Przedmiot" />
-                                    <TableColumn prefWidth="500.0" text="Treść usprawiedliwienia" />
-                                </columns>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </TableView>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Treść usprawiedliwienia:" textAlignment="CENTER">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin></Label>
-                              <TextArea>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="100.0" right="100.0" />
-                                 </VBox.margin></TextArea>
-                              <HBox alignment="TOP_CENTER" spacing="10.0">
-                                 <children>
+                            <children>
+                                <TableView fx:id="usprawiedliwieniaTableView" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="usprawiedliwieniaColumnData" prefWidth="150.0" text="Data"/>
+                                        <TableColumn fx:id="usprawiedliwieniaColumnGodzina" prefWidth="100.0"
+                                                     text="Godzina"/>
+                                        <TableColumn fx:id="usprawiedliwieniaColumnPrzedmiot" prefWidth="250.0"
+                                                     text="Przedmiot"/>
+                                        <TableColumn fx:id="usprawiedliwieniaColumnTresc" prefWidth="500.0"
+                                                     text="Treść usprawiedliwienia"/>
+                                    </columns>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0"/>
+                                    </VBox.margin>
+                                </TableView>
+                                <Label alignment="CENTER" contentDisplay="CENTER" text="Treść usprawiedliwienia:"
+                                       textAlignment="CENTER">
+                                    <VBox.margin>
+                                        <Insets bottom="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <TextArea>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="100.0" right="100.0"/>
+                                    </VBox.margin>
+                                </TextArea>
+                                <HBox alignment="TOP_CENTER" spacing="10.0">
+                                    <children>
                                     <Button mnemonicParsing="false" text="Dodaj" />
                                     <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                     <Button mnemonicParsing="false" text="Wyczyść" />
