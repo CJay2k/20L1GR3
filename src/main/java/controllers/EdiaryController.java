@@ -78,6 +78,24 @@ public class EdiaryController {
     public ChoiceBox<Zajecia> przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot;
     public ChoiceBox<Zajecia> przydzielPrzedmiotDoKlasyChoiceBoxKlasa;
 
+    public TableView<Usprawiedliwienia> usprawiedliwieniaTableView;
+    public TableColumn<Usprawiedliwienia, Date> usprawiedliwieniaColumnData;
+    public TableColumn<Usprawiedliwienia, Time> usprawiedliwieniaColumnGodzina;
+    public TableColumn<Usprawiedliwienia, String> usprawiedliwieniaColumnPrzedmiot;
+    public TableColumn<Usprawiedliwienia, String> usprawiedliwieniaColumnTresc;
+
+    /*TODO*/
+    public TableColumn uwagiColumnUwagi;
+    public TableColumn uwagiColumnPrzedmiot;
+    public TableColumn uwagiColumnData;
+    public TableView uwagiTableView;
+
+    public TableView<Obecnosc> nieobecnosciTableView;
+    public TableColumn<Obecnosc, Date> nieobecnosciColumnData;
+    public TableColumn<Obecnosc, Time> nieobecnosciColumnGodzina;
+    public TableColumn<Obecnosc, String> nieobecnosciColumnPrzedmiot;
+    public TableColumn<Obecnosc, String> nieobecnosciColumnUsprawiedliwiona;
+
     private Tab currentTab;
 
     //    Function run when user logs on
@@ -296,8 +314,54 @@ public class EdiaryController {
 
 
         }
+                        /*
+                Rodzic/Uczen
+             */
+        else if (tab.equals(tabUsprawiedliwienia)) {
+
+            Query query1 = session.createQuery("SELECT u FROM Usprawiedliwienia u");
+            ObservableList<Usprawiedliwienia> listaUsprawiedliwien = FXCollections.observableArrayList(query1.list());
+
+            usprawiedliwieniaColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+            usprawiedliwieniaColumnGodzina.setCellValueFactory(new PropertyValueFactory<>("godzina"));
+            usprawiedliwieniaColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("nazwaPrzedmiotu"));
+            usprawiedliwieniaColumnTresc.setCellValueFactory(new PropertyValueFactory<>("tresc"));
+
+            usprawiedliwieniaTableView.setItems(listaUsprawiedliwien);
+
+        }
+
+
+        /*TODO*/
+//        else if (tab.equals(tabUwagi)) {
+//
+//            Query query1 = session.createQuery("SELECT u FROM Uwagi u");
+//            ObservableList<Usprawiedliwienia> listaUsprawiedliwien = FXCollections.observableArrayList(query1.list());
+//
+//            usprawiedliwieniaColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+//            usprawiedliwieniaColumnGodzina.setCellValueFactory(new PropertyValueFactory<>("godzina"));
+//            usprawiedliwieniaColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("nazwaPrzedmiotu"));
+//            usprawiedliwieniaColumnTresc.setCellValueFactory(new PropertyValueFactory<>("tresc"));
+//
+//            usprawiedliwieniaTableView.setItems(listaUsprawiedliwien);
+//
+//        }
+
+
+        else if (tab.equals(tabNieobecnosci)) {
+
+            Query query1 = session.createQuery("SELECT n FROM Obecnosc n");
+            ObservableList<Obecnosc> listaNieobesnoci = FXCollections.observableArrayList(query1.list());
+
+            nieobecnosciColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+            nieobecnosciColumnGodzina.setCellValueFactory(new PropertyValueFactory<>("godzina"));
+            nieobecnosciColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("nazwaPrzedmiotu"));
+            nieobecnosciColumnUsprawiedliwiona.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
+
+            nieobecnosciTableView.setItems(listaNieobesnoci);
 
 //        session.close();
+        }
     }
 
     //    Function that removes tabs id user has no privileges to see them
@@ -334,6 +398,8 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabDodajUsunPrzedmiot);
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
+            //TODO
+            tabPane.getTabs().remove(tabUwagi);
 
         } else if (loggedUserRole == 3) { // Role Uczen
             tabPane.getTabs().remove(tabUsprawiedliwienia);
@@ -347,6 +413,8 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabDodajUsunPrzedmiot);
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
+            //TODO
+            tabPane.getTabs().remove(tabUwagi);
 
         }
     }
@@ -374,6 +442,10 @@ public class EdiaryController {
             loadData(tabPrzydzielNauczycielaDoPrzedmiotu);
         } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
             loadData(tabPrzydzielPrzedmiotDoKlasy);
+        } else if (currentTab.equals(tabUsprawiedliwienia)) {
+            loadData(tabUsprawiedliwienia);
+        } else if (currentTab.equals(tabNieobecnosci)) {
+            loadData(tabNieobecnosci);
         }
     }
 }
