@@ -113,12 +113,21 @@ public class EdiaryController {
     public TableColumn uwagiColumnData;
     public TableView uwagiTableView;
 
+    // Nieobecnosci
     public TableView<Obecnosc> nieobecnosciTableView;
     public TableColumn<Obecnosc, Date> nieobecnosciColumnData;
     public TableColumn<Obecnosc, Time> nieobecnosciColumnGodzina;
     public TableColumn<Obecnosc, String> nieobecnosciColumnPrzedmiot;
     public TableColumn<Obecnosc, String> nieobecnosciColumnUsprawiedliwiona;
 
+    // Dodawanie uczniów
+    public TextField dodajUczniowTextFieldImie;
+    public TextField dodajUczniowTextFieldNazwisko;
+    public TextField dodajUczniowTextFieldPesel;
+    public ChoiceBox dodajUczniowChoiceBox;
+
+    // Dodaj usun przedmiot
+    public ChoiceBox dodajUsunPrzedmiotChoiceBox;
 
     private Tab currentTab;
 
@@ -337,6 +346,19 @@ public class EdiaryController {
             }
 
 
+        } else if (tab.equals(tabDodajUczniow)) {
+            Query query1 = session.createQuery("SELECT k.nazwaKlasy FROM Klasa k");
+            ObservableList listaKlas = FXCollections.observableArrayList(query1.list());
+
+            dodajUczniowChoiceBox.setItems(listaKlas);
+            dodajUczniowChoiceBox.getSelectionModel().select(0);
+
+
+        } else if (tab.equals(tabDodajUsunPrzedmiot)) {
+            Query query = session.createQuery("SELECT p.nazwaPrzedmiotu FROM Przedmiot p");
+            ObservableList<Przedmiot> listaPrzedmiotow = FXCollections.observableArrayList(query.list());
+
+            dodajUsunPrzedmiotChoiceBox.setItems(listaPrzedmiotow);
         }
                         /*
                 Rodzic/Uczen
@@ -352,14 +374,6 @@ public class EdiaryController {
             usprawiedliwieniaColumnTresc.setCellValueFactory(new PropertyValueFactory<>("tresc"));
 
             usprawiedliwieniaTableView.setItems(listaUsprawiedliwien);
-
-
-
-
-
-
-
-
 
 
         }
@@ -453,7 +467,22 @@ public class EdiaryController {
                 session.update(usprawiedliwienia);
                 session.getTransaction().commit();
             }
+        }else if (tab.equals(tabDodajUczniow)) {
+            Query query1 = session.createQuery("SELECT k FROM Klasa k WHERE k.nazwaKlasy='" + dodajUczniowChoiceBox.getSelectionModel().getSelectedItem() + "'");
+            ObservableList<Klasa> k = FXCollections.observableArrayList(query1.list());
+            Klasa klasa = k.get(0);
+            //Autoryzacja autoryzacja = new Autoryzacja(Long.parseLong(dodajUczniowTextFieldPesel.getText()), dodajUczniowTextFieldPesel.getText(), dodajUczniowTextFieldPesel.getText(), 3);
+
+            Uczen uczen = new Uczen(klasa, Long.parseLong(dodajUczniowTextFieldPesel.getText()), dodajUczniowTextFieldImie.getText(), dodajUczniowTextFieldNazwisko.getText());
+            System.out.println(klasa);
+            System.out.println(Long.parseLong(dodajUczniowTextFieldPesel.getText()));
+            System.out.println(dodajUczniowTextFieldImie.getText());
+            System.out.println(dodajUczniowTextFieldNazwisko.getText());
+            session.beginTransaction();
+            session.save(uczen);
+            session.getTransaction().commit();
         }
+
     }
 
     //    Function that removes tabs id user has no privileges to see them
@@ -540,6 +569,8 @@ public class EdiaryController {
             loadData(tabUsprawiedliwienia);
         } else if (currentTab.equals(tabNieobecnosci)) {
             loadData(tabNieobecnosci);
+        } else if (currentTab.equals(tabDodajUczniow)) {
+            loadData(tabDodajUczniow);
         }
     }
 
@@ -560,6 +591,8 @@ public class EdiaryController {
             saveData(tabUsprawiedliwienia);
         } else if (currentTab.equals(tabNieobecnosci)) {
             saveData(tabNieobecnosci);
+        } else if (currentTab.equals(tabDodajUczniow)) {
+            saveData(tabDodajUczniow);
         }
     }
 

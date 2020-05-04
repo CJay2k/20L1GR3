@@ -482,14 +482,14 @@
                                     <Label text="Nazwisko ojca:" GridPane.rowIndex="4" />
                                     <Label text="Imię matki:" GridPane.rowIndex="5" />
                                     <Label text="Nazwisko matki:" GridPane.rowIndex="6" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dodajUczniowTextFieldImie" GridPane.columnIndex="1" />
+                                    <TextField fx:id="dodajUczniowTextFieldNazwisko" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="dodajUczniowTextFieldPesel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <ChoiceBox fx:id="dodajUczniowChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" left="200.0" right="200.0" top="10.0" />
@@ -497,7 +497,7 @@
                               </GridPane>
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                    <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                     <Button mnemonicParsing="false" text="Wyczyść" />
                                  </children>
                               </HBox>

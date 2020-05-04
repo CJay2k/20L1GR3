@@ -9,24 +9,27 @@ import java.util.Set;
 public class Uczen implements java.io.Serializable {
 
     private long pesel;
-    private Autoryzacja autoryzacja;
+    //private Autoryzacja autoryzacja;
     private Klasa klasa;
     private String imie;
     private String nazwisko;
+    /*
     private Set rodzics = new HashSet(0);
     private Set ocenas = new HashSet(0);
     private Set obecnoscs = new HashSet(0);
     private Set skladKlasies = new HashSet(0);
-
+*/
     public Uczen() {
     }
 
+    /*
     public Uczen(Autoryzacja autoryzacja) {
         this.autoryzacja = autoryzacja;
     }
-
-    public Uczen(Autoryzacja autoryzacja, Klasa klasa, String imie, String nazwisko, Set rodzics, Set ocenas, Set obecnoscs, Set skladKlasies) {
-        this.autoryzacja = autoryzacja;
+    */
+/*
+    public Uczen(Klasa klasa, String imie, String nazwisko, Set rodzics, Set ocenas, Set obecnoscs, Set skladKlasies) {
+        //this.autoryzacja = autoryzacja;
         this.klasa = klasa;
         this.imie = imie;
         this.nazwisko = nazwisko;
@@ -35,6 +38,15 @@ public class Uczen implements java.io.Serializable {
         this.obecnoscs = obecnoscs;
         this.skladKlasies = skladKlasies;
     }
+*/
+    public Uczen(Klasa klasa, long pesel, String imie, String nazwisko) {
+        this.klasa = klasa;
+        this.pesel = pesel;
+        this.imie = imie;
+        this.nazwisko = nazwisko;
+    }
+
+
 
     public long getPesel() {
         return this.pesel;
@@ -43,7 +55,7 @@ public class Uczen implements java.io.Serializable {
     public void setPesel(long pesel) {
         this.pesel = pesel;
     }
-
+/*
     public Autoryzacja getAutoryzacja() {
         return this.autoryzacja;
     }
@@ -51,7 +63,7 @@ public class Uczen implements java.io.Serializable {
     public void setAutoryzacja(Autoryzacja autoryzacja) {
         this.autoryzacja = autoryzacja;
     }
-
+*/
     public Klasa getKlasa() {
         return this.klasa;
     }
@@ -75,7 +87,7 @@ public class Uczen implements java.io.Serializable {
     public void setNazwisko(String nazwisko) {
         this.nazwisko = nazwisko;
     }
-
+/*
     public Set getRodzics() {
         return this.rodzics;
     }
@@ -107,7 +119,7 @@ public class Uczen implements java.io.Serializable {
     public void setSkladKlasies(Set skladKlasies) {
         this.skladKlasies = skladKlasies;
     }
-
+*/
     public String getNazwaKlasy() {
         return this.klasa.getNazwaKlasy();
     }
