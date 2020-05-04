@@ -12,6 +12,9 @@ import org.hibernate.query.Query;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 import static controllers.LoginController.loggedUserRole;
@@ -102,6 +105,7 @@ public class EdiaryController {
     public TableColumn<Usprawiedliwienia, Time> usprawiedliwieniaColumnGodzina;
     public TableColumn<Usprawiedliwienia, String> usprawiedliwieniaColumnPrzedmiot;
     public TableColumn<Usprawiedliwienia, String> usprawiedliwieniaColumnTresc;
+    public TextArea usprawiedliwieniaTextAreaTresc;
 
     /*TODO*/
     public TableColumn uwagiColumnUwagi;
@@ -349,6 +353,15 @@ public class EdiaryController {
 
             usprawiedliwieniaTableView.setItems(listaUsprawiedliwien);
 
+
+
+
+
+
+
+
+
+
         }
 
 
@@ -427,6 +440,17 @@ public class EdiaryController {
 
                 session.beginTransaction();
                 session.update(obecnosc);
+                session.getTransaction().commit();
+            }
+        }else if (tab.equals(tabUsprawiedliwienia)){
+            if(usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
+                Usprawiedliwienia usprawiedliwienia = usprawiedliwieniaTableView.getSelectionModel().getSelectedItem();
+
+                usprawiedliwienia.setTresc(usprawiedliwieniaTextAreaTresc.getText());
+                System.out.println(usprawiedliwieniaTextAreaTresc.getText());
+
+                session.beginTransaction();
+                session.update(usprawiedliwienia);
                 session.getTransaction().commit();
             }
         }

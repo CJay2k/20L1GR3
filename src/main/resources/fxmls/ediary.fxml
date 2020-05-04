@@ -108,14 +108,14 @@
                                         <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TextArea>
+                                <TextArea fx:id="usprawiedliwieniaTextAreaTresc">
                                     <VBox.margin>
                                         <Insets bottom="10.0" left="100.0" right="100.0" />
                                     </VBox.margin>
                                 </TextArea>
                                 <HBox alignment="TOP_CENTER" spacing="10.0">
                                     <children>
-                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                    <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                     <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                     <Button mnemonicParsing="false" text="Wyczyść" />
                                  </children>
