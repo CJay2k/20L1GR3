@@ -9,8 +9,10 @@ import mapping.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Time;
-import java.util.Date;
+
 
 import static controllers.LoginController.loggedUserRole;
 
@@ -39,27 +41,44 @@ public class EdiaryController {
     public TableView<Uczen> dodawanieUwagTableView;
     public TableColumn<Uczen, String> dodawanieUwagColumnNazwisko;
     public TableColumn<Uczen, String> dodawanieUwagColumnImie;
+
     public TableView<Uczen> dodawanieOcenTableView;
     public TableColumn<Uczen, String> dodawanieOcenColumnNazwisko;
     public TableColumn<Uczen, String> dodawanieOcenColumnImie;
+
+    // Dodawanie ocen
+    public DatePicker dodawanieOcenInputData;
+    public TextField dodawanieOcenInputGodzina;
+    public TextArea dodawanieOcenInputGodzinaZaco;
+    public Button dodawanieOcenButtonDodaj;
+    public ChoiceBox<Przedmiot> dodawanieOcenChoiceBoxPrzedmiot;
+    public ChoiceBox<Klasa> dodawanieOcenChoiceBoxKlasa;
+    public TextField dodawanieOcenInputStopien;
+
+    // Wpisywanie nieobecnosci
     public TableView<Uczen> wpisywanieNieobecnosciTableView;
     public TableColumn<Uczen, String> wpisywanieNieobecnosciColumnNazwisko;
     public TableColumn<Uczen, String> wpisywanieNieobecnosciColumnImie;
-    public TableView<Uczen> akceptacjaUsprawiedliwienTableView;
+    public ChoiceBox<Przedmiot> dodawanieNieobecnosciChoiceBoxPrzedmiot;
+    public ChoiceBox<Klasa> dodawanieNieobecnosciChoiceBoxKlasa;
+    public DatePicker wpisywanieNieobecnosciInputData;
+    public TextField wpisywanieNieobecnosciInputGodzina;
+
+    // Akceptacja usprawiedliwien
+    public TableView<Usprawiedliwienia> akceptacjaUsprawiedliwienTableView;
     public TableColumn<Uczen, String> akceptacjaUsprawiedliwienColumnNazwisko;
     public TableColumn<Uczen, String> akceptacjaUsprawiedliwienColumnImie;
     public TableColumn<Usprawiedliwienia, Date> akceptacjaUsprawiedliwienColumnData;
     public TableColumn<Usprawiedliwienia, Time> akceptacjaUsprawiedliwienColumnGodzina;
     public TableColumn<Usprawiedliwienia, String> akceptacjaUsprawiedliwienColumnTresc;
+    public ChoiceBox<Przedmiot> akceptacjaUsprawiedliwienChoiceBoxPrzedmiot;
+    public ChoiceBox<Klasa> akceptacjaUsprawiedliwienChoiceBoxKlasa;
+    public TextArea akceptacjaUsprawiedliwienTextAreaTresc;
+
     public ChoiceBox<Klasa> listaUczniowChoiceBoxKlasa;
     public ChoiceBox<Przedmiot> dodawanieUwagChoiceBoxPrzedmiot;
     public ChoiceBox<Klasa> dodawanieUwagChoiceBoxKlasa;
-    public ChoiceBox<Przedmiot> dodawanieOcenChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasa> dodawanieOcenChoiceBoxKlasa;
-    public ChoiceBox<Przedmiot> dodawanieNieobecnosciChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasa> dodawanieNieobecnosciChoiceBoxKlasa;
-    public ChoiceBox<Przedmiot> akceptacjaUsprawiedliwienChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasa> akceptacjaUsprawiedliwienChoiceBoxKlasa;
+
     public TableView<Ocena> ocenyTableEdiary;
 
     public TableColumn<Ocena, Date> ocenyColumnData;
@@ -96,12 +115,15 @@ public class EdiaryController {
     public TableColumn<Obecnosc, String> nieobecnosciColumnPrzedmiot;
     public TableColumn<Obecnosc, String> nieobecnosciColumnUsprawiedliwiona;
 
+
     private Tab currentTab;
+
+    Session session;
 
     //    Function run when user logs on
     public void initialize() {
         hideElements();
-
+        session = SessionController.getSession();
         currentTab = tabPane.getSelectionModel().getSelectedItem();
         refresh();
 
@@ -113,8 +135,6 @@ public class EdiaryController {
 
     //    Function that load data from database to tableviews
     private void loadData(Tab tab) {
-        Session session = SessionController.getSession();
-
         /*
             NAUCZYCIEL
          */
@@ -233,8 +253,8 @@ public class EdiaryController {
                 akceptacjaUsprawiedliwienChoiceBoxPrzedmiot.getSelectionModel().select(0);
             }
 
-            Query query = session.createQuery("SELECT us FROM Usprawiedliwienia us, Klasa k WHERE us.uczen.klasa.nazwaKlasy='" + akceptacjaUsprawiedliwienChoiceBoxKlasa.getValue() + "' and us.uczen.klasa=k");
-            ObservableList listaUsprawiedliwien = FXCollections.observableArrayList(query.list());
+            Query query = session.createQuery("SELECT us FROM Usprawiedliwienia us WHERE us.uczen.klasa.nazwaKlasy='" + akceptacjaUsprawiedliwienChoiceBoxKlasa.getValue() + "' and us.obecnosc.wartosc like '0'");
+            ObservableList<Usprawiedliwienia> listaUsprawiedliwien = FXCollections.observableArrayList(query.list());
 
             akceptacjaUsprawiedliwienColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
             akceptacjaUsprawiedliwienColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
@@ -242,8 +262,8 @@ public class EdiaryController {
             akceptacjaUsprawiedliwienColumnGodzina.setCellValueFactory(new PropertyValueFactory<>("godzina"));
             akceptacjaUsprawiedliwienColumnTresc.setCellValueFactory(new PropertyValueFactory<>("tresc"));
 
-            akceptacjaUsprawiedliwienTableView.setItems(listaUsprawiedliwien);
 
+            akceptacjaUsprawiedliwienTableView.setItems(listaUsprawiedliwien);
             /*
                 Rodzic
              */
@@ -360,7 +380,55 @@ public class EdiaryController {
 
             nieobecnosciTableView.setItems(listaNieobesnoci);
 
-//        session.close();
+        }
+    }
+
+    private void saveData(Tab tab){
+        if (tab.equals(tabDodajOcene)) {
+            if(dodawanieOcenTableView.getSelectionModel().getSelectedItem() != null){
+                Uczen uczen = dodawanieOcenTableView.getSelectionModel().getSelectedItem();
+
+                if(!dodawanieOcenInputStopien.getText().isEmpty() && !dodawanieOcenInputData.getValue().toString().isEmpty() && !dodawanieOcenInputGodzinaZaco.getText().isEmpty()){
+                    Query query1 = session.createQuery("SELECT p FROM Przedmiot p WHERE p.nazwaPrzedmiotu='" + dodawanieOcenChoiceBoxPrzedmiot.getSelectionModel().getSelectedItem() + "'");
+                    ObservableList<Przedmiot> p = FXCollections.observableArrayList(query1.list());
+
+                    Przedmiot przedmiot = p.get(0);
+
+                    session.beginTransaction();
+                    Ocena ocena = new Ocena(przedmiot, uczen, dodawanieOcenInputStopien.getText(), Date.valueOf(dodawanieOcenInputData.getValue()), dodawanieOcenInputGodzinaZaco.getText());
+                    session.save(ocena);
+                    session.getTransaction().commit();
+                }
+            }
+
+        }else if (tab.equals(tabWpisywanieNieobecnosci)) {
+            if(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem() != null){
+                Uczen uczen = wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem();
+
+                if(!wpisywanieNieobecnosciInputGodzina.getText().isEmpty() && !wpisywanieNieobecnosciInputData.getValue().toString().isEmpty()){
+                    Query query1 = session.createQuery("SELECT p FROM Przedmiot p WHERE p.nazwaPrzedmiotu='" + dodawanieNieobecnosciChoiceBoxPrzedmiot.getSelectionModel().getSelectedItem() + "'");
+                    ObservableList<Przedmiot> p = FXCollections.observableArrayList(query1.list());
+
+                    Przedmiot przedmiot = p.get(0);
+
+                    session.beginTransaction();
+                    Obecnosc obecnosc = new Obecnosc(przedmiot, uczen, Date.valueOf(wpisywanieNieobecnosciInputData.getValue()), Time.valueOf(wpisywanieNieobecnosciInputGodzina.getText()), "0");
+                    session.save(obecnosc);
+                    session.getTransaction().commit();
+                }
+            }
+
+        }else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
+            if(akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null){
+
+                Usprawiedliwienia usprawiedliwienia = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
+                Obecnosc obecnosc = usprawiedliwienia.getObecnosc();
+                obecnosc.setWartosc("1");
+
+                session.beginTransaction();
+                session.update(obecnosc);
+                session.getTransaction().commit();
+            }
         }
     }
 
@@ -386,6 +454,8 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabDodajUsunPrzedmiot);
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
+            //TODO
+            tabPane.getTabs().remove(tabDodawanieUwag);
 
         } else if (loggedUserRole == 2) { // Role Rodzic
             tabPane.getTabs().remove(tabListaUczniow);
@@ -448,4 +518,42 @@ public class EdiaryController {
             loadData(tabNieobecnosci);
         }
     }
+
+    public void saveData(ActionEvent actionEvent) {
+        if (currentTab.equals(tabDodajOcene)) {
+            saveData(tabDodajOcene);
+        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
+            saveData(tabWpisywanieNieobecnosci);
+        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
+            saveData(tabAkceptacjaUsprawiedliwien);
+        } else if (currentTab.equals(tabOceny)) {
+            saveData(tabOceny);
+        } else if (currentTab.equals(tabPrzydzielNauczycielaDoPrzedmiotu)) {
+            saveData(tabPrzydzielNauczycielaDoPrzedmiotu);
+        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+            saveData(tabPrzydzielPrzedmiotDoKlasy);
+        } else if (currentTab.equals(tabUsprawiedliwienia)) {
+            saveData(tabUsprawiedliwienia);
+        } else if (currentTab.equals(tabNieobecnosci)) {
+            saveData(tabNieobecnosci);
+        }
+    }
+
+    public void deleteData(ActionEvent actionEvent){
+        if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
+            if(akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null){
+
+                Usprawiedliwienia usprawiedliwienia = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
+                Obecnosc obecnosc = usprawiedliwienia.getObecnosc();
+                obecnosc.setWartosc("2");
+
+                session.beginTransaction();
+                session.update(obecnosc);
+                session.getTransaction().commit();
+            }
+        }
+    }
+//    public void shutdown(){
+//        session.close();
+//    }
 }

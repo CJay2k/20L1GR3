@@ -1,5 +1,6 @@
 package mapping;
 
+import org.hibernate.annotations.Proxy;
 import org.hibernate.annotations.common.reflection.XProperty;
 
 import java.util.HashSet;

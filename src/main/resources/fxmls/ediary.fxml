@@ -42,21 +42,18 @@
                            <children>
                                <TableView fx:id="nieobecnosciTableView" VBox.vgrow="ALWAYS">
                                    <columns>
-                                       <TableColumn fx:id="nieobecnosciColumnData" prefWidth="150.0" text="Data"/>
-                                       <TableColumn fx:id="nieobecnosciColumnGodzina" minWidth="0.0" prefWidth="100.0"
-                                                    text="Godzina"/>
-                                       <TableColumn fx:id="nieobecnosciColumnPrzedmiot" prefWidth="250.0"
-                                                    text="Przedmiot"/>
-                                       <TableColumn fx:id="nieobecnosciColumnUsprawiedliwiona" prefWidth="150.0"
-                                                    text="Usprawiedliwiona"/>
+                                       <TableColumn fx:id="nieobecnosciColumnData" prefWidth="150.0" text="Data" />
+                                       <TableColumn fx:id="nieobecnosciColumnGodzina" minWidth="0.0" prefWidth="100.0" text="Godzina" />
+                                       <TableColumn fx:id="nieobecnosciColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
+                                       <TableColumn fx:id="nieobecnosciColumnUsprawiedliwiona" prefWidth="150.0" text="Usprawiedliwiona" />
                                    </columns>
                                    <VBox.margin>
-                                       <Insets bottom="10.0"/>
+                                       <Insets bottom="10.0" />
                                    </VBox.margin>
                                </TableView>
                                <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
                                    <VBox.margin>
-                                       <Insets bottom="10.0"/>
+                                       <Insets bottom="10.0" />
                                    </VBox.margin>
                                </Button>
                            </children>
@@ -72,17 +69,17 @@
                             <children>
                                 <TableView fx:id="uwagiTableView" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="uwagiColumnData" prefWidth="150.0" text="Data"/>
-                                        <TableColumn fx:id="uwagiColumnPrzedmiot" prefWidth="250.0" text="Przedmiot"/>
-                                        <TableColumn fx:id="uwagiColumnUwagi" prefWidth="650.0" text="Treść uwagi"/>
+                                        <TableColumn fx:id="uwagiColumnData" prefWidth="150.0" text="Data" />
+                                        <TableColumn fx:id="uwagiColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
+                                        <TableColumn fx:id="uwagiColumnUwagi" prefWidth="650.0" text="Treść uwagi" />
                                     </columns>
                                     <VBox.margin>
-                                        <Insets bottom="10.0"/>
+                                        <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </TableView>
                                 <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież">
                                     <VBox.margin>
-                                        <Insets bottom="10.0"/>
+                                        <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </Button>
                             </children></VBox>
@@ -97,27 +94,23 @@
                             <children>
                                 <TableView fx:id="usprawiedliwieniaTableView" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="usprawiedliwieniaColumnData" prefWidth="150.0" text="Data"/>
-                                        <TableColumn fx:id="usprawiedliwieniaColumnGodzina" prefWidth="100.0"
-                                                     text="Godzina"/>
-                                        <TableColumn fx:id="usprawiedliwieniaColumnPrzedmiot" prefWidth="250.0"
-                                                     text="Przedmiot"/>
-                                        <TableColumn fx:id="usprawiedliwieniaColumnTresc" prefWidth="500.0"
-                                                     text="Treść usprawiedliwienia"/>
+                                        <TableColumn fx:id="usprawiedliwieniaColumnData" prefWidth="150.0" text="Data" />
+                                        <TableColumn fx:id="usprawiedliwieniaColumnGodzina" prefWidth="100.0" text="Godzina" />
+                                        <TableColumn fx:id="usprawiedliwieniaColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
+                                        <TableColumn fx:id="usprawiedliwieniaColumnTresc" prefWidth="500.0" text="Treść usprawiedliwienia" />
                                     </columns>
                                     <VBox.margin>
-                                        <Insets bottom="10.0"/>
+                                        <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </TableView>
-                                <Label alignment="CENTER" contentDisplay="CENTER" text="Treść usprawiedliwienia:"
-                                       textAlignment="CENTER">
+                                <Label alignment="CENTER" contentDisplay="CENTER" text="Treść usprawiedliwienia:" textAlignment="CENTER">
                                     <VBox.margin>
-                                        <Insets bottom="10.0"/>
+                                        <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </Label>
                                 <TextArea>
                                     <VBox.margin>
-                                        <Insets bottom="10.0" left="100.0" right="100.0"/>
+                                        <Insets bottom="10.0" left="100.0" right="100.0" />
                                     </VBox.margin>
                                 </TextArea>
                                 <HBox alignment="TOP_CENTER" spacing="10.0">
@@ -298,26 +291,30 @@
                                         <columnConstraints>
                                             <ColumnConstraints halignment="RIGHT" percentWidth="25.0" />
                                             <ColumnConstraints hgrow="ALWAYS" />
+                                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                                         </columnConstraints>
                                         <rowConstraints>
                                             <RowConstraints />
                                             <RowConstraints />
                                             <RowConstraints />
                                             <RowConstraints />
+                                    <RowConstraints />
                                         </rowConstraints>
                                         <children>
                                             <Label text="Data:" />
                                             <Label text="Godzina:" GridPane.rowIndex="1" />
-                                            <DatePicker maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                            <TextArea GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                            <Label text="Za co:" GridPane.rowIndex="2" />
-                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                            <DatePicker fx:id="dodawanieOcenInputData" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                                            <TextField fx:id="dodawanieOcenInputGodzina" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            <TextArea fx:id="dodawanieOcenInputGodzinaZaco" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                            <Label text="Za co:" GridPane.rowIndex="3" />
+                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                                 <children>
-                                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                                    <Button fx:id="dodawanieOcenButtonDodaj" mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                                     <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                                 </children>
                                             </HBox>
+                                    <Label text="Stopień:" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dodawanieOcenInputStopien" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                         </children>
                                         <VBox.margin>
                                             <Insets bottom="10.0" left="200.0" right="200.0" />
@@ -364,7 +361,6 @@
                                 <columns>
                                   <TableColumn fx:id="wpisywanieNieobecnosciColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
                                     <TableColumn fx:id="wpisywanieNieobecnosciColumnImie" prefWidth="150.0" text="Imię" />
-                                    <TableColumn prefWidth="150.0" text="Obecność" />
                                 </columns>
                               </TableView>
                               <GridPane hgap="10.0" vgap="10.0">
@@ -378,15 +374,15 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                     <DatePicker maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
+                                     <DatePicker fx:id="wpisywanieNieobecnosciInputData" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
                                        <VBox.margin>
                                           <Insets right="200.0" />
                                        </VBox.margin>
                                     </DatePicker>
-                                     <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                     <TextField fx:id="wpisywanieNieobecnosciInputGodzina" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <children>
-                                           <Button mnemonicParsing="false" text="Dodaj" />
+                                           <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                            <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                        </children>
                                     </HBox>
@@ -441,16 +437,11 @@
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="520.0" text="Treść usprawiedliwienia" />
                                 </columns>
                               </TableView>
-                              <Label text="Treść usprawiedliwienia:" />
-                              <TextArea editable="false">
-                                 <VBox.margin>
-                                    <Insets left="100.0" right="100.0" />
-                                 </VBox.margin></TextArea>
                               <HBox alignment="TOP_CENTER" spacing="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Akceptuj" />
+                                    <Button mnemonicParsing="false" onAction="#saveData" text="Akceptuj" />
                                     <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
-                                    <Button mnemonicParsing="false" text="Odrzuć" />
+                                    <Button mnemonicParsing="false" onAction="#deleteData" text="Odrzuć" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />

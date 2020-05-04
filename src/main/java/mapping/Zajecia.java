@@ -77,8 +77,9 @@ public class Zajecia implements java.io.Serializable {
     public void setNazwaPrzedmiotu(String nazwaPrzedmiotu) {
         this.przedmiot.setNazwaPrzedmiotu(nazwaPrzedmiotu);
     }
+
     public String getNazwaKlasy() {
-        return this.przedmiot.getNazwaPrzedmiotu();
+        return this.klasa.getNazwaKlasy();
     }
 
     public void setNazwaKlasy(String nazwaKlasy) {

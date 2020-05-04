@@ -1,8 +1,12 @@
 package mapping;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Ocena implements java.io.Serializable {
+public class Ocena implements Serializable {
 
     private Integer id;
     private Przedmiot przedmiot;
@@ -20,11 +24,8 @@ public class Ocena implements java.io.Serializable {
         this.uczen = uczen;
     }
 
-
-
-    public Ocena(Przedmiot przedmiot, RodzajOceny rodzajOceny, Uczen uczen, String stopien, Date data, String opis) {
+    public Ocena(Przedmiot przedmiot, Uczen uczen, String stopien, Date data, String opis) {
         this.przedmiot = przedmiot;
-        this.rodzajOceny = rodzajOceny;
         this.uczen = uczen;
         this.stopien = stopien;
         this.data = data;
