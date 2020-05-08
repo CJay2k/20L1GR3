@@ -425,6 +425,9 @@ public class EdiaryController {
                     Ocena ocena = new Ocena(przedmiot, uczen, dodawanieOcenInputStopien.getText(), Date.valueOf(dodawanieOcenInputData.getValue()), dodawanieOcenInputGodzinaZaco.getText());
                     session.save(ocena);
                     session.getTransaction().commit();
+
+                    session.close();
+                    session = SessionController.getSession();
                 }
             }
 
@@ -442,6 +445,9 @@ public class EdiaryController {
                     Obecnosc obecnosc = new Obecnosc(przedmiot, uczen, Date.valueOf(wpisywanieNieobecnosciInputData.getValue()), Time.valueOf(wpisywanieNieobecnosciInputGodzina.getText()), "0");
                     session.save(obecnosc);
                     session.getTransaction().commit();
+
+                    session.close();
+                    session = SessionController.getSession();
                 }
             }
 
@@ -455,17 +461,23 @@ public class EdiaryController {
                 session.beginTransaction();
                 session.update(obecnosc);
                 session.getTransaction().commit();
+
+                session.close();
+                session = SessionController.getSession();
             }
         }else if (tab.equals(tabUsprawiedliwienia)){
             if(usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
                 Usprawiedliwienia usprawiedliwienia = usprawiedliwieniaTableView.getSelectionModel().getSelectedItem();
 
                 usprawiedliwienia.setTresc(usprawiedliwieniaTextAreaTresc.getText());
-                System.out.println(usprawiedliwieniaTextAreaTresc.getText());
 
                 session.beginTransaction();
                 session.update(usprawiedliwienia);
                 session.getTransaction().commit();
+
+                session.close();
+                session = SessionController.getSession();
+
             }
         }else if (tab.equals(tabDodajUczniow)) {
             Query query1 = session.createQuery("SELECT k FROM Klasa k WHERE k.nazwaKlasy='" + dodajUczniowChoiceBox.getSelectionModel().getSelectedItem() + "'");
@@ -474,13 +486,13 @@ public class EdiaryController {
             //Autoryzacja autoryzacja = new Autoryzacja(Long.parseLong(dodajUczniowTextFieldPesel.getText()), dodajUczniowTextFieldPesel.getText(), dodajUczniowTextFieldPesel.getText(), 3);
 
             Uczen uczen = new Uczen(klasa, Long.parseLong(dodajUczniowTextFieldPesel.getText()), dodajUczniowTextFieldImie.getText(), dodajUczniowTextFieldNazwisko.getText());
-            System.out.println(klasa);
-            System.out.println(Long.parseLong(dodajUczniowTextFieldPesel.getText()));
-            System.out.println(dodajUczniowTextFieldImie.getText());
-            System.out.println(dodajUczniowTextFieldNazwisko.getText());
+
             session.beginTransaction();
             session.save(uczen);
             session.getTransaction().commit();
+
+            session.close();
+            session = SessionController.getSession();
         }
 
     }
@@ -607,6 +619,9 @@ public class EdiaryController {
                 session.beginTransaction();
                 session.update(obecnosc);
                 session.getTransaction().commit();
+
+                session.close();
+                session = SessionController.getSession();
             }
         }
     }
