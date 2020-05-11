@@ -63,7 +63,7 @@ public class LoginController {
 
         List<Konta> resault = session.createQuery("FROM Konta k WHERE k.login='" + login + "' and k.haslo='" + pass + "'", Konta.class).list();
 
-        if (!resault.isEmpty()) return resault.get(0).getRolaId();
+        if (!resault.isEmpty()) return resault.get(0).getRoleByRolaId().getRolaId();
 
         session.close();
 
