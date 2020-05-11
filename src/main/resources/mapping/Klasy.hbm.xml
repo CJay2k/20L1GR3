@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="mapping.Klasy" table="Klasy" schema="edziennik">
+        <id name="klasaId">
+            <column name="klasa_id" sql-type="int(11)"/>
+        </id>
+        <property name="nazwaKlasy">
+            <column name="nazwa_klasy" sql-type="varchar(100)" length="100"/>
+        </property>
+        <property name="rokSzkolny">
+            <column name="rok_szkolny" sql-type="varchar(100)" length="100"/>
+        </property>
+    </class>
+</hibernate-mapping>

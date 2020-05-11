@@ -5,9 +5,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
-        <property name="connection.url">jdbc:mysql://54.38.143.86:3306/dziennik_elektroniczny?createDatabaseIfNotExist=true</property>
-        <property name="connection.username">ediary</property>
-        <property name="connection.password">ZAQ!2wsx</property>
+        <property name="connection.url">jdbc:mysql://54.38.143.86:3306/edziennik?createDatabaseIfNotExist=true</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
@@ -23,5 +21,27 @@
         <mapping resource="mapping/Rodzic.hbm.xml"/>
         <mapping resource="mapping/SkladKlasy.hbm.xml"/>
         <mapping resource="mapping/Usprawiedliwienia.hbm.xml"/>
+        <mapping resource="Klasy.hbm.xml"/>
+        <mapping class="mapping.Klasy"/>
+        <mapping resource="KlasyPrzedmioty.hbm.xml"/>
+        <mapping class="mapping.KlasyPrzedmioty"/>
+        <mapping resource="Konta.hbm.xml"/>
+        <mapping class="mapping.Konta"/>
+        <mapping resource="Nauczyciele.hbm.xml"/>
+        <mapping class="mapping.Nauczyciele"/>
+        <mapping resource="Nieobecnosci.hbm.xml"/>
+        <mapping class="mapping.Nieobecnosci"/>
+        <mapping resource="Oceny.hbm.xml"/>
+        <mapping class="mapping.Oceny"/>
+        <mapping resource="Przedmioty.hbm.xml"/>
+        <mapping class="mapping.Przedmioty"/>
+        <mapping resource="Rodzice.hbm.xml"/>
+        <mapping class="mapping.Rodzice"/>
+        <mapping resource="Role.hbm.xml"/>
+        <mapping class="mapping.Role"/>
+        <mapping resource="Uczniowie.hbm.xml"/>
+        <mapping class="mapping.Uczniowie"/>
+        <mapping resource="Uwagi.hbm.xml"/>
+        <mapping class="mapping.Uwagi"/>
     </session-factory>
 </hibernate-configuration>
