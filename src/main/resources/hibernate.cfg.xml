@@ -13,12 +13,12 @@
 
         <mapping resource="mapping/Klasy.hbm.xml"/>
         <mapping class="mapping.Klasy"/>
-        <mapping resource="mapping/KlasyPrzedmioty.hbm.xml"/>
         <mapping class="mapping.KlasyPrzedmioty"/>
+        <mapping resource="mapping/KlasyPrzedmioty.hbm.xml"/>
         <mapping resource="mapping/Konta.hbm.xml"/>
         <mapping class="mapping.Konta"/>
-        <mapping resource="mapping/Nauczyciele.hbm.xml"/>
         <mapping class="mapping.Nauczyciele"/>
+        <mapping resource="mapping/Nauczyciele.hbm.xml"/>
         <mapping resource="mapping/Nieobecnosci.hbm.xml"/>
         <mapping class="mapping.Nieobecnosci"/>
         <mapping resource="mapping/Oceny.hbm.xml"/>
@@ -27,11 +27,13 @@
         <mapping class="mapping.Przedmioty"/>
         <mapping resource="mapping/Rodzice.hbm.xml"/>
         <mapping class="mapping.Rodzice"/>
-        <mapping resource="mapping/Role.hbm.xml"/>
         <mapping class="mapping.Role"/>
+        <mapping resource="mapping/Role.hbm.xml"/>
         <mapping resource="mapping/Uczniowie.hbm.xml"/>
         <mapping class="mapping.Uczniowie"/>
         <mapping resource="mapping/Uwagi.hbm.xml"/>
         <mapping class="mapping.Uwagi"/>
+
+
     </session-factory>
 </hibernate-configuration>
