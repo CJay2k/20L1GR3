@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="mapping.KlasyPrzedmioty" table="Klasy_Przedmioty" schema="edziennik">
+        <id name="klasyPrzedmiotyId">
+            <column name="klasy_przedmioty_id" sql-type="int(11)"/>
+        </id>
+        <many-to-one name="klasyByKlasaId" class="mapping.Klasy">
+            <column name="klasa_id"/>
+        </many-to-one>
+        <many-to-one name="przedmiotyByPrzedmiotId" class="mapping.Przedmioty">
+            <column name="przedmiot_id"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

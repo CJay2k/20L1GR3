@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="mapping.Role" table="Role" schema="edziennik">
+        <id name="rolaId">
+            <column name="rola_id" sql-type="int(11)"/>
+        </id>
+        <property name="nazwaRoli">
+            <column name="nazwa_roli" sql-type="varchar(100)" length="100"/>
+        </property>
+        <set name="kontasByRolaId" inverse="true">
+            <key>
+                <column name="rola_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Konta"/>
+        </set>
+    </class>
+</hibernate-mapping>

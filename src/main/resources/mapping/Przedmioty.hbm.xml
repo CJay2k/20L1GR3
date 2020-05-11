@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="mapping.Przedmioty" table="Przedmioty" schema="edziennik">
+        <id name="przedmiotId">
+            <column name="przedmiot_id" sql-type="int(11)"/>
+        </id>
+        <property name="nazwaPrzedmiotu">
+            <column name="nazwa_przedmiotu" sql-type="varchar(100)" length="100"/>
+        </property>
+        <many-to-one name="nauczycieleByNauczycielId" class="mapping.Nauczyciele">
+            <column name="nauczyciel_id"/>
+        </many-to-one>
+        <set name="klasyPrzedmiotiesByPrzedmiotId" inverse="true">
+            <key>
+                <column name="przedmiot_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.KlasyPrzedmioty"/>
+        </set>
+        <set name="nieobecnoscisByPrzedmiotId" inverse="true">
+            <key>
+                <column name="przedmiot_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Nieobecnosci"/>
+        </set>
+        <set name="oceniesByPrzedmiotId" inverse="true">
+            <key>
+                <column name="przedmiot_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Oceny"/>
+        </set>
+        <set name="uwagisByPrzedmiotId" inverse="true">
+            <key>
+                <column name="przedmiot_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Uwagi"/>
+        </set>
+    </class>
+</hibernate-mapping>
