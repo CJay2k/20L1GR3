@@ -5,7 +5,8 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
-        <property name="connection.url">jdbc:mysql://54.38.143.86:3306/edziennik?createDatabaseIfNotExist=true</property>
+        <property name="connection.url">jdbc:mysql://54.38.143.86:3306/edziennik?createDatabaseIfNotExist=true
+        </property>
         <property name="hibernate.connection.username">ediary</property>
         <property name="hibernate.connection.password">ZAQ!2wsx</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
@@ -33,7 +34,5 @@
         <mapping class="mapping.Uczniowie"/>
         <mapping resource="mapping/Uwagi.hbm.xml"/>
         <mapping class="mapping.Uwagi"/>
-
-
     </session-factory>
 </hibernate-configuration>
