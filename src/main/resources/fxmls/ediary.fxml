@@ -43,9 +43,8 @@
                                <TableView fx:id="nieobecnosciTableView" VBox.vgrow="ALWAYS">
                                    <columns>
                                        <TableColumn fx:id="nieobecnosciColumnData" prefWidth="150.0" text="Data" />
-                                       <TableColumn fx:id="nieobecnosciColumnGodzina" minWidth="0.0" prefWidth="100.0" text="Godzina" />
                                        <TableColumn fx:id="nieobecnosciColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
-                                       <TableColumn fx:id="nieobecnosciColumnUsprawiedliwiona" prefWidth="150.0" text="Usprawiedliwiona" />
+                                       <TableColumn fx:id="nieobecnosciColumnStatus" prefWidth="150.0" text="Status" />
                                    </columns>
                                    <VBox.margin>
                                        <Insets bottom="10.0" />
@@ -71,7 +70,7 @@
                                     <columns>
                                         <TableColumn fx:id="uwagiColumnData" prefWidth="150.0" text="Data" />
                                         <TableColumn fx:id="uwagiColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
-                                        <TableColumn fx:id="uwagiColumnUwagi" prefWidth="650.0" text="Treść uwagi" />
+                                        <TableColumn fx:id="uwagiColumnTresc" prefWidth="620.0" text="Treść uwagi" />
                                     </columns>
                                     <VBox.margin>
                                         <Insets bottom="10.0" />
