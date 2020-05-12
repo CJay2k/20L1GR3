@@ -12,27 +12,28 @@
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <mapping resource="mapping/Klasy.hbm.xml"/>
         <mapping class="mapping.Klasy"/>
         <mapping class="mapping.KlasyPrzedmioty"/>
-        <mapping resource="mapping/KlasyPrzedmioty.hbm.xml"/>
-        <mapping resource="mapping/Konta.hbm.xml"/>
         <mapping class="mapping.Konta"/>
         <mapping class="mapping.Nauczyciele"/>
-        <mapping resource="mapping/Nauczyciele.hbm.xml"/>
-        <mapping resource="mapping/Nieobecnosci.hbm.xml"/>
         <mapping class="mapping.Nieobecnosci"/>
-        <mapping resource="mapping/Oceny.hbm.xml"/>
         <mapping class="mapping.Oceny"/>
-        <mapping resource="mapping/Przedmioty.hbm.xml"/>
         <mapping class="mapping.Przedmioty"/>
-        <mapping resource="mapping/Rodzice.hbm.xml"/>
         <mapping class="mapping.Rodzice"/>
         <mapping class="mapping.Role"/>
+        <mapping class="mapping.Uczniowie"/>
+        <mapping class="mapping.Uwagi"/>
+
+        <mapping resource="mapping/Klasy.hbm.xml"/>
+        <mapping resource="mapping/KlasyPrzedmioty.hbm.xml"/>
+        <mapping resource="mapping/Konta.hbm.xml"/>
+        <mapping resource="mapping/Nauczyciele.hbm.xml"/>
+        <mapping resource="mapping/Nieobecnosci.hbm.xml"/>
+        <mapping resource="mapping/Oceny.hbm.xml"/>
+        <mapping resource="mapping/Przedmioty.hbm.xml"/>
+        <mapping resource="mapping/Rodzice.hbm.xml"/>
         <mapping resource="mapping/Role.hbm.xml"/>
         <mapping resource="mapping/Uczniowie.hbm.xml"/>
-        <mapping class="mapping.Uczniowie"/>
         <mapping resource="mapping/Uwagi.hbm.xml"/>
-        <mapping class="mapping.Uwagi"/>
     </session-factory>
 </hibernate-configuration>
