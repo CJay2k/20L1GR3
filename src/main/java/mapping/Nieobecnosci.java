@@ -76,4 +76,5 @@ public class Nieobecnosci {
     public void setPrzedmiotyByPrzedmiotId(Przedmioty przedmiotyByPrzedmiotId) {
         this.przedmiotyByPrzedmiotId = przedmiotyByPrzedmiotId;
     }
+
 }

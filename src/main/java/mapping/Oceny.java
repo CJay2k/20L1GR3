@@ -88,4 +88,5 @@ public class Oceny {
     public void setPrzedmiotyByPrzedmiotId(Przedmioty przedmiotyByPrzedmiotId) {
         this.przedmiotyByPrzedmiotId = przedmiotyByPrzedmiotId;
     }
+
 }
