@@ -38,15 +38,14 @@
 - Wyświetlanie ocen
 
 ### Nauczyciel:
-- wy�wietlanie listy uczni�w w danej klasie
+- wyświetlanie listy uczniów
 - dodawanie ocen
 - dodawanie uwag
 - sprawdzanie obecności
-- akceptacja lub odrzucenie usprawiedliwienia
+- akceptacja usprawiedliwienia
 
 ### Dyrektor:
 - dodawanie uczniów i nauczycieli oraz przydzielanie ich do klas
-- dodawanie rodzic�w
 
 ## Diagramy UML:
 ### Diagram klas
@@ -58,4 +57,4 @@
 ### Diagram aktywności
 ![Diagram aktywności](https://i.ibb.co/xH2jT7M/Diagram-State.png)
 ### ERD
-![Diagram ERD](https://i.ibb.co/n6k4P2L/Diagram-ERD.png)
+![Diagram aktywności](https://i.ibb.co/LRbSf2v/Diagram-ERD.png)
