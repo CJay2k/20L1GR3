@@ -9,6 +9,7 @@ public class Nieobecnosci {
     private int nieobecnoscId;
     private String wartosc;
     private Date data;
+    private String trescUsprawiedliwienia;
     private Uczniowie uczniowieByUczenId;
     private Przedmioty przedmiotyByPrzedmiotId;
 
@@ -42,6 +43,16 @@ public class Nieobecnosci {
         this.data = data;
     }
 
+    @Basic
+    @Column(name = "tresc_usprawiedliwienia", nullable = true, length = 100)
+    public String getTrescUsprawiedliwienia() {
+        return trescUsprawiedliwienia;
+    }
+
+    public void setTrescUsprawiedliwienia(String trescUsprawiedliwienia) {
+        this.trescUsprawiedliwienia = trescUsprawiedliwienia;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,12 +60,13 @@ public class Nieobecnosci {
         Nieobecnosci that = (Nieobecnosci) o;
         return nieobecnoscId == that.nieobecnoscId &&
                 Objects.equals(wartosc, that.wartosc) &&
-                Objects.equals(data, that.data);
+                Objects.equals(data, that.data) &&
+                Objects.equals(trescUsprawiedliwienia, that.trescUsprawiedliwienia);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nieobecnoscId, wartosc, data);
+        return Objects.hash(nieobecnoscId, wartosc, data, trescUsprawiedliwienia);
     }
 
     @ManyToOne
@@ -76,5 +88,4 @@ public class Nieobecnosci {
     public void setPrzedmiotyByPrzedmiotId(Przedmioty przedmiotyByPrzedmiotId) {
         this.przedmiotyByPrzedmiotId = przedmiotyByPrzedmiotId;
     }
-
 }

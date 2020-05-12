@@ -14,6 +14,9 @@
         <property name="data">
             <column name="data" sql-type="date"/>
         </property>
+        <property name="trescUsprawiedliwienia">
+            <column name="tresc_usprawiedliwienia" sql-type="varchar(100)" length="100" not-null="true"/>
+        </property>
         <many-to-one name="uczniowieByUczenId" class="mapping.Uczniowie">
             <column name="uczen_id"/>
         </many-to-one>
