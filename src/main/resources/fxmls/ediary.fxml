@@ -94,9 +94,7 @@
                                 <TableView fx:id="usprawiedliwieniaTableView" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="usprawiedliwieniaColumnData" prefWidth="150.0" text="Data" />
-                                        <TableColumn fx:id="usprawiedliwieniaColumnGodzina" prefWidth="100.0" text="Godzina" />
                                         <TableColumn fx:id="usprawiedliwieniaColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
-                                        <TableColumn fx:id="usprawiedliwieniaColumnTresc" prefWidth="500.0" text="Treść usprawiedliwienia" />
                                     </columns>
                                     <VBox.margin>
                                         <Insets bottom="10.0" />
