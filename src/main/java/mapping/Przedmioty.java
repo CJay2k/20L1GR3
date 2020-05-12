@@ -93,4 +93,9 @@ public class Przedmioty {
     public void setUwagisByPrzedmiotId(Collection<Uwagi> uwagisByPrzedmiotId) {
         this.uwagisByPrzedmiotId = uwagisByPrzedmiotId;
     }
+
+    @Override
+    public String toString() {
+        return nazwaPrzedmiotu;
+    }
 }

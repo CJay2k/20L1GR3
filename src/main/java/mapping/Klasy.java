@@ -74,4 +74,9 @@ public class Klasy {
     public void setUczniowiesByKlasaId(Collection<Uczniowie> uczniowiesByKlasaId) {
         this.uczniowiesByKlasaId = uczniowiesByKlasaId;
     }
+
+    @Override
+    public String toString() {
+        return nazwaKlasy;
+    }
 }
