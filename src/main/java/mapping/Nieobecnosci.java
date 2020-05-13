@@ -88,4 +88,20 @@ public class Nieobecnosci {
     public void setPrzedmiotyByPrzedmiotId(Przedmioty przedmiotyByPrzedmiotId) {
         this.przedmiotyByPrzedmiotId = przedmiotyByPrzedmiotId;
     }
+
+    public String getImie() {
+        return uczniowieByUczenId.getImie();
+    }
+
+    public void setImie(String imie) {
+        this.uczniowieByUczenId.setImie(imie);
+    }
+
+    public String getNazwisko() {
+        return uczniowieByUczenId.getNazwisko();
+    }
+
+    public void setNazwisko(String nazwisko) {
+        this.uczniowieByUczenId.setNazwisko(nazwisko);
+    }
 }
