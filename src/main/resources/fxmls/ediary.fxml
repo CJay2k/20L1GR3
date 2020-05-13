@@ -430,8 +430,7 @@
                                   <TableColumn fx:id="akceptacjaUsprawiedliwienColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnImie" prefWidth="150.0" text="Imię" />
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnData" prefWidth="100.0" text="Data" />
-                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnGodzina" prefWidth="100.0" text="Godzina" />
-                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="520.0" text="Treść usprawiedliwienia" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="615.0" text="Treść usprawiedliwienia" />
                                 </columns>
                               </TableView>
                               <HBox alignment="TOP_CENTER" spacing="10.0">
