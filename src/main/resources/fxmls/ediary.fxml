@@ -574,15 +574,12 @@
                                      <rowConstraints>
                                          <RowConstraints vgrow="SOMETIMES" />
                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                      </rowConstraints>
                                      <children>
                                          <Label text="Imię:" />
                                          <Label text="Nazwisko:" GridPane.rowIndex="1" />
-                                         <Label text="PESEL:" GridPane.rowIndex="2" />
                                          <TextField GridPane.columnIndex="1" />
                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                      </children>
                                      <VBox.margin>
                                          <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
