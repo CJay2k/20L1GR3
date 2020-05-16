@@ -224,15 +224,15 @@
                                         </rowConstraints>
                                         <children>
                                             <Label text="Data:" />
-                                            <DatePicker maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                                            <DatePicker fx:id="dodawanieUwagDatePickerData" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
                                             <Label text="Treść uwagi:" GridPane.rowIndex="1" />
                                             <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                 <children>
-                                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                                    <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                                     <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                                 </children>
                                             </HBox>
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="dodawanieUwagTextFieldTresc" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                         </children>
                                         <VBox.margin>
                                             <Insets bottom="10.0" left="300.0" right="300.0" />
