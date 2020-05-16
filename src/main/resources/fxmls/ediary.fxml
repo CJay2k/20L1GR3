@@ -435,7 +435,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabDodajRodzicow" text="Dodaj rodzicow">
+            <Tab fx:id="tabDodajRodzicow" text="Dodaj rodziców">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <children>
@@ -544,12 +544,12 @@
                                     <Insets bottom="10.0" />
                                  </padding>
                               </GridPane>
-                              <TableView prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="dodajUczniowTableView" prefHeight="200.0" prefWidth="200.0">
                                 <columns>
-                                  <TableColumn prefWidth="155.0" text="Imie ojca" />
-                                  <TableColumn minWidth="5.0" prefWidth="155.0" text="Nazwisko ojca" />
-                                    <TableColumn prefWidth="155.0" text="Imie matki" />
-                                    <TableColumn prefWidth="155.0" text="Nazwisko Matki" />
+                                  <TableColumn fx:id="dodajUczniowColumnImieOjca" prefWidth="155.0" text="Imie ojca" />
+                                  <TableColumn fx:id="dodajUczniowColumnNazwiskoOjca" minWidth="5.0" prefWidth="155.0" text="Nazwisko ojca" />
+                                    <TableColumn fx:id="dodajUczniowColumnImieMatki" prefWidth="155.0" text="Imie matki" />
+                                    <TableColumn fx:id="dodajUczniowColumnNazwiskoMatki" prefWidth="155.0" text="Nazwisko Matki" />
                                 </columns>
                                  <VBox.margin>
                                     <Insets left="200.0" right="200.0" />
@@ -569,7 +569,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabDodajUsunNauczycieli" text="Dodaj nauczycieli">
+            <Tab fx:id="tabDodajNauczycieli" text="Dodaj nauczycieli">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -615,7 +615,7 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabDodajUsunPrzedmiot" text="Dodaj/usuń przedmiot">
+            <Tab fx:id="tabDodajPrzedmiot" text="Dodaj przedmioty">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
