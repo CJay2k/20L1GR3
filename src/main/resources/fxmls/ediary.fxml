@@ -621,9 +621,9 @@
                      <children>
                         <VBox layoutX="137.0" layoutY="348.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TableView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="dodajPrzedmiotyTableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn prefWidth="250.0" text="Nazwa przedmiotu" />
+                                  <TableColumn fx:id="dodajPrzedmiotyColumnNazwaPrzedmiotu" prefWidth="250.0" text="Nazwa przedmiotu" />
                                 </columns>
                               </TableView>
                               <GridPane hgap="10.0" vgap="10.0">
@@ -641,7 +641,11 @@
                                  <children>
                                     <Label text="Nazwa przedmiotu:" />
                                     <TextField GridPane.columnIndex="1" />
-                                    <Button mnemonicParsing="false" text="Dodaj" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Dodaj" />
+                                          <Button mnemonicParsing="false" text="Odśwież" />
+                                       </children></HBox>
                                  </children>
                               </GridPane>
                            </children>
@@ -700,8 +704,8 @@
                               <children>
                                   <TableView fx:id="przydzielPrzedmiotDoKlasyTableView" VBox.vgrow="ALWAYS">
                                       <columns>
-                                          <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnKlasa" prefWidth="150.0" text="Nazwa przedmiotu" />
-                                    <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnPrzedmioty" prefWidth="150.0" text="Prowadzący" />
+                                          <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnNazwaPrzedmiotu" prefWidth="250.0" text="Nazwa przedmiotu" />
+                                    <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnProwadzacy" prefWidth="250.0" text="Prowadzący" />
                                       </columns>
                                       <VBox.margin>
                                           <Insets bottom="10.0" />
