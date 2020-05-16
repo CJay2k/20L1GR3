@@ -135,6 +135,8 @@ public class EdiaryController {
     public TableView<Przedmioty> dodajPrzedmiotyTableView;
     public TableColumn<Przedmioty, String> dodajPrzedmiotyColumnNazwaPrzedmiotu;
 
+    public TextField usprawiedliwieniaTextFieldTresc;
+
     private Tab currentTab;
 
     Session session;
@@ -421,6 +423,22 @@ public class EdiaryController {
         // Rodzic
         //================================================================================
 
+        if (tab.equals(tabUsprawiedliwienia)){
+            if(usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
+                Nieobecnosci nieobecnosci = usprawiedliwieniaTableView.getSelectionModel().getSelectedItem();
+
+                nieobecnosci.setTrescUsprawiedliwienia(usprawiedliwieniaTextFieldTresc.getText());
+
+                session.beginTransaction();
+                session.update(nieobecnosci);
+                session.getTransaction().commit();
+
+                session.close();
+                session = SessionController.getSession();
+
+            }
+        }
+
 //        if (tab.equals(tabDodajOcene)) {
 //            if(dodawanieOcenTableView.getSelectionModel().getSelectedItem() != null){
 //                Uczniowie uczen = dodawanieOcenTableView.getSelectionModel().getSelectedItem();
@@ -474,20 +492,6 @@ public class EdiaryController {
 //
 //                session.close();
 //                session = SessionController.getSession();
-//            }
-//        }else if (tab.equals(tabUsprawiedliwienia)){
-//            if(usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
-//                Nieobecnosci nieobecnosci = usprawiedliwieniaTableView.getSelectionModel().getSelectedItem();
-//
-//                nieobecnosci.setWartosc(usprawiedliwieniaTextAreaTresc.getText());
-//
-//                session.beginTransaction();
-//                session.update(nieobecnosci);
-//                session.getTransaction().commit();
-//
-//                session.close();
-//                session = SessionController.getSession();
-//
 //            }
 //        }else if (tab.equals(tabDodajUczniow)) {
 //            Query query1 = session.createQuery("SELECT k FROM Klasa k WHERE k.nazwaKlasy='" + dodajUczniowChoiceBox.getSelectionModel().getSelectedItem() + "'");
@@ -599,25 +603,25 @@ public class EdiaryController {
     }
 
     public void saveData(ActionEvent actionEvent) {
-//        if (currentTab.equals(tabDodajOcene)) {
-//            saveData(tabDodajOcene);
-//        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
-//            saveData(tabWpisywanieNieobecnosci);
-//        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-//            saveData(tabAkceptacjaUsprawiedliwien);
-//        } else if (currentTab.equals(tabOceny)) {
-//            saveData(tabOceny);
-//        } else if (currentTab.equals(tabPrzydzielNauczycielaDoPrzedmiotu)) {
-//            saveData(tabPrzydzielNauczycielaDoPrzedmiotu);
-//        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
-//            saveData(tabPrzydzielPrzedmiotDoKlasy);
-//        } else if (currentTab.equals(tabUsprawiedliwienia)) {
-//            saveData(tabUsprawiedliwienia);
-//        } else if (currentTab.equals(tabNieobecnosci)) {
-//            saveData(tabNieobecnosci);
-//        } else if (currentTab.equals(tabDodajUczniow)) {
-//            saveData(tabDodajUczniow);
-//        }
+        if (currentTab.equals(tabDodajOcene)) {
+            saveData(tabDodajOcene);
+        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
+            saveData(tabWpisywanieNieobecnosci);
+        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
+            saveData(tabAkceptacjaUsprawiedliwien);
+        } else if (currentTab.equals(tabOceny)) {
+            saveData(tabOceny);
+        } else if (currentTab.equals(tabPrzydzielNauczycielaDoPrzedmiotu)) {
+            saveData(tabPrzydzielNauczycielaDoPrzedmiotu);
+        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+            saveData(tabPrzydzielPrzedmiotDoKlasy);
+        } else if (currentTab.equals(tabUsprawiedliwienia)) {
+            saveData(tabUsprawiedliwienia);
+        } else if (currentTab.equals(tabNieobecnosci)) {
+            saveData(tabNieobecnosci);
+        } else if (currentTab.equals(tabDodajUczniow)) {
+            saveData(tabDodajUczniow);
+        }
     }
 
     public void deleteData(ActionEvent actionEvent){
