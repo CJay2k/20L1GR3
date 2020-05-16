@@ -75,4 +75,9 @@ public class Nauczyciele {
     public void setPrzedmiotiesByNauczycielId(Collection<Przedmioty> przedmiotiesByNauczycielId) {
         this.przedmiotiesByNauczycielId = przedmiotiesByNauczycielId;
     }
+
+    @Override
+    public String toString() {
+        return this.imie + " " + this.nazwisko;
+    }
 }
