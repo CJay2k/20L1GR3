@@ -154,6 +154,7 @@ public class EdiaryController {
 
     //    Function that load data from database to tableviews
     private void loadData(Tab tab) {
+
         //================================================================================
         // Uczeń
         //================================================================================
@@ -415,6 +416,11 @@ public class EdiaryController {
     }
 
     private void saveData(Tab tab){
+
+        //================================================================================
+        // Rodzic
+        //================================================================================
+
 //        if (tab.equals(tabDodajOcene)) {
 //            if(dodawanieOcenTableView.getSelectionModel().getSelectedItem() != null){
 //                Uczniowie uczen = dodawanieOcenTableView.getSelectionModel().getSelectedItem();
@@ -523,6 +529,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabDodajPrzedmiot);
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
+            tabPane.getTabs().remove(tabDodajRodzicow);
 
         } else if (loggedUserRole == 3) { // Role Rodzic
             tabPane.getTabs().remove(tabListaUczniow);
@@ -535,6 +542,7 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabDodajPrzedmiot);
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
+            tabPane.getTabs().remove(tabDodajRodzicow);
 
         } else if (loggedUserRole == 4) { // Role Uczen
             tabPane.getTabs().remove(tabUsprawiedliwienia);
@@ -548,7 +556,10 @@ public class EdiaryController {
             tabPane.getTabs().remove(tabDodajPrzedmiot);
             tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
             tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
+            tabPane.getTabs().remove(tabDodajRodzicow);
+
         }
+
     }
 
     //    Handle refresh button action
