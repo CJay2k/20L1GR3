@@ -304,7 +304,7 @@
                                             </HBox>
                                     <Label text="Stopień:" GridPane.rowIndex="1" />
                                     <TextField fx:id="dodawanieOcenInputStopien" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dodawanieOcenInputZaco" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                         </children>
                                         <VBox.margin>
                                             <Insets bottom="10.0" left="300.0" right="300.0" />
@@ -390,34 +390,31 @@
                            <children>
                                <GridPane hgap="10.0" vgap="10.0">
                                    <columnConstraints>
-                                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                       <ColumnConstraints hgrow="SOMETIMES" />
-                                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                       <ColumnConstraints hgrow="SOMETIMES" />
+                                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="15.0" />
+                                       <ColumnConstraints hgrow="ALWAYS" />
                                    </columnConstraints>
                                    <rowConstraints>
                                        <RowConstraints />
                                        <RowConstraints />
                                    </rowConstraints>
                                    <children>
-                                       <ChoiceBox fx:id="akceptacjaUsprawiedliwienChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                        <Label text="Klasa:" GridPane.rowIndex="1" />
-                                       <Label text="Przedmiot:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                        <ChoiceBox fx:id="akceptacjaUsprawiedliwienChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                            <GridPane.margin>
-                                               <Insets right="50.0" />
+                                               <Insets />
                                            </GridPane.margin></ChoiceBox>
                                    </children>
                                    <VBox.margin>
-                                       <Insets left="200.0" right="200.0" />
+                                       <Insets left="300.0" right="300.0" />
                                    </VBox.margin>
                                </GridPane>
                               <TableView fx:id="akceptacjaUsprawiedliwienTableView" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="akceptacjaUsprawiedliwienColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnImie" prefWidth="150.0" text="Imię" />
-                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnData" prefWidth="100.0" text="Data" />
-                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="615.0" text="Treść usprawiedliwienia" />
+                                    <TableColumn prefWidth="150.0" text="Przedmiot" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnData" prefWidth="150.0" text="Data" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="415.0" text="Treść usprawiedliwienia" />
                                 </columns>
                               </TableView>
                               <HBox alignment="TOP_CENTER" spacing="10.0">
@@ -460,16 +457,16 @@
                                             <Label text="Nazwisko ojca:" GridPane.rowIndex="4" />
                                             <Label text="Imię matki:" GridPane.rowIndex="5" />
                                             <Label text="Nazwisko matki:" GridPane.rowIndex="6" />
-                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                            <TextField fx:id="dodajRodzicowInputImieOjca" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                            <TextField fx:id="dodajRodzicowInputNazwiskoOjca" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                            <TextField fx:id="dodajRodzicowInputImieMatki" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                            <TextField fx:id="dodajRodzicowInputNazwiskoMatki" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                     <Label text="Powtórz hasło:" GridPane.rowIndex="2" />
                                     <Label text="Login:" />
                                     <Label text="Hasło:" GridPane.rowIndex="1" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dodajRodzicowInputLogin" GridPane.columnIndex="1" />
+                                    <PasswordField fx:id="dodajRodzicowInputHaslo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <PasswordField fx:id="dodajRodzicowInputPowtorzHaslo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                         </children>
                                         <VBox.margin>
                                             <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
@@ -509,15 +506,15 @@
                                     <Label text="Imię:" GridPane.rowIndex="3" />
                                     <Label text="Nazwisko:" GridPane.rowIndex="4" />
                                     <Label text="Klasa:" GridPane.rowIndex="5" />
-                                    <TextField fx:id="dodajUczniowTextFieldImie" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField fx:id="dodajUczniowTextFieldNazwisko" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <ChoiceBox fx:id="dodajUczniowChoiceBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField fx:id="dodajUczniowInputImie" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="dodajUczniowInputNazwisko" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <ChoiceBox fx:id="dodajUczniowChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                     <Label text="Hasło:" GridPane.rowIndex="1" />
                                     <Label text="Powtórz hasło:" GridPane.rowIndex="2" />
                                     <Label text="Login:" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dodajUczniowInputLogin" GridPane.columnIndex="1" />
+                                    <PasswordField fx:id="dodajUczniowInputHaslo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <PasswordField fx:id="dodajUczniowInputPowtorzHaslo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
@@ -538,7 +535,7 @@
                                  <children>
                                     <Label text="Rodzice:" />
                                     <Button mnemonicParsing="false" text="Szukaj" GridPane.columnIndex="2" />
-                                    <TextField GridPane.columnIndex="1" />
+                                    <TextField fx:id="dodajUczniowInputSzukaj" GridPane.columnIndex="1" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" />
@@ -591,17 +588,17 @@
                                      <children>
                                          <Label text="Imię:" GridPane.rowIndex="3" />
                                          <Label text="Nazwisko:" GridPane.rowIndex="4" />
-                                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                         <TextField fx:id="dodajNauczycieliInputImie" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                         <TextField fx:id="dodajNauczycieliInputNazwisko" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                     <Label text="Login:" />
                                     <Label text="Hasło:" GridPane.rowIndex="1" />
                                     <Label text="Powtórz hasło:" GridPane.rowIndex="2" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dodajNauczycieliInputLogin" GridPane.columnIndex="1" />
+                                    <PasswordField fx:id="dodajNauczycieliInputHaslo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <PasswordField fx:id="dodajNauczycieliInputPowtorzHaslo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                        <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                            <children>
-                                               <Button mnemonicParsing="false" text="Dodaj" />
+                                               <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                                <Button mnemonicParsing="false" text="Wyczyść" />
                                            </children>
                                        </HBox>
@@ -615,55 +612,16 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabDodajPrzedmiot" text="Dodaj przedmioty">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox layoutX="137.0" layoutY="348.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <TableView fx:id="dodajPrzedmiotyTableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                                <columns>
-                                  <TableColumn fx:id="dodajPrzedmiotyColumnNazwaPrzedmiotu" prefWidth="250.0" text="Nazwa przedmiotu" />
-                                </columns>
-                              </TableView>
-                              <GridPane hgap="10.0" vgap="10.0">
-                                <columnConstraints>
-                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
-                                 </VBox.margin>
-                                 <children>
-                                    <Label text="Nazwa przedmiotu:" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                       <children>
-                                          <Button mnemonicParsing="false" text="Dodaj" />
-                                          <Button mnemonicParsing="false" text="Odśwież" />
-                                       </children></HBox>
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab fx:id="tabPrzydzielNauczycielaDoPrzedmiotu" text="Przydziel nauczyciela do przedmiotu">
+            <Tab fx:id="tabDodajPrzedmioty" text="Dodaj przedmioty">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                          <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="595.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                              <children>
-                                 <TableView fx:id="przydzielNauczycielaTableView" VBox.vgrow="ALWAYS">
+                                 <TableView fx:id="dodajPrzedmiotyTableView" VBox.vgrow="ALWAYS">
                                      <columns>
-                                         <TableColumn fx:id="przydzielNauczycielaColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
-                                         <TableColumn fx:id="przydzielNauczycielaColumnImie" prefWidth="150.0" text="Imię" />
+                                         <TableColumn fx:id="dodajPrzedmiotyColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                         <TableColumn fx:id="dodajPrzedmiotyColumnImie" prefWidth="150.0" text="Imię" />
                                      </columns>
                                      <VBox.margin>
                                          <Insets bottom="10.0" />
@@ -680,12 +638,12 @@
                                 </rowConstraints>
                                  <children>
                                     <Label text="Przedmiot:" />
-                                    <ChoiceBox fx:id="przydzielNauczycielaChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                     <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Przypisz" />
+                                          <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                        </children></HBox>
+                                    <TextField fx:id="dodajPrzedmiotyInputNazwaPrzedmioty" GridPane.columnIndex="1" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" left="300.0" right="300.0" />
@@ -723,7 +681,7 @@
                                       <children>
                                           <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
-                                                  <Button mnemonicParsing="false" text="Przypisz" />
+                                                  <Button mnemonicParsing="false" onAction="#saveData" text="Przypisz" />
                                                   <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                        </children></HBox>
                                     <Label text="Klasa:" />
