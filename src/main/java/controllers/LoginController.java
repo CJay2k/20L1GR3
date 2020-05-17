@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import mapping.Autoryzacja;
+import mapping.Konta;
 import org.hibernate.Session;
 
 import java.io.IOException;
@@ -18,80 +18,63 @@ import java.util.Objects;
 
 // Class handling Login Window actions
 public class LoginController {
+    public static int loggedUserRole;
     public Button loginBT;
     public Button closeBT;
     public TextField loginLabel;
     public PasswordField passwordLabel;
     public Label infoLabel;
 
-    public static long loggedUserRole = -1;
-
-//    Function that handle Login button clicks
-//    If the user is authenticated, opens the window depending on his role
+    //    Function that handle Login button clicks
+    //    If the user is authenticated, opens the window depending on his role
     @FXML
     public void handleLoginButtonAction() throws IOException {
-        switch (authenticateUser()) {
-            case 0:
-                loadDiary(0,"Okno dyrektora");
+        loggedUserRole = authenticateUser();
 
+        switch (loggedUserRole) {
+            case -1:
+                infoLabel.setText("Proszę uzupełnić wszystkie pola!");
                 break;
-            case 1:
-                loadDiary(1,"Okno nauczyciela");
-
-                break;
-            case 2:
-                loadDiary(2,"Okno rodzica");
-
-                break;
-            case 3:
-                loadDiary(3,"Okno ucznia");
-
+            case -2:
+                infoLabel.setText("Nieprawidłowe dane logowania!");
                 break;
             default:
-                infoLabel.setText("Nieprawidłowe dane logowania!");
+                loadDiary();
                 break;
         }
     }
 
-//    Function that handle Close button clicks
-//    Closes application
+    //    Function that handle Close button clicks
+    //    Closes application
     @FXML
-    public void handleCloseButtonAction(){
+    public void handleCloseButtonAction() {
         Stage stage = (Stage) closeBT.getScene().getWindow();
         stage.close();
     }
 
-//    Function that checks if login and password matches
-//    If so returns user role
+    //    Function that checks if login and password are valid
+    //    If so returns user role
     private int authenticateUser() {
         Session session = SessionController.getSession();
-
         String login = loginLabel.getText().toLowerCase();
         String pass = passwordLabel.getText();
-        int rola = -1;
 
-//        Check if login and password field are not empty
-        if(!login.isEmpty() && !pass.isEmpty()){
-//            Select object from database with matching login and password
-            List<Autoryzacja> resault = session.createQuery("FROM Autoryzacja a WHERE a.login='" + login + "' and a.haslo='" + pass + "'").list();
+        if (login.isEmpty() || pass.isEmpty()) return -1;
 
-//            Check PK and role of logged and assing it to variable
-            if(!resault.isEmpty()) {
-                rola = resault.get(0).getRola();
-            }
-        }
+        List<Konta> resault = session.createQuery("FROM Konta k WHERE k.login='" + login + "' and k.haslo='" + pass + "'", Konta.class).list();
+
+        if (!resault.isEmpty()) return resault.get(0).getRoleByRolaId().getRolaId();
+
         session.close();
 
-        return rola;
+        return -2;
     }
 
-//    Function that load main diary window with given window title
-    private void loadDiary(int role, String title) throws IOException {
-        loggedUserRole = role;
-
+    //    Function that load main diary window with given window title
+    private void loadDiary() throws IOException {
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxmls/ediary.fxml")));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
-        primaryStage.setTitle(title);
+        primaryStage.setTitle("e-Dziennik");
         primaryStage.setResizable(true);
 
         primaryStage.setScene(new Scene(pane, 1024, 768));

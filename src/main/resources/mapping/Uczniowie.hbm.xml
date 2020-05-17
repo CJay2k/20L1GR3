@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="mapping.Uczniowie" table="Uczniowie" schema="edziennik">
+        <id name="uczenId">
+            <column name="uczen_id" sql-type="int(11)"/>
+        </id>
+        <property name="imie">
+            <column name="imie" sql-type="varchar(100)" length="100"/>
+        </property>
+        <property name="nazwisko">
+            <column name="nazwisko" sql-type="varchar(100)" length="100"/>
+        </property>
+        <many-to-one name="klasyByKlasaId" class="mapping.Klasy">
+            <column name="klasa_id"/>
+        </many-to-one>
+        <many-to-one name="rodziceByRodzicId" class="mapping.Rodzice">
+            <column name="rodzic_id"/>
+        </many-to-one>
+        <many-to-one name="kontaByKontoId" class="mapping.Konta">
+            <column name="konto_id"/>
+        </many-to-one>
+        <set name="nieobecnoscisByUczenId" inverse="true">
+            <key>
+                <column name="uczen_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Nieobecnosci"/>
+        </set>
+        <set name="oceniesByUczenId" inverse="true">
+            <key>
+                <column name="uczen_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Oceny"/>
+        </set>
+        <set name="uwagisByUczenId" inverse="true">
+            <key>
+                <column name="uczen_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Uwagi"/>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -43,9 +43,8 @@
                                <TableView fx:id="nieobecnosciTableView" VBox.vgrow="ALWAYS">
                                    <columns>
                                        <TableColumn fx:id="nieobecnosciColumnData" prefWidth="150.0" text="Data" />
-                                       <TableColumn fx:id="nieobecnosciColumnGodzina" minWidth="0.0" prefWidth="100.0" text="Godzina" />
                                        <TableColumn fx:id="nieobecnosciColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
-                                       <TableColumn fx:id="nieobecnosciColumnUsprawiedliwiona" prefWidth="150.0" text="Usprawiedliwiona" />
+                                       <TableColumn fx:id="nieobecnosciColumnStatus" prefWidth="150.0" text="Status" />
                                    </columns>
                                    <VBox.margin>
                                        <Insets bottom="10.0" />
@@ -71,7 +70,7 @@
                                     <columns>
                                         <TableColumn fx:id="uwagiColumnData" prefWidth="150.0" text="Data" />
                                         <TableColumn fx:id="uwagiColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
-                                        <TableColumn fx:id="uwagiColumnUwagi" prefWidth="650.0" text="Treść uwagi" />
+                                        <TableColumn fx:id="uwagiColumnTresc" prefWidth="620.0" text="Treść uwagi" />
                                     </columns>
                                     <VBox.margin>
                                         <Insets bottom="10.0" />
@@ -95,9 +94,7 @@
                                 <TableView fx:id="usprawiedliwieniaTableView" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="usprawiedliwieniaColumnData" prefWidth="150.0" text="Data" />
-                                        <TableColumn fx:id="usprawiedliwieniaColumnGodzina" prefWidth="100.0" text="Godzina" />
                                         <TableColumn fx:id="usprawiedliwieniaColumnPrzedmiot" prefWidth="250.0" text="Przedmiot" />
-                                        <TableColumn fx:id="usprawiedliwieniaColumnTresc" prefWidth="500.0" text="Treść usprawiedliwienia" />
                                     </columns>
                                     <VBox.margin>
                                         <Insets bottom="10.0" />
@@ -108,11 +105,11 @@
                                         <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TextArea fx:id="usprawiedliwieniaTextAreaTresc">
-                                    <VBox.margin>
-                                        <Insets bottom="10.0" left="100.0" right="100.0" />
-                                    </VBox.margin>
-                                </TextArea>
+                              <TextField fx:id="usprawiedliwieniaTextFieldTresc">
+                                 <VBox.margin>
+                                    <Insets left="300.0" right="300.0" />
+                                 </VBox.margin>
+                              </TextField>
                                 <HBox alignment="TOP_CENTER" spacing="10.0">
                                     <children>
                                     <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
@@ -123,7 +120,7 @@
                                     <Insets bottom="10.0" />
                                  </opaqueInsets>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets bottom="10.0" top="10.0" />
                                  </VBox.margin>
                               </HBox>
                            </children>
@@ -224,24 +221,21 @@
                                             <RowConstraints />
                                             <RowConstraints />
                                             <RowConstraints />
-                                            <RowConstraints />
                                         </rowConstraints>
                                         <children>
                                             <Label text="Data:" />
-                                            <Label text="Godzina:" GridPane.rowIndex="1" />
-                                            <DatePicker maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                                            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                            <TextArea GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                            <Label text="Treść uwagi:" GridPane.rowIndex="2" />
-                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                            <DatePicker fx:id="dodawanieUwagDatePickerData" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                                            <Label text="Treść uwagi:" GridPane.rowIndex="1" />
+                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                 <children>
-                                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                                    <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                                     <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                                 </children>
                                             </HBox>
+                                    <TextField fx:id="dodawanieUwagTextFieldTresc" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                         </children>
                                         <VBox.margin>
-                                            <Insets bottom="10.0" left="200.0" right="200.0" />
+                                            <Insets bottom="10.0" left="300.0" right="300.0" />
                                         </VBox.margin>
                                     </GridPane>
                                 </children></VBox>
@@ -291,10 +285,8 @@
                                         <columnConstraints>
                                             <ColumnConstraints halignment="RIGHT" percentWidth="25.0" />
                                             <ColumnConstraints hgrow="ALWAYS" />
-                                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                                         </columnConstraints>
                                         <rowConstraints>
-                                            <RowConstraints />
                                             <RowConstraints />
                                             <RowConstraints />
                                             <RowConstraints />
@@ -302,29 +294,24 @@
                                         </rowConstraints>
                                         <children>
                                             <Label text="Data:" />
-                                            <Label text="Godzina:" GridPane.rowIndex="1" />
                                             <DatePicker fx:id="dodawanieOcenInputData" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                                            <TextField fx:id="dodawanieOcenInputGodzina" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                            <TextArea fx:id="dodawanieOcenInputGodzinaZaco" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                            <Label text="Za co:" GridPane.rowIndex="3" />
-                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                            <Label text="Za co:" GridPane.rowIndex="2" />
+                                            <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                                 <children>
                                                     <Button fx:id="dodawanieOcenButtonDodaj" mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                                     <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                                 </children>
                                             </HBox>
-                                    <Label text="Stopień:" GridPane.rowIndex="2" />
-                                    <TextField fx:id="dodawanieOcenInputStopien" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label text="Stopień:" GridPane.rowIndex="1" />
+                                    <TextField fx:id="dodawanieOcenInputStopien" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <TextField fx:id="dodawanieOcenInputZaco" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                         </children>
                                         <VBox.margin>
-                                            <Insets bottom="10.0" left="200.0" right="200.0" />
+                                            <Insets bottom="10.0" left="300.0" right="300.0" />
                                         </VBox.margin>
                                     </GridPane>
                                 </children></VBox>
-                        </children>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding></AnchorPane>
+                        </children></AnchorPane>
                 </content>
             </Tab>
             <Tab fx:id="tabWpisywanieNieobecnosci" text="Wpisywanie nieobecności">
@@ -357,7 +344,7 @@
                                        <Insets left="200.0" right="200.0" />
                                    </VBox.margin>
                                </GridPane>
-                              <TableView fx:id="wpisywanieNieobecnosciTableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="wpisywanieNieobecnosciTableView" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="wpisywanieNieobecnosciColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
                                     <TableColumn fx:id="wpisywanieNieobecnosciColumnImie" prefWidth="150.0" text="Imię" />
@@ -370,7 +357,6 @@
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="34.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
@@ -379,18 +365,16 @@
                                           <Insets right="200.0" />
                                        </VBox.margin>
                                     </DatePicker>
-                                     <TextField fx:id="wpisywanieNieobecnosciInputGodzina" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
                                            <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                            <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                        </children>
                                     </HBox>
                                      <Label text="Data:" />
-                                     <Label text="Godzina:" GridPane.rowIndex="1" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" left="200.0" right="200.0" />
+                                    <Insets bottom="10.0" left="300.0" right="300.0" />
                                  </VBox.margin>
                               </GridPane>
                            </children>
@@ -406,35 +390,31 @@
                            <children>
                                <GridPane hgap="10.0" vgap="10.0">
                                    <columnConstraints>
-                                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                       <ColumnConstraints hgrow="SOMETIMES" />
-                                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                       <ColumnConstraints hgrow="SOMETIMES" />
+                                       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="15.0" />
+                                       <ColumnConstraints hgrow="ALWAYS" />
                                    </columnConstraints>
                                    <rowConstraints>
                                        <RowConstraints />
                                        <RowConstraints />
                                    </rowConstraints>
                                    <children>
-                                       <ChoiceBox fx:id="akceptacjaUsprawiedliwienChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                                        <Label text="Klasa:" GridPane.rowIndex="1" />
-                                       <Label text="Przedmiot:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                        <ChoiceBox fx:id="akceptacjaUsprawiedliwienChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                            <GridPane.margin>
-                                               <Insets right="50.0" />
+                                               <Insets />
                                            </GridPane.margin></ChoiceBox>
                                    </children>
                                    <VBox.margin>
-                                       <Insets left="200.0" right="200.0" />
+                                       <Insets left="300.0" right="300.0" />
                                    </VBox.margin>
                                </GridPane>
                               <TableView fx:id="akceptacjaUsprawiedliwienTableView" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="akceptacjaUsprawiedliwienColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
                                     <TableColumn fx:id="akceptacjaUsprawiedliwienColumnImie" prefWidth="150.0" text="Imię" />
-                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnData" prefWidth="100.0" text="Data" />
-                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnGodzina" prefWidth="100.0" text="Godzina" />
-                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="520.0" text="Treść usprawiedliwienia" />
+                                    <TableColumn prefWidth="150.0" text="Przedmiot" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnData" prefWidth="150.0" text="Data" />
+                                    <TableColumn fx:id="akceptacjaUsprawiedliwienColumnTresc" prefWidth="415.0" text="Treść usprawiedliwienia" />
                                 </columns>
                               </TableView>
                               <HBox alignment="TOP_CENTER" spacing="10.0">
@@ -452,6 +432,57 @@
                      </children></AnchorPane>
                </content>
             </Tab>
+            <Tab fx:id="tabDodajRodzicow" text="Dodaj rodziców">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <children>
+                            <VBox layoutX="137.0" layoutY="348.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <children>
+                                    <GridPane hgap="10.0" vgap="10.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="30.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        </rowConstraints>
+                                        <children>
+                                            <Label text="Imię ojca:" GridPane.rowIndex="3" />
+                                            <Label text="Nazwisko ojca:" GridPane.rowIndex="4" />
+                                            <Label text="Imię matki:" GridPane.rowIndex="5" />
+                                            <Label text="Nazwisko matki:" GridPane.rowIndex="6" />
+                                            <TextField fx:id="dodajRodzicowInputImieOjca" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                            <TextField fx:id="dodajRodzicowInputNazwiskoOjca" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                            <TextField fx:id="dodajRodzicowInputImieMatki" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                            <TextField fx:id="dodajRodzicowInputNazwiskoMatki" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Label text="Powtórz hasło:" GridPane.rowIndex="2" />
+                                    <Label text="Login:" />
+                                    <Label text="Hasło:" GridPane.rowIndex="1" />
+                                    <TextField fx:id="dodajRodzicowInputLogin" GridPane.columnIndex="1" />
+                                    <PasswordField fx:id="dodajRodzicowInputHaslo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <PasswordField fx:id="dodajRodzicowInputPowtorzHaslo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        </children>
+                                        <VBox.margin>
+                                            <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
+                                        </VBox.margin>
+                                    </GridPane>
+                                    <HBox alignment="CENTER" spacing="10.0">
+                                        <children>
+                                            <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
+                                            <Button mnemonicParsing="false" text="Wyczyść" />
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+                        </children></AnchorPane>
+                </content>
+            </Tab>
             <Tab fx:id="tabDodajUczniow" text="Dodaj uczniów">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -460,53 +491,82 @@
                            <children>
                               <GridPane hgap="10.0" vgap="10.0">
                                 <columnConstraints>
-                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="25.0" />
+                                  <ColumnConstraints halignment="RIGHT" hgrow="NEVER" percentWidth="25.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" />
                                 </columnConstraints>
                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Label text="Imię:" />
-                                    <Label text="Nazwisko:" GridPane.rowIndex="1" />
-                                    <Label text="PESEL:" GridPane.rowIndex="2" />
-                                    <Label text="Klasa:" GridPane.rowIndex="7" />
-                                    <Label text="Imię ojca:" GridPane.rowIndex="3" />
-                                    <Label text="Nazwisko ojca:" GridPane.rowIndex="4" />
-                                    <Label text="Imię matki:" GridPane.rowIndex="5" />
-                                    <Label text="Nazwisko matki:" GridPane.rowIndex="6" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                    <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <Label text="Imię:" GridPane.rowIndex="3" />
+                                    <Label text="Nazwisko:" GridPane.rowIndex="4" />
+                                    <Label text="Klasa:" GridPane.rowIndex="5" />
+                                    <TextField fx:id="dodajUczniowInputImie" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <TextField fx:id="dodajUczniowInputNazwisko" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <ChoiceBox fx:id="dodajUczniowChoiceBoxKlasa" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label text="Hasło:" GridPane.rowIndex="1" />
+                                    <Label text="Powtórz hasło:" GridPane.rowIndex="2" />
+                                    <Label text="Login:" />
+                                    <TextField fx:id="dodajUczniowInputLogin" GridPane.columnIndex="1" />
+                                    <PasswordField fx:id="dodajUczniowInputHaslo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <PasswordField fx:id="dodajUczniowInputPowtorzHaslo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" left="200.0" right="200.0" top="10.0" />
+                                    <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
                                  </VBox.margin>
                               </GridPane>
+                              <GridPane hgap="10.0" vgap="10.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <VBox.margin>
+                                    <Insets left="200.0" right="200.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <Label text="Rodzice:" />
+                                    <Button mnemonicParsing="false" text="Szukaj" GridPane.columnIndex="2" />
+                                    <TextField fx:id="dodajUczniowInputSzukaj" GridPane.columnIndex="1" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </GridPane>
+                              <TableView fx:id="dodajUczniowTableView" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn fx:id="dodajUczniowColumnImieOjca" prefWidth="155.0" text="Imie ojca" />
+                                  <TableColumn fx:id="dodajUczniowColumnNazwiskoOjca" minWidth="5.0" prefWidth="155.0" text="Nazwisko ojca" />
+                                    <TableColumn fx:id="dodajUczniowColumnImieMatki" prefWidth="155.0" text="Imie matki" />
+                                    <TableColumn fx:id="dodajUczniowColumnNazwiskoMatki" prefWidth="155.0" text="Nazwisko Matki" />
+                                </columns>
+                                 <VBox.margin>
+                                    <Insets left="200.0" right="200.0" />
+                                 </VBox.margin>
+                              </TableView>
                               <HBox alignment="CENTER" spacing="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Dodaj" />
+                                    <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                     <Button mnemonicParsing="false" text="Wyczyść" />
                                  </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
                               </HBox>
                            </children>
                         </VBox>
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabDodajUsunNauczycieli" text="Dodaj nauczycieli">
+            <Tab fx:id="tabDodajNauczycieli" text="Dodaj nauczycieli">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -518,78 +578,50 @@
                                          <ColumnConstraints hgrow="SOMETIMES" />
                                      </columnConstraints>
                                      <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                          <RowConstraints vgrow="SOMETIMES" />
                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                      </rowConstraints>
                                      <children>
-                                         <Label text="Imię:" />
-                                         <Label text="Nazwisko:" GridPane.rowIndex="1" />
-                                         <Label text="PESEL:" GridPane.rowIndex="2" />
-                                         <TextField GridPane.columnIndex="1" />
-                                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                         <Label text="Imię:" GridPane.rowIndex="3" />
+                                         <Label text="Nazwisko:" GridPane.rowIndex="4" />
+                                         <TextField fx:id="dodajNauczycieliInputImie" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                         <TextField fx:id="dodajNauczycieliInputNazwisko" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label text="Login:" />
+                                    <Label text="Hasło:" GridPane.rowIndex="1" />
+                                    <Label text="Powtórz hasło:" GridPane.rowIndex="2" />
+                                    <TextField fx:id="dodajNauczycieliInputLogin" GridPane.columnIndex="1" />
+                                    <PasswordField fx:id="dodajNauczycieliInputHaslo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <PasswordField fx:id="dodajNauczycieliInputPowtorzHaslo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                       <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                           <children>
+                                               <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
+                                               <Button mnemonicParsing="false" text="Wyczyść" />
+                                           </children>
+                                       </HBox>
                                      </children>
                                      <VBox.margin>
-                                         <Insets bottom="10.0" left="200.0" right="200.0" top="10.0" />
+                                         <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
                                      </VBox.margin>
                                  </GridPane>
-                                 <HBox alignment="CENTER" spacing="10.0">
-                                     <children>
-                                         <Button mnemonicParsing="false" text="Dodaj" />
-                                         <Button mnemonicParsing="false" text="Wyczyść" />
-                                     </children>
-                                 </HBox>
                              </children>
                          </VBox>
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tabDodajUsunPrzedmiot" text="Dodaj/usuń przedmiot">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <VBox layoutX="137.0" layoutY="348.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <GridPane hgap="10.0" vgap="10.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="30.0" />
-                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="20.0" />
-                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="30.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <Label text="Nazwa przedmiotu:" />
-                                    <TextField GridPane.columnIndex="1" />
-                                    <Button mnemonicParsing="false" text="Dodaj" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Button mnemonicParsing="false" text="Usuń" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <Label text="Wybierz przedmiot:" GridPane.columnIndex="2" />
-                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
-                                 </VBox.margin>
-                              </GridPane>
-                           </children>
-                        </VBox>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab fx:id="tabPrzydzielNauczycielaDoPrzedmiotu" text="Przydziel nauczyciela do przedmiotu">
+            <Tab fx:id="tabDodajPrzedmioty" text="Dodaj przedmioty">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                          <VBox alignment="TOP_CENTER" layoutX="116.0" layoutY="595.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                              <children>
-                                 <TableView fx:id="przydzielNauczycielaTableView" VBox.vgrow="ALWAYS">
+                                 <TableView fx:id="dodajPrzedmiotyTableView" VBox.vgrow="ALWAYS">
                                      <columns>
-                                         <TableColumn fx:id="przydzielNauczycielaColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
-                                         <TableColumn fx:id="przydzielNauczycielaColumnImie" prefWidth="150.0" text="Imię" />
+                                         <TableColumn fx:id="dodajPrzedmiotyColumnNazwisko" prefWidth="150.0" text="Nazwisko" />
+                                         <TableColumn fx:id="dodajPrzedmiotyColumnImie" prefWidth="150.0" text="Imię" />
                                      </columns>
                                      <VBox.margin>
                                          <Insets bottom="10.0" />
@@ -606,15 +638,15 @@
                                 </rowConstraints>
                                  <children>
                                     <Label text="Przedmiot:" />
-                                    <ChoiceBox fx:id="przydzielNauczycielaChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                     <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Przypisz" />
+                                          <Button mnemonicParsing="false" onAction="#saveData" text="Dodaj" />
                                              <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
                                        </children></HBox>
+                                    <TextField fx:id="dodajPrzedmiotyInputNazwaPrzedmioty" GridPane.columnIndex="1" />
                                  </children>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" left="200.0" right="200.0" />
+                                    <Insets bottom="10.0" left="300.0" right="300.0" />
                                  </VBox.margin>
                               </GridPane>
                              </children>
@@ -630,8 +662,8 @@
                               <children>
                                   <TableView fx:id="przydzielPrzedmiotDoKlasyTableView" VBox.vgrow="ALWAYS">
                                       <columns>
-                                          <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnKlasa" prefWidth="150.0" text="Klasy" />
-                                    <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnPrzedmioty" prefWidth="150.0" text="Przedmioty" />
+                                          <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnNazwaPrzedmiotu" prefWidth="250.0" text="Nazwa przedmiotu" />
+                                    <TableColumn fx:id="przydzielPrzedmiotDoKlasyColumnProwadzacy" prefWidth="250.0" text="Prowadzący" />
                                       </columns>
                                       <VBox.margin>
                                           <Insets bottom="10.0" />
@@ -640,28 +672,23 @@
                                   <GridPane hgap="10.0" vgap="10.0">
                                       <columnConstraints>
                                     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="25.0" />
-                                    <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="25.0" />
-                                          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="25.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
                                       </columnConstraints>
                                       <rowConstraints>
                                           <RowConstraints vgrow="SOMETIMES" />
                                           <RowConstraints />
                                       </rowConstraints>
                                       <children>
-                                          <Label text="Przedmiot:" GridPane.columnIndex="2" />
-                                          <ChoiceBox fx:id="przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" />
-                                          <HBox spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                          <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
+                                                  <Button mnemonicParsing="false" onAction="#saveData" text="Przypisz" />
                                                   <Button mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
-                                          <Button mnemonicParsing="false" text="Usuń" />
                                        </children></HBox>
                                     <Label text="Klasa:" />
-                                    <ChoiceBox fx:id="przydzielPrzedmiotDoKlasyChoiceBoxKlasa" prefWidth="150.0" GridPane.columnIndex="1" />
-                                            <Button mnemonicParsing="false" text="Przypisz" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ChoiceBox fx:id="przydzielPrzedmiotDoKlasyChoiceBoxKlasa" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                       </children>
                                       <VBox.margin>
-                                          <Insets bottom="10.0" left="200.0" right="200.0" />
+                                          <Insets bottom="10.0" left="300.0" right="300.0" />
                                       </VBox.margin>
                                   </GridPane>
                               </children>

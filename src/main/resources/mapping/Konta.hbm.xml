@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="mapping.Konta" table="Konta" schema="edziennik">
+        <id name="kontoId">
+            <column name="konto_id" sql-type="int(11)"/>
+        </id>
+        <property name="login">
+            <column name="login" sql-type="varchar(100)" length="100"/>
+        </property>
+        <property name="haslo">
+            <column name="haslo" sql-type="varchar(100)" length="100"/>
+        </property>
+        <many-to-one name="roleByRolaId" class="mapping.Role">
+            <column name="rola_id"/>
+        </many-to-one>
+        <set name="nauczycielesByKontoId" inverse="true">
+            <key>
+                <column name="konto_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Nauczyciele"/>
+        </set>
+        <set name="rodzicesByKontoId" inverse="true">
+            <key>
+                <column name="konto_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Rodzice"/>
+        </set>
+        <set name="uczniowiesByKontoId" inverse="true">
+            <key>
+                <column name="konto_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="mapping.Uczniowie"/>
+        </set>
+    </class>
+</hibernate-mapping>

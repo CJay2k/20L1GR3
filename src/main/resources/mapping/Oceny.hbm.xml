@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="mapping.Oceny" table="Oceny" schema="edziennik">
+        <id name="ocenaId">
+            <column name="ocena_id" sql-type="int(11)"/>
+        </id>
+        <property name="wartosc">
+            <column name="wartosc" sql-type="varchar(2)" length="2"/>
+        </property>
+        <property name="opis">
+            <column name="opis" sql-type="varchar(100)" length="100"/>
+        </property>
+        <property name="data">
+            <column name="data" sql-type="date"/>
+        </property>
+        <many-to-one name="uczniowieByUczenId" class="mapping.Uczniowie">
+            <column name="uczen_id"/>
+        </many-to-one>
+        <many-to-one name="przedmiotyByPrzedmiotId" class="mapping.Przedmioty">
+            <column name="przedmiot_id"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>
