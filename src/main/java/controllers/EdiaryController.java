@@ -11,7 +11,7 @@ import org.hibernate.query.Query;
 
 import java.sql.Date;
 
-import static controllers.LoginController.loggedUserRole;
+import static controllers.LoginController.authenticatedUser;
 
 // Class handling Ediary Window actions
 public class EdiaryController {
@@ -154,6 +154,7 @@ public class EdiaryController {
     //    Function run when user logs on
     public void initialize() {
         hideElements();
+
         session = SessionController.getSession();
         currentTab = tabPane.getSelectionModel().getSelectedItem();
         refresh();
@@ -641,53 +642,68 @@ public class EdiaryController {
 
     //    Function that removes tabs id user has no privileges to see them
     private void hideElements() {
-        if (loggedUserRole == 1) { // Role Dyrektor
-            tabPane.getTabs().remove(tabOceny);
-            tabPane.getTabs().remove(tabNieobecnosci);
-            tabPane.getTabs().remove(tabUwagi);
-            tabPane.getTabs().remove(tabUsprawiedliwienia);
-            tabPane.getTabs().remove(tabDodawanieUwag);
-            tabPane.getTabs().remove(tabDodajOcene);
-            tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
-            tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
 
-        } else if (loggedUserRole == 2) { // Role Nauczyciel
-            tabPane.getTabs().remove(tabOceny);
-            tabPane.getTabs().remove(tabNieobecnosci);
-            tabPane.getTabs().remove(tabUwagi);
-            tabPane.getTabs().remove(tabUsprawiedliwienia);
-            tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabDodajPrzedmioty);
-            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
-            tabPane.getTabs().remove(tabDodajRodzicow);
+        switch (authenticatedUser.getRoleByRolaId().getNazwaRoli()) {
 
-        } else if (loggedUserRole == 3) { // Role Rodzic
-            tabPane.getTabs().remove(tabListaUczniow);
-            tabPane.getTabs().remove(tabDodawanieUwag);
-            tabPane.getTabs().remove(tabDodajOcene);
-            tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
-            tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
-            tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabDodajPrzedmioty);
-            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
-            tabPane.getTabs().remove(tabDodajRodzicow);
+            case "dyrektor":  // Role Dyrektor
+                hideElementsNauczyciel();
+                hideElementsRodzic();
+                hideElementsUczen();
 
-        } else if (loggedUserRole == 4) { // Role Uczen
-            tabPane.getTabs().remove(tabUsprawiedliwienia);
-            tabPane.getTabs().remove(tabListaUczniow);
-            tabPane.getTabs().remove(tabDodawanieUwag);
-            tabPane.getTabs().remove(tabDodajOcene);
-            tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
-            tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
-            tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabDodajPrzedmioty);
-            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
-            tabPane.getTabs().remove(tabDodajRodzicow);
+                break;
+            case "nauczyciel":  // Role Nauczyciel
+                hideElementsDyrektor();
+                hideElementsRodzic();
+                hideElementsUczen();
+
+                break;
+            case "rodzic":  // Role Rodzic
+                hideElementsDyrektor();
+                hideElementsNauczyciel();
+
+                break;
+            case "uczen":  // Role Uczen
+                hideElementsDyrektor();
+                hideElementsNauczyciel();
+                hideElementsRodzic();
+
+                break;
 
         }
+
+    }
+
+    private void hideElementsDyrektor() {
+
+        tabPane.getTabs().remove(tabListaUczniow);
+        tabPane.getTabs().remove(tabDodajRodzicow);
+        tabPane.getTabs().remove(tabDodajUczniow);
+        tabPane.getTabs().remove(tabDodajNauczycieli);
+        tabPane.getTabs().remove(tabDodajPrzedmioty);
+        tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
+
+    }
+
+    private void hideElementsNauczyciel() {
+
+        tabPane.getTabs().remove(tabDodawanieUwag);
+        tabPane.getTabs().remove(tabDodajOcene);
+        tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
+        tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
+
+    }
+
+    private void hideElementsRodzic() {
+
+        tabPane.getTabs().remove(tabUsprawiedliwienia);
+
+    }
+
+    private void hideElementsUczen() {
+
+        tabPane.getTabs().remove(tabOceny);
+        tabPane.getTabs().remove(tabNieobecnosci);
+        tabPane.getTabs().remove(tabUwagi);
 
     }
 
@@ -698,77 +714,34 @@ public class EdiaryController {
 
     //    Function that refresh actually selected tab
     private void refresh() {
-        if (currentTab.equals(tabListaUczniow)) {
-            loadData(tabListaUczniow);
-        } else if (currentTab.equals(tabDodawanieUwag)) {
-            loadData(tabDodawanieUwag);
-        } else if (currentTab.equals(tabDodajOcene)) {
-            loadData(tabDodajOcene);
-        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
-            loadData(tabWpisywanieNieobecnosci);
-        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-            loadData(tabAkceptacjaUsprawiedliwien);
-        } else if (currentTab.equals(tabOceny)) {
-            loadData(tabOceny);
-        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
-            loadData(tabPrzydzielPrzedmiotDoKlasy);
-        } else if (currentTab.equals(tabUsprawiedliwienia)) {
-            loadData(tabUsprawiedliwienia);
-        } else if (currentTab.equals(tabNieobecnosci)) {
-            loadData(tabNieobecnosci);
-        } else if (currentTab.equals(tabDodajUczniow)) {
-            loadData(tabDodajUczniow);
-        } else if (currentTab.equals(tabUwagi)) {
-            loadData(tabUwagi);
-        } else if (currentTab.equals(tabDodajPrzedmioty)) {
-            loadData(tabDodajPrzedmioty);
-        }
+        loadData(currentTab);
     }
 
     public void saveData(ActionEvent actionEvent) {
-        if (currentTab.equals(tabDodajOcene)) {
-            saveData(tabDodajOcene);
-        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
-            saveData(tabWpisywanieNieobecnosci);
-        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-            saveData(tabAkceptacjaUsprawiedliwien);
-        } else if (currentTab.equals(tabOceny)) {
-            saveData(tabOceny);
-        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
-            saveData(tabPrzydzielPrzedmiotDoKlasy);
-        } else if (currentTab.equals(tabUsprawiedliwienia)) {
-            saveData(tabUsprawiedliwienia);
-        } else if (currentTab.equals(tabNieobecnosci)) {
-            saveData(tabNieobecnosci);
-        } else if (currentTab.equals(tabDodajUczniow)) {
-            saveData(tabDodajUczniow);
-        } else if (currentTab.equals(tabDodawanieUwag)) {
-            saveData(tabDodawanieUwag);
-        } else if (currentTab.equals(tabDodajRodzicow)) {
-            saveData(tabDodajRodzicow);
-        } else if (currentTab.equals(tabDodajNauczycieli)) {
-            saveData(tabDodajNauczycieli);
-        } else if (currentTab.equals(tabDodajPrzedmioty)) {
-            saveData(tabDodajPrzedmioty);
-        }
+        saveData(currentTab);
     }
 
     public void deleteData(ActionEvent actionEvent) {
-//        if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-//            if(akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null){
-//
-//                Usprawiedliwienia usprawiedliwienia = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
-//                Obecnosc obecnosc = usprawiedliwienia.getObecnosc();
-//                obecnosc.setWartosc("2");
-//
-//                session.beginTransaction();
-//                session.update(obecnosc);
-//                session.getTransaction().commit();
-//
-//                session.close();
-//                session = SessionController.getSession();
-//            }
-//        }
+
+        if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
+
+            if (akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null) {
+
+                Nieobecnosci nieobecnosc = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
+
+                nieobecnosc.setWartosc("nieusprawiedliwiona");
+
+                session.beginTransaction();
+                session.update(nieobecnosc);
+                session.getTransaction().commit();
+
+                session.close();
+                session = SessionController.getSession();
+
+            }
+
+        }
+
     }
 
 }
