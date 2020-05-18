@@ -1,5 +1,6 @@
 package controllers;
 
+import com.itextpdf.text.DocumentException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,7 +9,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import mapping.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import utils.PdfGenerator;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 
@@ -716,6 +719,12 @@ public class EdiaryController {
 
         }
 
+    }
+
+    public void generateGrades(ActionEvent actionEvent) throws IOException, DocumentException {
+        Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o", Oceny.class);
+        ObservableList<Oceny> listaOcen = FXCollections.observableArrayList(query1.list());
+        new PdfGenerator().PDFGenerateGrades(listaOcen);
     }
 
     //    Handle refresh button action

@@ -38,7 +38,7 @@
 - WyÅ›wietlanie ocen
 
 ### Nauczyciel:
-- wyœwietlanie listy uczniów w danej klasie
+- wyï¿½wietlanie listy uczniï¿½w w danej klasie
 - dodawanie ocen
 - dodawanie uwag
 - sprawdzanie obecnoÅ›ci
@@ -46,7 +46,7 @@
 
 ### Dyrektor:
 - dodawanie uczniÃ³w i nauczycieli oraz przydzielanie ich do klas
-- dodawanie rodziców
+- dodawanie rodzicï¿½w
 
 ## Diagramy UML:
 ### Diagram klas
