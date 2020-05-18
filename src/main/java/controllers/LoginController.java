@@ -50,18 +50,18 @@ public class LoginController {
 
     private int authenticateUser() {
 
+        String login = loginLabel.getText().toLowerCase();
+        String pass = passwordLabel.getText();
+
+        if (login.isEmpty() || pass.isEmpty()) return -1;
+
         try (Session session = SessionController.getSession()) {
 
-            String login = loginLabel.getText().toLowerCase();
-            String pass = passwordLabel.getText();
-
-            if (login.isEmpty() || pass.isEmpty()) return -1;
-
-            authenticatedUser = session.createQuery("FROM Konta k WHERE k.login='" + login + "' and k.haslo='" + pass + "'", Konta.class).list().get(0);
+            authenticatedUser = session.createQuery("FROM Konta k JOIN FETCH k.roleByRolaId WHERE k.login='" + login + "' and k.haslo='" + pass + "'", Konta.class).list().get(0);
 
             return authenticatedUser.getRoleByRolaId().getRolaId();
 
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             return -2;
         }
 
