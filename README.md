@@ -38,7 +38,7 @@
 - Wyświetlanie ocen
 
 ### Nauczyciel:
-- wy�wietlanie listy uczni�w w danej klasie
+- wyświetlanie listy uczniów w danej klasie
 - dodawanie ocen
 - dodawanie uwag
 - sprawdzanie obecności
@@ -46,16 +46,16 @@
 
 ### Dyrektor:
 - dodawanie uczniów i nauczycieli oraz przydzielanie ich do klas
-- dodawanie rodzic�w
+- dodawanie rodziców
 
 ## Diagramy UML:
 ### Diagram klas
-![Diagram klas](https://i.ibb.co/t3RbxST/Diagram-Class.png)
+![Diagram klas](https://raw.githubusercontent.com/CJay2k/20L1GR3/master/UML%20Diagrams/DiagramClass.png)
 ### Diagram przypadków użycia
-![Diagram przypadków użycia](https://i.ibb.co/9qGjqST/Diagram-Use-Case.png)
+![Diagram przypadków użycia](https://raw.githubusercontent.com/CJay2k/20L1GR3/master/UML%20Diagrams/DiagramUseCase.png)
 ### Diagram sekwencji
-![Diagram sekwencji](https://i.ibb.co/kDcHR0y/Diagram-Sequence.png)
+![Diagram sekwencji](https://raw.githubusercontent.com/CJay2k/20L1GR3/master/UML%20Diagrams/DiagramSequence.png)
 ### Diagram aktywności
-![Diagram aktywności](https://i.ibb.co/xH2jT7M/Diagram-State.png)
+![Diagram aktywności](https://raw.githubusercontent.com/CJay2k/20L1GR3/master/UML%20Diagrams/DiagramState.png)
 ### ERD
 ![Diagram ERD](https://i.ibb.co/n6k4P2L/Diagram-ERD.png)
