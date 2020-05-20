@@ -19,6 +19,7 @@ import java.sql.Time;
 import static controllers.LoginController.loggedUserRole;
 
 // Class handling Ediary Window actions
+
 public class EdiaryController {
 
     public TabPane tabPane;
@@ -445,9 +446,37 @@ public class EdiaryController {
                 session.update(nieobecnosci);
                 session.getTransaction().commit();
 
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Pomyslnie dodano!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+
                 session.close();
                 session = SessionController.getSession();
 
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Podaj tresc!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
             }
         }
 
@@ -459,62 +488,233 @@ public class EdiaryController {
 
             if(dodawanieUwagTableView.getSelectionModel().getSelectedItem() != null) {
 
-                Uwagi nowaUwaga = new Uwagi();
+                if (!dodawanieUwagTextFieldTresc.getText().isEmpty() && dodawanieUwagDatePickerData.getValue() != null) {
+                    Uwagi nowaUwaga = new Uwagi();
 
-                nowaUwaga.setUczniowieByUczenId(dodawanieUwagTableView.getSelectionModel().getSelectedItem());
-                nowaUwaga.setPrzedmiotyByPrzedmiotId(dodawanieUwagChoiceBoxPrzedmiot.getValue());
-                nowaUwaga.setWartosc(dodawanieUwagTextFieldTresc.getText());
-                nowaUwaga.setData(Date.valueOf(dodawanieUwagDatePickerData.getValue()));
+                    nowaUwaga.setUczniowieByUczenId(dodawanieUwagTableView.getSelectionModel().getSelectedItem());
+                    nowaUwaga.setPrzedmiotyByPrzedmiotId(dodawanieUwagChoiceBoxPrzedmiot.getValue());
+                    nowaUwaga.setWartosc(dodawanieUwagTextFieldTresc.getText());
+                    nowaUwaga.setData(Date.valueOf(dodawanieUwagDatePickerData.getValue()));
 
-                session.beginTransaction();
-                session.save(nowaUwaga);
-                session.getTransaction().commit();
+                    session.beginTransaction();
+                    session.save(nowaUwaga);
+                    session.getTransaction().commit();
 
-                session.close();
-                session = SessionController.getSession();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Pomyślnie dodano uwage!");
 
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+
+                    session.close();
+                    session = SessionController.getSession();
+                } else if (dodawanieUwagDatePickerData.getValue() == null){
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Uzupelnij pole data!");
+
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                } else if (dodawanieUwagTextFieldTresc.getText().isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Uzupelnij pole tresc!");
+
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                }
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie wybrano ucznia!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
             }
 
         } else if (tab.equals(tabDodajOcene)) {
 
-            if(dodawanieOcenTableView.getSelectionModel().getSelectedItem() != null){
+            if(dodawanieOcenTableView.getSelectionModel().getSelectedItem() != null) {
 
-                Oceny nowaOcena = new Oceny();
+                if (!dodawanieOcenInputStopien.getText().isEmpty() && !dodawanieOcenInputZaco.getText().isEmpty() && dodawanieOcenInputData.getValue() != null) {
+                    Oceny nowaOcena = new Oceny();
 
-                nowaOcena.setUczniowieByUczenId(dodawanieOcenTableView.getSelectionModel().getSelectedItem());
-                nowaOcena.setPrzedmiotyByPrzedmiotId(dodawanieOcenChoiceBoxPrzedmiot.getValue());
-                nowaOcena.setWartosc(dodawanieOcenInputStopien.getText());
-                nowaOcena.setOpis(dodawanieOcenInputZaco.getText());
-                nowaOcena.setData(Date.valueOf(dodawanieOcenInputData.getValue()));
+                    nowaOcena.setUczniowieByUczenId(dodawanieOcenTableView.getSelectionModel().getSelectedItem());
+                    nowaOcena.setPrzedmiotyByPrzedmiotId(dodawanieOcenChoiceBoxPrzedmiot.getValue());
+                    nowaOcena.setWartosc(dodawanieOcenInputStopien.getText());
+                    nowaOcena.setOpis(dodawanieOcenInputZaco.getText());
+                    nowaOcena.setData(Date.valueOf(dodawanieOcenInputData.getValue()));
 
-                session.beginTransaction();
-                session.save(nowaOcena);
-                session.getTransaction().commit();
+                    session.beginTransaction();
+                    session.save(nowaOcena);
+                    session.getTransaction().commit();
 
-                session.close();
-                session = SessionController.getSession();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Pomyślnie dodano ocene!");
 
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                    session.close();
+                    session = SessionController.getSession();
+                } else if (dodawanieOcenInputStopien.getText().isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Nie podano stopnia!");
+
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                } else if (dodawanieOcenInputZaco.getText().isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Nie podano opisu!");
+
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                } else if (dodawanieOcenInputData.getValue() == null) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Nie podano daty!");
+
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                }
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie wybrano ucznia!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
             }
-
         } else if (tab.equals(tabWpisywanieNieobecnosci)) {
 
-            if(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem() != null){
+            if(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem() != null) {
 
-                Nieobecnosci nowaNieobecnosc = new Nieobecnosci();
+                if (wpisywanieNieobecnosciInputData.getValue() != null) {
+                    Nieobecnosci nowaNieobecnosc = new Nieobecnosci();
 
-                nowaNieobecnosc.setUczniowieByUczenId(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem());
-                nowaNieobecnosc.setPrzedmiotyByPrzedmiotId(dodawanieNieobecnosciChoiceBoxPrzedmiot.getValue());
-                nowaNieobecnosc.setData(Date.valueOf(wpisywanieNieobecnosciInputData.getValue()));
-                nowaNieobecnosc.setWartosc("nieobecny");
-                nowaNieobecnosc.setTrescUsprawiedliwienia("");
+                    nowaNieobecnosc.setUczniowieByUczenId(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem());
+                    nowaNieobecnosc.setPrzedmiotyByPrzedmiotId(dodawanieNieobecnosciChoiceBoxPrzedmiot.getValue());
+                    nowaNieobecnosc.setData(Date.valueOf(wpisywanieNieobecnosciInputData.getValue()));
+                    nowaNieobecnosc.setWartosc("nieobecny");
+                    nowaNieobecnosc.setTrescUsprawiedliwienia("");
 
-                session.beginTransaction();
-                session.save(nowaNieobecnosc);
-                session.getTransaction().commit();
+                    session.beginTransaction();
+                    session.save(nowaNieobecnosc);
+                    session.getTransaction().commit();
 
-                session.close();
-                session = SessionController.getSession();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Pomyślnie dodano nieobecnosc!");
 
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                    session.close();
+                    session = SessionController.getSession();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Komunikat");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Nie podano daty!");
+
+                    ButtonType buttonTypeYes = new ButtonType("OK");
+
+                    alert.getButtonTypes().setAll(buttonTypeYes);
+
+                    alert.showAndWait().ifPresent(rs -> {
+                        if (rs == buttonTypeYes) {
+                        }
+                    });
+                }
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie wybrano ucznia!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
             }
 
         } else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
@@ -532,6 +732,20 @@ public class EdiaryController {
                 session.close();
                 session = SessionController.getSession();
 
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie wybrano ucznia!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
             }
 
         }
@@ -542,46 +756,154 @@ public class EdiaryController {
 
         else if (tab.equals(tabDodajRodzicow)) {
 
-            Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'rodzic'", Role.class);
-            Role rolaRodzic = FXCollections.observableArrayList(query1.list()).get(0);
+            if (!dodajRodzicowInputLogin.getText().isEmpty()
+                    && !dodajRodzicowInputHaslo.getText().isEmpty()
+                    && !dodajRodzicowInputImieOjca.getText().isEmpty()
+                    && !dodajRodzicowInputNazwiskoOjca.getText().isEmpty()
+                    && !dodajRodzicowInputImieMatki.getText().isEmpty()
+                    && !dodajRodzicowInputNazwiskoMatki.getText().isEmpty()
+            ) {
+                Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'rodzic'", Role.class);
+                Role rolaRodzic = FXCollections.observableArrayList(query1.list()).get(0);
 
-            Konta noweKonto = new Konta();
-            noweKonto.setLogin(dodajRodzicowInputLogin.getText());
-            noweKonto.setHaslo(dodajRodzicowInputHaslo.getText());
-            noweKonto.setRoleByRolaId(rolaRodzic);
+                Konta noweKonto = new Konta();
+                noweKonto.setLogin(dodajRodzicowInputLogin.getText());
+                noweKonto.setHaslo(dodajRodzicowInputHaslo.getText());
+                noweKonto.setRoleByRolaId(rolaRodzic);
 
-            session.beginTransaction();
-            session.save(noweKonto);
-            session.getTransaction().commit();
-            session.close();
-            session = SessionController.getSession();
+                session.beginTransaction();
+                session.save(noweKonto);
+                session.getTransaction().commit();
+                session.close();
+                session = SessionController.getSession();
 
-            Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajRodzicowInputLogin.getText() + "'", Konta.class);
-            Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
+                Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajRodzicowInputLogin.getText() + "'", Konta.class);
+                Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
 
-            Rodzice nowyRodzic = new Rodzice();
+                Rodzice nowyRodzic = new Rodzice();
 
-            nowyRodzic.setKontaByKontoId(konto);
-            nowyRodzic.setImieOjca(dodajRodzicowInputImieOjca.getText());
-            nowyRodzic.setNazwiskoOjca(dodajRodzicowInputNazwiskoOjca.getText());
-            nowyRodzic.setImieMatki(dodajRodzicowInputImieMatki.getText());
-            nowyRodzic.setNazwiskoMatki(dodajRodzicowInputNazwiskoMatki.getText());
+                nowyRodzic.setKontaByKontoId(konto);
+                nowyRodzic.setImieOjca(dodajRodzicowInputImieOjca.getText());
+                nowyRodzic.setNazwiskoOjca(dodajRodzicowInputNazwiskoOjca.getText());
+                nowyRodzic.setImieMatki(dodajRodzicowInputImieMatki.getText());
+                nowyRodzic.setNazwiskoMatki(dodajRodzicowInputNazwiskoMatki.getText());
 
-            session.beginTransaction();
-            session.save(nowyRodzic);
-            session.getTransaction().commit();
+                session.beginTransaction();
+                session.save(nowyRodzic);
+                session.getTransaction().commit();
 
-            session.close();
-            session = SessionController.getSession();
-        }else if (tab.equals(tabDodajUczniow)) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Pomyslnie dodano rodzica!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+
+                session.close();
+                session = SessionController.getSession();
+            } else if (dodajRodzicowInputLogin.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie podano loginu!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            } else if (dodajRodzicowInputHaslo.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie podano hasla!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            } else if (dodajRodzicowInputImieOjca.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie podano imienia ojca!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            } else if (dodajRodzicowInputNazwiskoOjca.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie podano nazwiska ojca!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            } else if (dodajRodzicowInputImieMatki.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie podano imienia matki!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            } else if (dodajRodzicowInputNazwiskoMatki.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Nie podano nazwiska matki!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            }
+        } else if (tab.equals(tabDodajUczniow)) {
 
             Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'uczen'", Role.class);
             Role rolaUczen = FXCollections.observableArrayList(query1.list()).get(0);
 
             Konta noweKonto = new Konta();
-            noweKonto.setLogin(dodajUczniowInputLogin.getText());
-            noweKonto.setHaslo(dodajUczniowInputHaslo.getText());
-            noweKonto.setRoleByRolaId(rolaUczen);
+            if (!dodajUczniowInputLogin.getText().isEmpty() && !dodajUczniowInputHaslo.getText().isEmpty()) {
+                noweKonto.setLogin(dodajUczniowInputLogin.getText());
+                noweKonto.setHaslo(dodajUczniowInputHaslo.getText());
+                noweKonto.setRoleByRolaId(rolaUczen);
+            }
 
             session.beginTransaction();
             session.save(noweKonto);
@@ -594,73 +916,178 @@ public class EdiaryController {
 
             Uczniowie nowyUczen = new Uczniowie();
 
-            nowyUczen.setKontaByKontoId(konto);
-            nowyUczen.setImie(dodajUczniowInputImie.getText());
-            nowyUczen.setNazwisko(dodajUczniowInputNazwisko.getText());
-            nowyUczen.setKlasyByKlasaId(dodajUczniowChoiceBoxKlasa.getValue());
-            nowyUczen.setRodziceByRodzicId(dodajUczniowTableView.getSelectionModel().getSelectedItem());
+            if (!dodajUczniowInputImie.getText().isEmpty() && !dodajUczniowInputNazwisko.getText().isEmpty() && dodajUczniowTableView.getSelectionModel().getSelectedItem() != null) {
+                nowyUczen.setKontaByKontoId(konto);
+                nowyUczen.setImie(dodajUczniowInputImie.getText());
+                nowyUczen.setNazwisko(dodajUczniowInputNazwisko.getText());
+                nowyUczen.setKlasyByKlasaId(dodajUczniowChoiceBoxKlasa.getValue());
+                nowyUczen.setRodziceByRodzicId(dodajUczniowTableView.getSelectionModel().getSelectedItem());
+                session.beginTransaction();
+                session.save(nowyUczen);
+                session.getTransaction().commit();
 
-            session.beginTransaction();
-            session.save(nowyUczen);
-            session.getTransaction().commit();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Pomyslnie dodano ucznia!");
 
-            session.close();
-            session = SessionController.getSession();
-        }else if (tab.equals(tabDodajNauczycieli)) {
+                ButtonType buttonTypeYes = new ButtonType("OK");
 
-            Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'nauczyciel'", Role.class);
-            Role rolaNauczyciel = FXCollections.observableArrayList(query1.list()).get(0);
+                alert.getButtonTypes().setAll(buttonTypeYes);
 
-            Konta noweKonto = new Konta();
-            noweKonto.setLogin(dodajNauczycieliInputLogin.getText());
-            noweKonto.setHaslo(dodajNauczycieliInputHaslo.getText());
-            noweKonto.setRoleByRolaId(rolaNauczyciel);
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+                session.close();
+                session = SessionController.getSession();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Uzupelnij wszystkie dane!");
 
-            session.beginTransaction();
-            session.save(noweKonto);
-            session.getTransaction().commit();
-            session.close();
-            session = SessionController.getSession();
+                ButtonType buttonTypeYes = new ButtonType("OK");
 
-            Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajNauczycieliInputLogin.getText() + "'", Konta.class);
-            Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
+                alert.getButtonTypes().setAll(buttonTypeYes);
 
-            Nauczyciele nowyNauczyciel = new Nauczyciele();
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            }
+        }
+        else if (tab.equals(tabDodajNauczycieli)) {
 
-            nowyNauczyciel.setKontaByKontoId(konto);
-            nowyNauczyciel.setImie(dodajNauczycieliInputImie.getText());
-            nowyNauczyciel.setNazwisko(dodajNauczycieliInputNazwisko.getText());
+            if (!dodajNauczycieliInputLogin.getText().isEmpty() && !dodajNauczycieliInputHaslo.getText().isEmpty() && !dodajNauczycieliInputImie.getText().isEmpty() && !dodajNauczycieliInputNazwisko.getText().isEmpty()) {
+                Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'nauczyciel'", Role.class);
+                Role rolaNauczyciel = FXCollections.observableArrayList(query1.list()).get(0);
 
-            session.beginTransaction();
-            session.save(nowyNauczyciel);
-            session.getTransaction().commit();
+                Konta noweKonto = new Konta();
+                noweKonto.setLogin(dodajNauczycieliInputLogin.getText());
+                noweKonto.setHaslo(dodajNauczycieliInputHaslo.getText());
+                noweKonto.setRoleByRolaId(rolaNauczyciel);
 
-            session.close();
-            session = SessionController.getSession();
+                session.beginTransaction();
+                session.save(noweKonto);
+                session.getTransaction().commit();
+                session.close();
+                session = SessionController.getSession();
+
+                Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajNauczycieliInputLogin.getText() + "'", Konta.class);
+                Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
+
+                Nauczyciele nowyNauczyciel = new Nauczyciele();
+
+                nowyNauczyciel.setKontaByKontoId(konto);
+                nowyNauczyciel.setImie(dodajNauczycieliInputImie.getText());
+                nowyNauczyciel.setNazwisko(dodajNauczycieliInputNazwisko.getText());
+
+                session.beginTransaction();
+                session.save(nowyNauczyciel);
+                session.getTransaction().commit();
+
+                session.close();
+                session = SessionController.getSession();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Uzupelnij wszystkie dane!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            }
 
         }else if (tab.equals(tabDodajPrzedmioty)) {
 
-            Przedmioty nowyPrzedmiot = new Przedmioty();
-            nowyPrzedmiot.setNazwaPrzedmiotu(dodajPrzedmiotyInputNazwaPrzedmioty.getText());
-            nowyPrzedmiot.setNauczycieleByNauczycielId(dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem());
+            if (dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem() != null && !dodajPrzedmiotyInputNazwaPrzedmioty.getText().isEmpty()) {
+                Przedmioty nowyPrzedmiot = new Przedmioty();
+                nowyPrzedmiot.setNazwaPrzedmiotu(dodajPrzedmiotyInputNazwaPrzedmioty.getText());
+                nowyPrzedmiot.setNauczycieleByNauczycielId(dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem());
 
-            session.beginTransaction();
-            session.save(nowyPrzedmiot);
-            session.getTransaction().commit();
-            session.close();
-            session = SessionController.getSession();
+                session.beginTransaction();
+                session.save(nowyPrzedmiot);
+                session.getTransaction().commit();
 
-        }else if (tab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Pomyslnie dodano przedmiot!");
 
-            KlasyPrzedmioty klasyPrzedmioty = new KlasyPrzedmioty();
-            klasyPrzedmioty.setKlasyByKlasaId(przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getValue());
-            klasyPrzedmioty.setPrzedmiotyByPrzedmiotId(przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem());
+                ButtonType buttonTypeYes = new ButtonType("OK");
 
-            session.beginTransaction();
-            session.save(klasyPrzedmioty);
-            session.getTransaction().commit();
-            session.close();
-            session = SessionController.getSession();
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+                session.close();
+                session = SessionController.getSession();
+            } else if (dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem() == null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Wybierz nauczyciela!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            } else if (dodajPrzedmiotyInputNazwaPrzedmioty.getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Podaj przedmiot!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            }
+
+        } else if (tab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+
+            if (przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem() != null) {
+                KlasyPrzedmioty klasyPrzedmioty = new KlasyPrzedmioty();
+                klasyPrzedmioty.setKlasyByKlasaId(przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getValue());
+                klasyPrzedmioty.setPrzedmiotyByPrzedmiotId(przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem());
+
+                session.beginTransaction();
+                session.save(klasyPrzedmioty);
+                session.getTransaction().commit();
+                session.close();
+                session = SessionController.getSession();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Komunikat");
+                alert.setHeaderText(null);
+                alert.setContentText("Wybierz nauczyciela!");
+
+                ButtonType buttonTypeYes = new ButtonType("OK");
+
+                alert.getButtonTypes().setAll(buttonTypeYes);
+
+                alert.showAndWait().ifPresent(rs -> {
+                    if (rs == buttonTypeYes) {
+                    }
+                });
+            }
 
         }
 
@@ -724,7 +1151,26 @@ public class EdiaryController {
     public void generateGrades(ActionEvent actionEvent) throws IOException, DocumentException {
         Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o", Oceny.class);
         ObservableList<Oceny> listaOcen = FXCollections.observableArrayList(query1.list());
-        new PdfGenerator().PDFGenerateGrades(listaOcen);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Generowanie PDF");
+        alert.setHeaderText(null);
+        alert.setContentText("Jesteś pewien, że chcesz wygenerować PDF?");
+
+        ButtonType buttonTypeNo = new ButtonType("Nie");
+        ButtonType buttonTypeYes = new ButtonType("Tak");
+
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+        alert.showAndWait().ifPresent(rs -> {
+            if (rs == buttonTypeYes) {
+                try {
+                    new PdfGenerator().PDFGenerateGrades(listaOcen);
+                } catch (IOException | DocumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //    Handle refresh button action
