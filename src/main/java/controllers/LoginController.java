@@ -13,25 +13,22 @@ import mapping.Konta;
 import org.hibernate.Session;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
-// Class handling Login Window actions
 public class LoginController {
-    public static int loggedUserRole;
+
+    public static Konta authenticatedUser;
+
     public Button loginBT;
     public Button closeBT;
     public TextField loginLabel;
     public PasswordField passwordLabel;
     public Label infoLabel;
 
-    //    Function that handle Login button clicks
-    //    If the user is authenticated, opens the window depending on his role
     @FXML
     public void handleLoginButtonAction() throws IOException {
-        loggedUserRole = authenticateUser();
 
-        switch (loggedUserRole) {
+        switch (authenticateUser()) {
             case -1:
                 infoLabel.setText("Proszę uzupełnić wszystkie pola!");
                 break;
@@ -41,42 +38,43 @@ public class LoginController {
             default:
                 loadDiary();
                 break;
+
         }
     }
 
-    //    Function that handle Close button clicks
-    //    Closes application
     @FXML
     public void handleCloseButtonAction() {
         Stage stage = (Stage) closeBT.getScene().getWindow();
         stage.close();
     }
 
-    //    Function that checks if login and password are valid
-    //    If so returns user role
     private int authenticateUser() {
-        Session session = SessionController.getSession();
+
         String login = loginLabel.getText().toLowerCase();
         String pass = passwordLabel.getText();
 
         if (login.isEmpty() || pass.isEmpty()) return -1;
 
-        List<Konta> resault = session.createQuery("FROM Konta k WHERE k.login='" + login + "' and k.haslo='" + pass + "'", Konta.class).list();
+        try (Session session = SessionController.getSession()) {
 
-        if (!resault.isEmpty()) return resault.get(0).getRoleByRolaId().getRolaId();
+            authenticatedUser = session.createQuery("FROM Konta k JOIN FETCH k.roleByRolaId WHERE k.login='" + login + "' and k.haslo='" + pass + "'", Konta.class).list().get(0);
 
-        session.close();
+            return authenticatedUser.getRoleByRolaId().getRolaId();
 
-        return -2;
+        } catch (IndexOutOfBoundsException e) {
+            return -2;
+        }
+
     }
 
-    //    Function that load main diary window with given window title
     private void loadDiary() throws IOException {
+
         Parent pane = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxmls/ediary.fxml")));
         Stage primaryStage = (Stage) loginBT.getScene().getWindow();
         primaryStage.setTitle("e-Dziennik");
         primaryStage.setResizable(true);
 
         primaryStage.setScene(new Scene(pane, 1024, 768));
+
     }
 }

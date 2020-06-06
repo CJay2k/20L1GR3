@@ -13,138 +13,100 @@ import utils.PdfGenerator;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Time;
 
-
-import static controllers.LoginController.loggedUserRole;
+import static controllers.LoginController.authenticatedUser;
 
 // Class handling Ediary Window actions
 
 public class EdiaryController {
 
     public TabPane tabPane;
+
+    //================================================================================
+    // Uczeń
+    //================================================================================
+
     public Tab tabOceny;
-    public Tab tabNieobecnosci;
-    public Tab tabUwagi;
-    public Tab tabUsprawiedliwienia;
-    public Tab tabListaUczniow;
-    public Tab tabDodawanieUwag;
-    public Tab tabDodajOcene;
-    public Tab tabWpisywanieNieobecnosci;
-    public Tab tabAkceptacjaUsprawiedliwien;
-    public Tab tabDodajUczniow;
-    public Tab tabDodajNauczycieli;
-    public Tab tabPrzydzielNauczycielaDoPrzedmiotu;
-    public Tab tabPrzydzielPrzedmiotDoKlasy;
-    public TableView<Uczniowie> listaUczniowTableView;
-    public TableColumn<Uczniowie, String> listaUczniowColumnKlasa;
-    public TableColumn<Uczniowie, String> listaUczniowColumnNazwisko;
-    public TableColumn<Uczniowie, String> listaUczniowColumnImie;
-    public TableView<Uczniowie> dodawanieUwagTableView;
-    public TableColumn<Uczniowie, String> dodawanieUwagColumnNazwisko;
-    public TableColumn<Uczniowie, String> dodawanieUwagColumnImie;
-
-    public TableView<Uczniowie> dodawanieOcenTableView;
-    public TableColumn<Uczniowie, String> dodawanieOcenColumnNazwisko;
-    public TableColumn<Uczniowie, String> dodawanieOcenColumnImie;
-
-    // Dodawanie ocen
-    public DatePicker dodawanieOcenInputData;
-    public TextField dodawanieOcenInputGodzina;
-    public TextArea dodawanieOcenInputGodzinaZaco;
-    public Button dodawanieOcenButtonDodaj;
-    public ChoiceBox<Przedmioty> dodawanieOcenChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasy> dodawanieOcenChoiceBoxKlasa;
-    public TextField dodawanieOcenInputStopien;
-
-    // Wpisywanie nieobecnosci
-    public TableView<Uczniowie> wpisywanieNieobecnosciTableView;
-    public TableColumn<Uczniowie, String> wpisywanieNieobecnosciColumnNazwisko;
-    public TableColumn<Uczniowie, String> wpisywanieNieobecnosciColumnImie;
-    public ChoiceBox<Przedmioty> dodawanieNieobecnosciChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasy> dodawanieNieobecnosciChoiceBoxKlasa;
-    public DatePicker wpisywanieNieobecnosciInputData;
-    public TextField wpisywanieNieobecnosciInputGodzina;
-
-    // Akceptacja usprawiedliwien
-    public TableView<Nieobecnosci> akceptacjaUsprawiedliwienTableView;
-    public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnNazwisko;
-    public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnImie;
-    public TableColumn<Nieobecnosci, Date> akceptacjaUsprawiedliwienColumnData;
-    public TableColumn<Nieobecnosci, Time> akceptacjaUsprawiedliwienColumnGodzina;
-    public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnTresc;
-    public ChoiceBox<Przedmioty> akceptacjaUsprawiedliwienChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasy> akceptacjaUsprawiedliwienChoiceBoxKlasa;
-    public TextArea akceptacjaUsprawiedliwienTextAreaTresc;
-
-    public ChoiceBox<Klasy> listaUczniowChoiceBoxKlasa;
-    public ChoiceBox<Przedmioty> dodawanieUwagChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasy> dodawanieUwagChoiceBoxKlasa;
-
     public TableView<Oceny> ocenyTableEdiary;
-
     public TableColumn<Oceny, Date> ocenyColumnData;
     public TableColumn<Oceny, String> ocenyColumnPrzedmiot;
     public TableColumn<Oceny, String> ocenyColumnOcena;
     public TableColumn<Oceny, String> ocenyColumnZaCo;
 
-    public TableView<Nauczyciele> przydzielNauczycielaTableView;
-    public TableColumn<Nauczyciele, String> przydzielNauczycielaColumnNazwisko;
-    public TableColumn<Nauczyciele, String> przydzielNauczycielaColumnImie;
-    public ChoiceBox<Przedmioty> przydzielNauczycielaChoiceBoxPrzedmiot;
-
-    public TableView<Przedmioty> przydzielPrzedmiotDoKlasyTableView;
-    public TableColumn<Przedmioty, String> przydzielPrzedmiotDoKlasyColumnNazwaPrzedmiotu;
-    public TableColumn<Przedmioty, String> przydzielPrzedmiotDoKlasyColumnProwadzacy;
-    public ChoiceBox<Klasy> przydzielPrzedmiotDoKlasyChoiceBoxPrzedmiot;
-    public ChoiceBox<Klasy> przydzielPrzedmiotDoKlasyChoiceBoxKlasa;
-
-    public TableView<Nieobecnosci> usprawiedliwieniaTableView;
-    public TableColumn<Nieobecnosci, Date> usprawiedliwieniaColumnData;
-    public TableColumn<Nieobecnosci, Time> usprawiedliwieniaColumnGodzina;
-    public TableColumn<Nieobecnosci, String> usprawiedliwieniaColumnPrzedmiot;
-    public TableColumn<Nieobecnosci, String> usprawiedliwieniaColumnTresc;
-    public TextArea usprawiedliwieniaTextAreaTresc;
-
-    /*TODO*/
-    public TableColumn<Uwagi, String> uwagiColumnTresc;
-    public TableColumn<Uwagi, String> uwagiColumnPrzedmiot;
-    public TableColumn<Uwagi, Date> uwagiColumnData;
-    public TableView<Uwagi> uwagiTableView;
-
-    // Nieobecnosci
+    public Tab tabNieobecnosci;
     public TableView<Nieobecnosci> nieobecnosciTableView;
     public TableColumn<Nieobecnosci, Date> nieobecnosciColumnData;
-    public TableColumn<Nieobecnosci, Time> nieobecnosciColumnGodzina;
     public TableColumn<Nieobecnosci, String> nieobecnosciColumnPrzedmiot;
     public TableColumn<Nieobecnosci, String> nieobecnosciColumnStatus;
 
-    // Dodawanie uczniów
-    public TextField dodajUczniowTextFieldImie;
-    public TextField dodajUczniowTextFieldNazwisko;
-    public TextField dodajUczniowTextFieldPesel;
-    public ChoiceBox<Klasy> dodajUczniowChoiceBox;
+    public Tab tabUwagi;
+    public TableView<Uwagi> uwagiTableView;
+    public TableColumn<Uwagi, String> uwagiColumnTresc;
+    public TableColumn<Uwagi, String> uwagiColumnPrzedmiot;
+    public TableColumn<Uwagi, Date> uwagiColumnData;
 
-    // Dodaj usun przedmiot
-    public ChoiceBox dodajPrzedmiotChoiceBox;
-    public Tab tabDodajRodzicow;
+    //================================================================================
+    // Rodzic
+    //================================================================================
 
-    public TableView<Rodzice> dodajUczniowTableView;
-    public TableColumn<Rodzice, String> dodajUczniowColumnImieOjca;
-    public TableColumn<Rodzice, String> dodajUczniowColumnNazwiskoOjca;
-    public TableColumn<Rodzice, String> dodajUczniowColumnImieMatki;
-    public TableColumn<Rodzice, String> dodajUczniowColumnNazwiskoMatki;
-
-    public TableView<Nauczyciele> dodajPrzedmiotyTableView;
-    public TableColumn<Przedmioty, String> dodajPrzedmiotyColumnNazwaPrzedmiotu;
-
+    public Tab tabUsprawiedliwienia;
     public TextField usprawiedliwieniaTextFieldTresc;
+    public TableView<Nieobecnosci> usprawiedliwieniaTableView;
+    public TableColumn<Nieobecnosci, Date> usprawiedliwieniaColumnData;
+    public TableColumn<Nieobecnosci, String> usprawiedliwieniaColumnPrzedmiot;
 
+    //================================================================================
+    // Nauczyciel
+    //================================================================================
+
+    public Tab tabListaUczniow;
+    public ChoiceBox<Klasy> listaUczniowChoiceBoxKlasa;
+    public TableView<Uczniowie> listaUczniowTableView;
+    public TableColumn<Uczniowie, String> listaUczniowColumnKlasa;
+    public TableColumn<Uczniowie, String> listaUczniowColumnNazwisko;
+    public TableColumn<Uczniowie, String> listaUczniowColumnImie;
+
+    public Tab tabDodawanieUwag;
     public DatePicker dodawanieUwagDatePickerData;
     public TextField dodawanieUwagTextFieldTresc;
+    public ChoiceBox<Klasy> dodawanieUwagChoiceBoxKlasa;
+    public ChoiceBox<Przedmioty> dodawanieUwagChoiceBoxPrzedmiot;
+    public TableView<Uczniowie> dodawanieUwagTableView;
+    public TableColumn<Uczniowie, String> dodawanieUwagColumnNazwisko;
+    public TableColumn<Uczniowie, String> dodawanieUwagColumnImie;
 
+    public Tab tabDodajOcene;
+    public Button dodawanieOcenButtonDodaj;
+    public DatePicker dodawanieOcenInputData;
+    public TextField dodawanieOcenInputStopien;
     public TextField dodawanieOcenInputZaco;
+    public ChoiceBox<Klasy> dodawanieOcenChoiceBoxKlasa;
+    public ChoiceBox<Przedmioty> dodawanieOcenChoiceBoxPrzedmiot;
+    public TableView<Uczniowie> dodawanieOcenTableView;
+    public TableColumn<Uczniowie, String> dodawanieOcenColumnNazwisko;
+    public TableColumn<Uczniowie, String> dodawanieOcenColumnImie;
 
+    public Tab tabWpisywanieNieobecnosci;
+    public DatePicker wpisywanieNieobecnosciInputData;
+    public ChoiceBox<Klasy> dodawanieNieobecnosciChoiceBoxKlasa;
+    public ChoiceBox<Przedmioty> dodawanieNieobecnosciChoiceBoxPrzedmiot;
+    public TableView<Uczniowie> wpisywanieNieobecnosciTableView;
+    public TableColumn<Uczniowie, String> wpisywanieNieobecnosciColumnNazwisko;
+    public TableColumn<Uczniowie, String> wpisywanieNieobecnosciColumnImie;
+
+    public Tab tabAkceptacjaUsprawiedliwien;
+    public ChoiceBox<Klasy> akceptacjaUsprawiedliwienChoiceBoxKlasa;
+    public TableView<Nieobecnosci> akceptacjaUsprawiedliwienTableView;
+    public TableColumn<Nieobecnosci, Date> akceptacjaUsprawiedliwienColumnData;
+    public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnNazwisko;
+    public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnImie;
+    public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnTresc;
+
+    //================================================================================
+    // Dyrektor
+    //================================================================================
+
+    public Tab tabDodajRodzicow;
     public TextField dodajRodzicowInputImieOjca;
     public TextField dodajRodzicowInputNazwiskoOjca;
     public TextField dodajRodzicowInputImieMatki;
@@ -153,43 +115,88 @@ public class EdiaryController {
     public PasswordField dodajRodzicowInputHaslo;
     public PasswordField dodajRodzicowInputPowtorzHaslo;
 
+    public Tab tabDodajUczniow;
     public TextField dodajUczniowInputImie;
     public TextField dodajUczniowInputNazwisko;
-    public ChoiceBox<Klasy> dodajUczniowChoiceBoxKlasa;
+    public TextField dodajUczniowInputSzukaj;
     public TextField dodajUczniowInputLogin;
     public PasswordField dodajUczniowInputHaslo;
     public PasswordField dodajUczniowInputPowtorzHaslo;
-    public TextField dodajUczniowInputSzukaj;
+    public ChoiceBox<Klasy> dodajUczniowChoiceBoxKlasa;
+    public TableView<Rodzice> dodajUczniowTableView;
+    public TableColumn<Rodzice, String> dodajUczniowColumnImieOjca;
+    public TableColumn<Rodzice, String> dodajUczniowColumnNazwiskoOjca;
+    public TableColumn<Rodzice, String> dodajUczniowColumnImieMatki;
+    public TableColumn<Rodzice, String> dodajUczniowColumnNazwiskoMatki;
 
+    public Tab tabDodajNauczycieli;
     public TextField dodajNauczycieliInputImie;
     public TextField dodajNauczycieliInputNazwisko;
     public TextField dodajNauczycieliInputLogin;
     public PasswordField dodajNauczycieliInputHaslo;
     public PasswordField dodajNauczycieliInputPowtorzHaslo;
 
-    public TextField dodajPrzedmiotyInputNazwaPrzedmiotu;
-
     public Tab tabDodajPrzedmioty;
+    public TextField dodajPrzedmiotyInputNazwaPrzedmioty;
+    public TableView<Nauczyciele> dodajPrzedmiotyTableView;
     public TableColumn<Nauczyciele, String> dodajPrzedmiotyColumnNazwisko;
     public TableColumn<Nauczyciele, String> dodajPrzedmiotyColumnImie;
 
-    public TextField dodajPrzedmiotyInputNazwaPrzedmioty;
+    public Tab tabPrzydzielPrzedmiotDoKlasy;
+    public ChoiceBox<Klasy> przydzielPrzedmiotDoKlasyChoiceBoxKlasa;
+    public TableView<Przedmioty> przydzielPrzedmiotDoKlasyTableView;
+    public TableColumn<Przedmioty, String> przydzielPrzedmiotDoKlasyColumnNazwaPrzedmiotu;
+    public TableColumn<Przedmioty, String> przydzielPrzedmiotDoKlasyColumnProwadzacy;
 
+    //================================================================================
+    // Private
+    //================================================================================
+
+    private Session session;
     private Tab currentTab;
-
-    Session session;
+    private Nauczyciele loggedNauczyciel;
+    private Rodzice loggedRodzic;
+    private Uczniowie loggedUczen;
 
     //    Function run when user logs on
     public void initialize() {
         hideElements();
+
         session = SessionController.getSession();
+
+        loadLoggedUser();
+
         currentTab = tabPane.getSelectionModel().getSelectedItem();
+
         refresh();
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
             currentTab = newTab;
             refresh();
         });
+
+    }
+
+    private void loadLoggedUser() {
+        switch (authenticatedUser.getRoleByRolaId().getNazwaRoli()) {
+
+            case "nauczyciel":  // Role Nauczyciel
+                Query<Nauczyciele> query1 = session.createQuery("SELECT n FROM Nauczyciele n WHERE n.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Nauczyciele.class);
+                loggedNauczyciel = FXCollections.observableArrayList(query1.list()).get(0);
+
+                break;
+            case "rodzic":  // Role Rodzic
+                Query<Rodzice> query2 = session.createQuery("SELECT r FROM Rodzice r WHERE r.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Rodzice.class);
+                loggedRodzic = FXCollections.observableArrayList(query2.list()).get(0);
+
+                break;
+            case "uczen":  // Role Uczen
+                Query<Uczniowie> query3 = session.createQuery("SELECT u FROM Uczniowie u WHERE u.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Uczniowie.class);
+                loggedUczen = FXCollections.observableArrayList(query3.list()).get(0);
+
+                break;
+
+        }
     }
 
     //    Function that load data from database to tableviews
@@ -201,7 +208,7 @@ public class EdiaryController {
 
         if (tab.equals(tabOceny)) {
 
-            Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o", Oceny.class);
+            Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o WHERE o.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Oceny.class);
             ObservableList<Oceny> listaOcen = FXCollections.observableArrayList(query1.list());
 
             ocenyColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -211,9 +218,9 @@ public class EdiaryController {
 
             ocenyTableEdiary.setItems(listaOcen);
 
-        }else if (tab.equals(tabNieobecnosci)) {
+        } else if (tab.equals(tabNieobecnosci)) {
 
-            Query<Nieobecnosci> query1 = session.createQuery("SELECT n FROM Nieobecnosci n", Nieobecnosci.class);
+            Query<Nieobecnosci> query1 = session.createQuery("SELECT n FROM Nieobecnosci n WHERE n.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Nieobecnosci.class);
             ObservableList<Nieobecnosci> listaNieobesnoci = FXCollections.observableArrayList(query1.list());
 
             nieobecnosciColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -222,9 +229,9 @@ public class EdiaryController {
 
             nieobecnosciTableView.setItems(listaNieobesnoci);
 
-        }else if (tab.equals(tabUwagi)) {
+        } else if (tab.equals(tabUwagi)) {
 
-            Query<Uwagi> query1 = session.createQuery("SELECT u FROM Uwagi u", Uwagi.class);
+            Query<Uwagi> query1 = session.createQuery("SELECT u FROM Uwagi u WHERE u.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Uwagi.class);
             ObservableList<Uwagi> listaUwag = FXCollections.observableArrayList(query1.list());
 
             uwagiColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -430,14 +437,14 @@ public class EdiaryController {
 
     }
 
-    private void saveData(Tab tab){
+    private void saveData(Tab tab) {
 
         //================================================================================
         // Rodzic
         //================================================================================
 
-        if (tab.equals(tabUsprawiedliwienia)){
-            if(usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
+        if (tab.equals(tabUsprawiedliwienia)) {
+            if (usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
                 Nieobecnosci nieobecnosci = usprawiedliwieniaTableView.getSelectionModel().getSelectedItem();
 
                 nieobecnosci.setTrescUsprawiedliwienia(usprawiedliwieniaTextFieldTresc.getText());
@@ -484,9 +491,9 @@ public class EdiaryController {
         // Nauczyciel
         //================================================================================
 
-        else if (tab.equals(tabDodawanieUwag)){
+        else if (tab.equals(tabDodawanieUwag)) {
 
-            if(dodawanieUwagTableView.getSelectionModel().getSelectedItem() != null) {
+            if (dodawanieUwagTableView.getSelectionModel().getSelectedItem() != null) {
 
                 if (!dodawanieUwagTextFieldTresc.getText().isEmpty() && dodawanieUwagDatePickerData.getValue() != null) {
                     Uwagi nowaUwaga = new Uwagi();
@@ -509,11 +516,12 @@ public class EdiaryController {
 
                     alert.getButtonTypes().setAll(buttonTypeYes);
 
+
                     alert.showAndWait().ifPresent(rs -> {
                         if (rs == buttonTypeYes) {
                         }
                     });
-
+                  
                     session.close();
                     session = SessionController.getSession();
                 } else if (dodawanieUwagDatePickerData.getValue() == null){
@@ -655,7 +663,7 @@ public class EdiaryController {
             }
         } else if (tab.equals(tabWpisywanieNieobecnosci)) {
 
-            if(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem() != null) {
+            if (wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem() != null) {
 
                 if (wpisywanieNieobecnosciInputData.getValue() != null) {
                     Nieobecnosci nowaNieobecnosc = new Nieobecnosci();
@@ -686,6 +694,7 @@ public class EdiaryController {
                     session.close();
                     session = SessionController.getSession();
                 } else {
+                  
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Komunikat");
                     alert.setHeaderText(null);
@@ -719,7 +728,7 @@ public class EdiaryController {
 
         } else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
 
-            if(akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null){
+            if (akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null) {
 
                 Nieobecnosci nieobecnosc = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
 
@@ -893,6 +902,7 @@ public class EdiaryController {
                     }
                 });
             }
+
         } else if (tab.equals(tabDodajUczniow)) {
 
             Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'uczen'", Role.class);
@@ -930,6 +940,7 @@ public class EdiaryController {
                 alert.setTitle("Komunikat");
                 alert.setHeaderText(null);
                 alert.setContentText("Pomyslnie dodano ucznia!");
+
 
                 ButtonType buttonTypeYes = new ButtonType("OK");
 
@@ -1005,7 +1016,7 @@ public class EdiaryController {
                 });
             }
 
-        }else if (tab.equals(tabDodajPrzedmioty)) {
+        } else if (tab.equals(tabDodajPrzedmioty)) {
 
             if (dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem() != null && !dodajPrzedmiotyInputNazwaPrzedmioty.getText().isEmpty()) {
                 Przedmioty nowyPrzedmiot = new Przedmioty();
@@ -1095,58 +1106,70 @@ public class EdiaryController {
 
     //    Function that removes tabs id user has no privileges to see them
     private void hideElements() {
-        if (loggedUserRole == 1) { // Role Dyrektor
-            tabPane.getTabs().remove(tabOceny);
-            tabPane.getTabs().remove(tabNieobecnosci);
-            tabPane.getTabs().remove(tabUwagi);
-            tabPane.getTabs().remove(tabUsprawiedliwienia);
-            tabPane.getTabs().remove(tabDodawanieUwag);
-            tabPane.getTabs().remove(tabDodajOcene);
-            tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
-            tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
 
-        } else if (loggedUserRole == 2) { // Role Nauczyciel
-            tabPane.getTabs().remove(tabOceny);
-            tabPane.getTabs().remove(tabNieobecnosci);
-            tabPane.getTabs().remove(tabUwagi);
-            tabPane.getTabs().remove(tabUsprawiedliwienia);
-            tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabDodajPrzedmioty);
-            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
-            tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
-            tabPane.getTabs().remove(tabDodajRodzicow);
+        switch (authenticatedUser.getRoleByRolaId().getNazwaRoli()) {
 
-        } else if (loggedUserRole == 3) { // Role Rodzic
-            tabPane.getTabs().remove(tabListaUczniow);
-            tabPane.getTabs().remove(tabDodawanieUwag);
-            tabPane.getTabs().remove(tabDodajOcene);
-            tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
-            tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
-            tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabDodajPrzedmioty);
-            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
-            tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
-            tabPane.getTabs().remove(tabDodajRodzicow);
+            case "dyrektor":  // Role Dyrektor
+                hideElementsNauczyciel();
+                hideElementsRodzic();
+                hideElementsUczen();
 
-        } else if (loggedUserRole == 4) { // Role Uczen
-            tabPane.getTabs().remove(tabUsprawiedliwienia);
-            tabPane.getTabs().remove(tabListaUczniow);
-            tabPane.getTabs().remove(tabDodawanieUwag);
-            tabPane.getTabs().remove(tabDodajOcene);
-            tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
-            tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
-            tabPane.getTabs().remove(tabDodajUczniow);
-            tabPane.getTabs().remove(tabDodajNauczycieli);
-            tabPane.getTabs().remove(tabDodajPrzedmioty);
-            tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
-            tabPane.getTabs().remove(tabPrzydzielNauczycielaDoPrzedmiotu);
-            tabPane.getTabs().remove(tabDodajRodzicow);
+                break;
+            case "nauczyciel":  // Role Nauczyciel
+                hideElementsDyrektor();
+                hideElementsRodzic();
+                hideElementsUczen();
+
+                break;
+            case "rodzic":  // Role Rodzic
+                hideElementsDyrektor();
+                hideElementsNauczyciel();
+
+                break;
+            case "uczen":  // Role Uczen
+                hideElementsDyrektor();
+                hideElementsNauczyciel();
+                hideElementsRodzic();
+
+                break;
 
         }
 
     }
+
+
+    private void hideElementsDyrektor() {
+
+        tabPane.getTabs().remove(tabListaUczniow);
+        tabPane.getTabs().remove(tabDodajRodzicow);
+        tabPane.getTabs().remove(tabDodajUczniow);
+        tabPane.getTabs().remove(tabDodajNauczycieli);
+        tabPane.getTabs().remove(tabDodajPrzedmioty);
+        tabPane.getTabs().remove(tabPrzydzielPrzedmiotDoKlasy);
+
+    }
+
+    private void hideElementsNauczyciel() {
+
+        tabPane.getTabs().remove(tabDodawanieUwag);
+        tabPane.getTabs().remove(tabDodajOcene);
+        tabPane.getTabs().remove(tabWpisywanieNieobecnosci);
+        tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
+
+    }
+
+    private void hideElementsRodzic() {
+
+        tabPane.getTabs().remove(tabUsprawiedliwienia);
+      
+    }
+
+    private void hideElementsUczen() {
+
+        tabPane.getTabs().remove(tabOceny);
+        tabPane.getTabs().remove(tabNieobecnosci);
+        tabPane.getTabs().remove(tabUwagi);
+
 
     public void generateGrades(ActionEvent actionEvent) throws IOException, DocumentException {
         Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o", Oceny.class);
@@ -1171,6 +1194,7 @@ public class EdiaryController {
                 }
             }
         });
+
     }
 
     //    Handle refresh button action
@@ -1180,83 +1204,35 @@ public class EdiaryController {
 
     //    Function that refresh actually selected tab
     private void refresh() {
-        if (currentTab.equals(tabListaUczniow)) {
-            loadData(tabListaUczniow);
-        } else if (currentTab.equals(tabDodawanieUwag)) {
-            loadData(tabDodawanieUwag);
-        } else if (currentTab.equals(tabDodajOcene)) {
-            loadData(tabDodajOcene);
-        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
-            loadData(tabWpisywanieNieobecnosci);
-        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-            loadData(tabAkceptacjaUsprawiedliwien);
-        } else if (currentTab.equals(tabOceny)) {
-            loadData(tabOceny);
-        } else if (currentTab.equals(tabPrzydzielNauczycielaDoPrzedmiotu)) {
-            loadData(tabPrzydzielNauczycielaDoPrzedmiotu);
-        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
-            loadData(tabPrzydzielPrzedmiotDoKlasy);
-        } else if (currentTab.equals(tabUsprawiedliwienia)) {
-            loadData(tabUsprawiedliwienia);
-        } else if (currentTab.equals(tabNieobecnosci)) {
-            loadData(tabNieobecnosci);
-        } else if (currentTab.equals(tabDodajUczniow)) {
-            loadData(tabDodajUczniow);
-        }else if (currentTab.equals(tabUwagi)) {
-            loadData(tabUwagi);
-        }else if (currentTab.equals(tabDodajPrzedmioty)) {
-            loadData(tabDodajPrzedmioty);
-        }
+        loadData(currentTab);
     }
 
     public void saveData(ActionEvent actionEvent) {
-        if (currentTab.equals(tabDodajOcene)) {
-            saveData(tabDodajOcene);
-        } else if (currentTab.equals(tabWpisywanieNieobecnosci)) {
-            saveData(tabWpisywanieNieobecnosci);
-        } else if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-            saveData(tabAkceptacjaUsprawiedliwien);
-        } else if (currentTab.equals(tabOceny)) {
-            saveData(tabOceny);
-        } else if (currentTab.equals(tabPrzydzielNauczycielaDoPrzedmiotu)) {
-            saveData(tabPrzydzielNauczycielaDoPrzedmiotu);
-        } else if (currentTab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
-            saveData(tabPrzydzielPrzedmiotDoKlasy);
-        } else if (currentTab.equals(tabUsprawiedliwienia)) {
-            saveData(tabUsprawiedliwienia);
-        } else if (currentTab.equals(tabNieobecnosci)) {
-            saveData(tabNieobecnosci);
-        } else if (currentTab.equals(tabDodajUczniow)) {
-            saveData(tabDodajUczniow);
-        } else if (currentTab.equals(tabDodawanieUwag)) {
-            saveData(tabDodawanieUwag);
-        }else if (currentTab.equals(tabDodajRodzicow)) {
-            saveData(tabDodajRodzicow);
-        }else if (currentTab.equals(tabDodajNauczycieli)) {
-            saveData(tabDodajNauczycieli);
-        }else if (currentTab.equals(tabDodajPrzedmioty)) {
-            saveData(tabDodajPrzedmioty);
-        }
+        saveData(currentTab);
     }
 
-    public void deleteData(ActionEvent actionEvent){
-//        if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-//            if(akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null){
-//
-//                Usprawiedliwienia usprawiedliwienia = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
-//                Obecnosc obecnosc = usprawiedliwienia.getObecnosc();
-//                obecnosc.setWartosc("2");
-//
-//                session.beginTransaction();
-//                session.update(obecnosc);
-//                session.getTransaction().commit();
-//
-//                session.close();
-//                session = SessionController.getSession();
-//            }
-//        }
+    public void deleteData(ActionEvent actionEvent) {
+
+        if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
+
+            if (akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null) {
+
+                Nieobecnosci nieobecnosc = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
+
+                nieobecnosc.setWartosc("nieusprawiedliwiona");
+
+                session.beginTransaction();
+                session.update(nieobecnosc);
+                session.getTransaction().commit();
+
+                session.close();
+                session = SessionController.getSession();
+
+            }
+
+        }
+
     }
-//    public void shutdown(){
-//        session.close();
-//    }
+
 }
+
