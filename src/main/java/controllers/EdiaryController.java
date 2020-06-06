@@ -148,21 +148,51 @@ public class EdiaryController {
     // Private
     //================================================================================
 
-    private Tab currentTab;
     private Session session;
+    private Tab currentTab;
+    private Nauczyciele loggedNauczyciel;
+    private Rodzice loggedRodzic;
+    private Uczniowie loggedUczen;
 
     //    Function run when user logs on
     public void initialize() {
         hideElements();
 
         session = SessionController.getSession();
+
+        loadLoggedUser();
+
         currentTab = tabPane.getSelectionModel().getSelectedItem();
+
         refresh();
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
             currentTab = newTab;
             refresh();
         });
+
+    }
+
+    private void loadLoggedUser() {
+        switch (authenticatedUser.getRoleByRolaId().getNazwaRoli()) {
+
+            case "nauczyciel":  // Role Nauczyciel
+                Query<Nauczyciele> query1 = session.createQuery("SELECT n FROM Nauczyciele n WHERE n.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Nauczyciele.class);
+                loggedNauczyciel = FXCollections.observableArrayList(query1.list()).get(0);
+
+                break;
+            case "rodzic":  // Role Rodzic
+                Query<Rodzice> query2 = session.createQuery("SELECT r FROM Rodzice r WHERE r.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Rodzice.class);
+                loggedRodzic = FXCollections.observableArrayList(query2.list()).get(0);
+
+                break;
+            case "uczen":  // Role Uczen
+                Query<Uczniowie> query3 = session.createQuery("SELECT u FROM Uczniowie u WHERE u.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Uczniowie.class);
+                loggedUczen = FXCollections.observableArrayList(query3.list()).get(0);
+
+                break;
+
+        }
     }
 
     //    Function that load data from database to tableviews
@@ -174,7 +204,7 @@ public class EdiaryController {
 
         if (tab.equals(tabOceny)) {
 
-            Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o", Oceny.class);
+            Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o WHERE o.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Oceny.class);
             ObservableList<Oceny> listaOcen = FXCollections.observableArrayList(query1.list());
 
             ocenyColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -186,7 +216,7 @@ public class EdiaryController {
 
         } else if (tab.equals(tabNieobecnosci)) {
 
-            Query<Nieobecnosci> query1 = session.createQuery("SELECT n FROM Nieobecnosci n", Nieobecnosci.class);
+            Query<Nieobecnosci> query1 = session.createQuery("SELECT n FROM Nieobecnosci n WHERE n.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Nieobecnosci.class);
             ObservableList<Nieobecnosci> listaNieobesnoci = FXCollections.observableArrayList(query1.list());
 
             nieobecnosciColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
@@ -197,7 +227,7 @@ public class EdiaryController {
 
         } else if (tab.equals(tabUwagi)) {
 
-            Query<Uwagi> query1 = session.createQuery("SELECT u FROM Uwagi u", Uwagi.class);
+            Query<Uwagi> query1 = session.createQuery("SELECT u FROM Uwagi u WHERE u.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Uwagi.class);
             ObservableList<Uwagi> listaUwag = FXCollections.observableArrayList(query1.list());
 
             uwagiColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
