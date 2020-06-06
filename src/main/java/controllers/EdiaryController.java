@@ -1169,7 +1169,7 @@ public class EdiaryController {
         tabPane.getTabs().remove(tabOceny);
         tabPane.getTabs().remove(tabNieobecnosci);
         tabPane.getTabs().remove(tabUwagi);
-
+    }
 
     public void generateGrades(ActionEvent actionEvent) throws IOException, DocumentException {
         Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o", Oceny.class);
