@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EdiaryController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EdiaryController">
    <children>
       <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -14,7 +14,7 @@
                      <children>
                         <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="685.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <GridPane hgap="10.0">
+                              <GridPane fx:id="tabOcenyGridPaneDziecko" hgap="10.0">
                                 <columnConstraints>
                                   <ColumnConstraints halignment="RIGHT" />
                                   <ColumnConstraints hgrow="ALWAYS" />
@@ -24,7 +24,7 @@
                                 </rowConstraints>
                                  <children>
                                     <Label text="Dziecko:" />
-                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                    <ChoiceBox fx:id="ocenyChoiceBoxDziecko" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
@@ -61,7 +61,7 @@
                      <children>
                         <VBox alignment="CENTER" layoutX="33.0" layoutY="595.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                               <GridPane hgap="10.0">
+                               <GridPane fx:id="tabNieobecnosciGridPaneDziecko" hgap="10.0">
                                    <columnConstraints>
                                        <ColumnConstraints halignment="RIGHT" />
                                        <ColumnConstraints hgrow="ALWAYS" />
@@ -71,7 +71,7 @@
                                    </rowConstraints>
                                    <children>
                                        <Label text="Dziecko:" />
-                                       <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                       <ChoiceBox fx:id="nieobecnosciChoiceBoxDziecko" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                    </children>
                                    <VBox.margin>
                                        <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
@@ -103,7 +103,7 @@
                      <children>
                         <VBox alignment="TOP_CENTER" layoutX="188.0" layoutY="685.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <GridPane hgap="10.0">
+                                <GridPane fx:id="tabUwagiGridPaneDziecko" hgap="10.0">
                                     <columnConstraints>
                                         <ColumnConstraints halignment="RIGHT" />
                                         <ColumnConstraints hgrow="ALWAYS" />
@@ -113,7 +113,7 @@
                                     </rowConstraints>
                                     <children>
                                         <Label text="Dziecko:" />
-                                        <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                        <ChoiceBox fx:id="uwagiChoiceBoxDziecko" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                     </children>
                                     <VBox.margin>
                                         <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
@@ -144,7 +144,7 @@
                      <children>
                         <VBox alignment="CENTER" layoutY="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <GridPane hgap="10.0">
+                                <GridPane fx:id="tabUsprawiedliwieniaGridPaneDziecko" hgap="10.0">
                                     <columnConstraints>
                                         <ColumnConstraints halignment="RIGHT" />
                                         <ColumnConstraints hgrow="ALWAYS" />
@@ -154,7 +154,7 @@
                                     </rowConstraints>
                                     <children>
                                         <Label text="Dziecko:" />
-                                        <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                        <ChoiceBox fx:id="usprawiedliwieniaChoiceBoxDziecko" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
                                     </children>
                                     <VBox.margin>
                                         <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
