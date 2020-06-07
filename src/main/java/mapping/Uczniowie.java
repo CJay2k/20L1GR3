@@ -117,4 +117,9 @@ public class Uczniowie {
     public void setUwagisByUczenId(Collection<Uwagi> uwagisByUczenId) {
         this.uwagisByUczenId = uwagisByUczenId;
     }
+
+    @Override
+    public String toString() {
+        return this.imie + " " + this.nazwisko;
+    }
 }
