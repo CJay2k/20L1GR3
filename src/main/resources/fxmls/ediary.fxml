@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EdiaryController">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EdiaryController">
    <children>
       <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -29,6 +14,22 @@
                      <children>
                         <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="685.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
+                              <GridPane hgap="10.0">
+                                <columnConstraints>
+                                  <ColumnConstraints halignment="RIGHT" />
+                                  <ColumnConstraints hgrow="ALWAYS" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Dziecko:" />
+                                    <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
+                                 </VBox.margin>
+                              </GridPane>
                               <TableView fx:id="ocenyTableEdiary" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="ocenyColumnData" prefWidth="150.0" text="Data" />
@@ -40,12 +41,14 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </TableView>
-                              <HBox alignment="CENTER" prefHeight="60.0" prefWidth="1024.0">
+                              <HBox alignment="CENTER" spacing="10.0">
                                  <children>
                                     <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#refreshActionHandle" text="Odśwież" />
-                                    <Separator orientation="VERTICAL" prefHeight="60.0" prefWidth="23.0" visible="false" />
                                     <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#generateGrades" text="Generuj raport" />
                                  </children>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
                               </HBox>
                            </children>
                         </VBox>
@@ -58,6 +61,22 @@
                      <children>
                         <VBox alignment="CENTER" layoutX="33.0" layoutY="595.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
+                               <GridPane hgap="10.0">
+                                   <columnConstraints>
+                                       <ColumnConstraints halignment="RIGHT" />
+                                       <ColumnConstraints hgrow="ALWAYS" />
+                                   </columnConstraints>
+                                   <rowConstraints>
+                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                   </rowConstraints>
+                                   <children>
+                                       <Label text="Dziecko:" />
+                                       <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                   </children>
+                                   <VBox.margin>
+                                       <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
+                                   </VBox.margin>
+                               </GridPane>
                                <TableView fx:id="nieobecnosciTableView" VBox.vgrow="ALWAYS">
                                    <columns>
                                        <TableColumn fx:id="nieobecnosciColumnData" prefWidth="150.0" text="Data" />
@@ -84,6 +103,22 @@
                      <children>
                         <VBox alignment="TOP_CENTER" layoutX="188.0" layoutY="685.0" prefHeight="50.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
+                                <GridPane hgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="Dziecko:" />
+                                        <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
+                                    </VBox.margin>
+                                </GridPane>
                                 <TableView fx:id="uwagiTableView" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="uwagiColumnData" prefWidth="150.0" text="Data" />
@@ -109,6 +144,22 @@
                      <children>
                         <VBox alignment="CENTER" layoutY="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
+                                <GridPane hgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="Dziecko:" />
+                                        <ChoiceBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0" left="300.0" right="300.0" top="10.0" />
+                                    </VBox.margin>
+                                </GridPane>
                                 <TableView fx:id="usprawiedliwieniaTableView" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="usprawiedliwieniaColumnData" prefWidth="150.0" text="Data" />
