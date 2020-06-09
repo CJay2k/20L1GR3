@@ -2,10 +2,9 @@ package controllers;
 
 import com.itextpdf.text.DocumentException;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import mapping.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -55,16 +54,19 @@ public class EdiaryController {
     public TableColumn<Nieobecnosci, Date> usprawiedliwieniaColumnData;
     public TableColumn<Nieobecnosci, String> usprawiedliwieniaColumnPrzedmiot;
 
+    public GridPane tabOcenyGridPaneDziecko;
+    public GridPane tabNieobecnosciGridPaneDziecko;
+    public GridPane tabUwagiGridPaneDziecko;
+    public GridPane tabUsprawiedliwieniaGridPaneDziecko;
+
+    public ChoiceBox<Uczniowie> ocenyChoiceBoxDziecko;
+    public ChoiceBox<Uczniowie> nieobecnosciChoiceBoxDziecko;
+    public ChoiceBox<Uczniowie> uwagiChoiceBoxDziecko;
+    public ChoiceBox<Uczniowie> usprawiedliwieniaChoiceBoxDziecko;
+
     //================================================================================
     // Nauczyciel
     //================================================================================
-
-    public Tab tabListaUczniow;
-    public ChoiceBox<Klasy> listaUczniowChoiceBoxKlasa;
-    public TableView<Uczniowie> listaUczniowTableView;
-    public TableColumn<Uczniowie, String> listaUczniowColumnKlasa;
-    public TableColumn<Uczniowie, String> listaUczniowColumnNazwisko;
-    public TableColumn<Uczniowie, String> listaUczniowColumnImie;
 
     public Tab tabDodawanieUwag;
     public DatePicker dodawanieUwagDatePickerData;
@@ -100,11 +102,19 @@ public class EdiaryController {
     public TableColumn<Nieobecnosci, Date> akceptacjaUsprawiedliwienColumnData;
     public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnNazwisko;
     public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnImie;
+    public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnPrzedmiot;
     public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnTresc;
 
     //================================================================================
     // Dyrektor
     //================================================================================
+
+    public Tab tabListaUczniow;
+    public ChoiceBox<Klasy> listaUczniowChoiceBoxKlasa;
+    public TableView<Uczniowie> listaUczniowTableView;
+    public TableColumn<Uczniowie, String> listaUczniowColumnKlasa;
+    public TableColumn<Uczniowie, String> listaUczniowColumnNazwisko;
+    public TableColumn<Uczniowie, String> listaUczniowColumnImie;
 
     public Tab tabDodajRodzicow;
     public TextField dodajRodzicowInputImieOjca;
@@ -152,7 +162,6 @@ public class EdiaryController {
     // Private
     //================================================================================
 
-    private Session session;
     private Tab currentTab;
     private Nauczyciele loggedNauczyciel;
     private Rodzice loggedRodzic;
@@ -160,278 +169,291 @@ public class EdiaryController {
 
     //    Function run when user logs on
     public void initialize() {
+
         hideElements();
-
-        session = SessionController.getSession();
-
         loadLoggedUser();
 
         currentTab = tabPane.getSelectionModel().getSelectedItem();
 
-        refresh();
+        loadData(currentTab);
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
             currentTab = newTab;
-            refresh();
+            loadData(currentTab);
         });
 
     }
 
     private void loadLoggedUser() {
-        switch (authenticatedUser.getRoleByRolaId().getNazwaRoli()) {
 
-            case "nauczyciel":  // Role Nauczyciel
-                Query<Nauczyciele> query1 = session.createQuery("SELECT n FROM Nauczyciele n WHERE n.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Nauczyciele.class);
-                loggedNauczyciel = FXCollections.observableArrayList(query1.list()).get(0);
+        try (Session session = SessionController.getSession()) {
 
-                break;
-            case "rodzic":  // Role Rodzic
-                Query<Rodzice> query2 = session.createQuery("SELECT r FROM Rodzice r WHERE r.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Rodzice.class);
-                loggedRodzic = FXCollections.observableArrayList(query2.list()).get(0);
+            switch (authenticatedUser.getRoleByRolaId().getNazwaRoli()) {
 
-                break;
-            case "uczen":  // Role Uczen
-                Query<Uczniowie> query3 = session.createQuery("SELECT u FROM Uczniowie u WHERE u.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Uczniowie.class);
-                loggedUczen = FXCollections.observableArrayList(query3.list()).get(0);
+                case "nauczyciel":  // Role Nauczyciel
+                    Query<Nauczyciele> query1 = session.createQuery("FROM Nauczyciele n WHERE n.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Nauczyciele.class);
+                    loggedNauczyciel = FXCollections.observableArrayList(query1.list()).get(0);
 
-                break;
+                    break;
+                case "rodzic":  // Role Rodzic
+                    Query<Rodzice> query2 = session.createQuery("FROM Rodzice r WHERE r.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Rodzice.class);
+                    loggedRodzic = FXCollections.observableArrayList(query2.list()).get(0);
 
+                    break;
+                case "uczen":  // Role Uczen
+                    Query<Uczniowie> query3 = session.createQuery("FROM Uczniowie u WHERE u.kontaByKontoId.kontoId=" + authenticatedUser.getKontoId(), Uczniowie.class);
+                    loggedUczen = FXCollections.observableArrayList(query3.list()).get(0);
+
+                    break;
+            }
         }
+
     }
 
     //    Function that load data from database to tableviews
     private void loadData(Tab tab) {
 
-        //================================================================================
-        // Uczeń
-        //================================================================================
+        try (Session session = SessionController.getSession()) {
 
-        if (tab.equals(tabOceny)) {
+            //================================================================================
+            // Uczeń
+            //================================================================================
 
-            Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o WHERE o.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Oceny.class);
-            ObservableList<Oceny> listaOcen = FXCollections.observableArrayList(query1.list());
+            if (tab.equals(tabOceny)) {
 
-            ocenyColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
-            ocenyColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
-            ocenyColumnOcena.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
-            ocenyColumnZaCo.setCellValueFactory(new PropertyValueFactory<>("opis"));
+                Query<Oceny> query;
 
-            ocenyTableEdiary.setItems(listaOcen);
+                if (authenticatedUser.getRoleByRolaId().getNazwaRoli().equals("rodzic")) {
 
-        } else if (tab.equals(tabNieobecnosci)) {
+                    loadDzieciToChoiceBox(ocenyChoiceBoxDziecko);
 
-            Query<Nieobecnosci> query1 = session.createQuery("SELECT n FROM Nieobecnosci n WHERE n.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Nieobecnosci.class);
-            ObservableList<Nieobecnosci> listaNieobesnoci = FXCollections.observableArrayList(query1.list());
+                    query = session.createQuery("FROM Oceny o JOIN FETCH o.przedmiotyByPrzedmiotId WHERE o.uczniowieByUczenId.uczenId=" + ocenyChoiceBoxDziecko.getValue().getUczenId(), Oceny.class);
+                } else {
+                    query = session.createQuery("FROM Oceny o JOIN FETCH o.przedmiotyByPrzedmiotId WHERE o.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Oceny.class);
+                }
 
-            nieobecnosciColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
-            nieobecnosciColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
-            nieobecnosciColumnStatus.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
+                ocenyColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+                ocenyColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
+                ocenyColumnOcena.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
+                ocenyColumnZaCo.setCellValueFactory(new PropertyValueFactory<>("opis"));
 
-            nieobecnosciTableView.setItems(listaNieobesnoci);
+                ocenyTableEdiary.setItems(FXCollections.observableArrayList(query.list()));
 
-        } else if (tab.equals(tabUwagi)) {
+            } else if (tab.equals(tabNieobecnosci)) {
 
-            Query<Uwagi> query1 = session.createQuery("SELECT u FROM Uwagi u WHERE u.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Uwagi.class);
-            ObservableList<Uwagi> listaUwag = FXCollections.observableArrayList(query1.list());
+                Query<Nieobecnosci> query;
 
-            uwagiColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
-            uwagiColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
-            uwagiColumnTresc.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
+                if (authenticatedUser.getRoleByRolaId().getNazwaRoli().equals("rodzic")) {
 
-            uwagiTableView.setItems(listaUwag);
+                    loadDzieciToChoiceBox(nieobecnosciChoiceBoxDziecko);
 
+                    query = session.createQuery("FROM Nieobecnosci n JOIN FETCH n.przedmiotyByPrzedmiotId WHERE n.uczniowieByUczenId.uczenId=" + nieobecnosciChoiceBoxDziecko.getValue().getUczenId(), Nieobecnosci.class);
+                } else {
+                    query = session.createQuery("FROM Nieobecnosci n JOIN FETCH n.przedmiotyByPrzedmiotId WHERE n.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Nieobecnosci.class);
+
+                }
+
+                nieobecnosciColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+                nieobecnosciColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
+                nieobecnosciColumnStatus.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
+
+                nieobecnosciTableView.setItems(FXCollections.observableArrayList(query.list()));
+
+            } else if (tab.equals(tabUwagi)) {
+
+                Query<Uwagi> query;
+
+                if (authenticatedUser.getRoleByRolaId().getNazwaRoli().equals("rodzic")) {
+
+                    loadDzieciToChoiceBox(uwagiChoiceBoxDziecko);
+
+                    query = session.createQuery("FROM Uwagi u JOIN FETCH u.przedmiotyByPrzedmiotId WHERE u.uczniowieByUczenId.uczenId=" + uwagiChoiceBoxDziecko.getValue().getUczenId(), Uwagi.class);
+                } else {
+                    query = session.createQuery("FROM Uwagi u JOIN FETCH u.przedmiotyByPrzedmiotId WHERE u.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Uwagi.class);
+                }
+
+                uwagiColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+                uwagiColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
+                uwagiColumnTresc.setCellValueFactory(new PropertyValueFactory<>("wartosc"));
+
+                uwagiTableView.setItems(FXCollections.observableArrayList(query.list()));
+
+            }
+
+            //================================================================================
+            // Rodzic
+            //================================================================================
+
+            else if (tab.equals(tabUsprawiedliwienia)) {
+
+                Query<Nieobecnosci> query;
+
+                loadDzieciToChoiceBox(usprawiedliwieniaChoiceBoxDziecko);
+
+                query = session.createQuery("FROM Nieobecnosci n JOIN FETCH n.przedmiotyByPrzedmiotId WHERE n.trescUsprawiedliwienia='' AND n.uczniowieByUczenId.uczenId=" + usprawiedliwieniaChoiceBoxDziecko.getValue().getUczenId(), Nieobecnosci.class);
+
+                usprawiedliwieniaColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+                usprawiedliwieniaColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
+
+                usprawiedliwieniaTableView.setItems(FXCollections.observableArrayList(query.list()));
+
+            }
+
+            //================================================================================
+            // Nauczyciel
+            //================================================================================
+
+            else if (tab.equals(tabDodawanieUwag)) {
+
+                loadKlasaToChoiceBox(dodawanieUwagChoiceBoxKlasa);
+                loadPrzedmiotToChoiceBox(dodawanieUwagChoiceBoxPrzedmiot);
+
+                loadUczniowieToTableView(dodawanieUwagChoiceBoxKlasa, dodawanieUwagColumnNazwisko, dodawanieUwagColumnImie, dodawanieUwagTableView);
+
+            } else if (tab.equals(tabDodajOcene)) {
+
+                loadKlasaToChoiceBox(dodawanieOcenChoiceBoxKlasa);
+                loadPrzedmiotToChoiceBox(dodawanieOcenChoiceBoxPrzedmiot);
+
+                loadUczniowieToTableView(dodawanieOcenChoiceBoxKlasa, dodawanieOcenColumnNazwisko, dodawanieOcenColumnImie, dodawanieOcenTableView);
+
+            } else if (tab.equals(tabWpisywanieNieobecnosci)) {
+
+                loadKlasaToChoiceBox(dodawanieNieobecnosciChoiceBoxKlasa);
+                loadPrzedmiotToChoiceBox(dodawanieNieobecnosciChoiceBoxPrzedmiot);
+
+                loadUczniowieToTableView(dodawanieNieobecnosciChoiceBoxKlasa, wpisywanieNieobecnosciColumnNazwisko, wpisywanieNieobecnosciColumnImie, wpisywanieNieobecnosciTableView);
+
+            } else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
+
+                loadKlasaToChoiceBox(akceptacjaUsprawiedliwienChoiceBoxKlasa);
+
+                Query<Nieobecnosci> query = session.createQuery("FROM Nieobecnosci n JOIN FETCH n.uczniowieByUczenId JOIN FETCH n.przedmiotyByPrzedmiotId WHERE n.trescUsprawiedliwienia NOT LIKE '' AND n.wartosc LIKE 'nieobecny' AND n.uczniowieByUczenId.klasyByKlasaId.nazwaKlasy='" + akceptacjaUsprawiedliwienChoiceBoxKlasa.getValue() + "'", Nieobecnosci.class);
+
+                akceptacjaUsprawiedliwienColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+                akceptacjaUsprawiedliwienColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
+                akceptacjaUsprawiedliwienColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
+                akceptacjaUsprawiedliwienColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
+                akceptacjaUsprawiedliwienColumnTresc.setCellValueFactory(new PropertyValueFactory<>("trescUsprawiedliwienia"));
+
+                akceptacjaUsprawiedliwienTableView.setItems(FXCollections.observableArrayList(query.list()));
+
+            }
+
+            //================================================================================
+            // Dyrektor
+            //================================================================================
+
+            else if (tab.equals(tabListaUczniow)) {
+
+                if (listaUczniowChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                    Query<Klasy> query = session.createQuery("FROM Klasy k", Klasy.class);
+
+                    listaUczniowChoiceBoxKlasa.setItems(FXCollections.observableArrayList(query.list()));
+                    listaUczniowChoiceBoxKlasa.getSelectionModel().select(0);
+                }
+
+                Query<Uczniowie> query = session.createQuery("FROM Uczniowie u JOIN FETCH u.klasyByKlasaId WHERE u.klasyByKlasaId.nazwaKlasy='" + listaUczniowChoiceBoxKlasa.getValue() + "'", Uczniowie.class);
+
+                listaUczniowColumnKlasa.setCellValueFactory(new PropertyValueFactory<>("klasyByKlasaId"));
+                listaUczniowColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+                listaUczniowColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
+
+                listaUczniowTableView.setItems(FXCollections.observableArrayList(query.list()));
+
+            } else if (tab.equals(tabDodajUczniow)) {
+
+                Query<Klasy> query = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
+
+                dodajUczniowChoiceBoxKlasa.setItems(FXCollections.observableArrayList(query.list()));
+                dodajUczniowChoiceBoxKlasa.getSelectionModel().select(0);
+
+                Query<Rodzice> query2 = session.createQuery("SELECT r FROM Rodzice r", Rodzice.class);
+
+                dodajUczniowColumnImieOjca.setCellValueFactory(new PropertyValueFactory<>("imieOjca"));
+                dodajUczniowColumnNazwiskoOjca.setCellValueFactory(new PropertyValueFactory<>("nazwiskoOjca"));
+                dodajUczniowColumnImieMatki.setCellValueFactory(new PropertyValueFactory<>("imieMatki"));
+                dodajUczniowColumnNazwiskoMatki.setCellValueFactory(new PropertyValueFactory<>("nazwiskoMatki"));
+
+                dodajUczniowTableView.setItems(FXCollections.observableArrayList(query2.list()));
+
+            } else if (tab.equals(tabDodajPrzedmioty)) {
+
+                Query<Nauczyciele> query = session.createQuery("SELECT n FROM Nauczyciele n", Nauczyciele.class);
+
+                dodajPrzedmiotyColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+                dodajPrzedmiotyColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
+
+                dodajPrzedmiotyTableView.setItems(FXCollections.observableArrayList(query.list()));
+
+            } else if (tab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+
+                Query<Przedmioty> query = session.createQuery("FROM Przedmioty p JOIN FETCH p.nauczycieleByNauczycielId", Przedmioty.class);
+
+                przydzielPrzedmiotDoKlasyColumnNazwaPrzedmiotu.setCellValueFactory(new PropertyValueFactory<>("nazwaPrzedmiotu"));
+                przydzielPrzedmiotDoKlasyColumnProwadzacy.setCellValueFactory(new PropertyValueFactory<>("nauczycieleByNauczycielId"));
+
+                przydzielPrzedmiotDoKlasyTableView.setItems(FXCollections.observableArrayList(query.list()));
+
+                if (przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getSelectionModel().isEmpty()) {
+                    Query<Klasy> query2 = session.createQuery("FROM Klasy k", Klasy.class);
+
+                    przydzielPrzedmiotDoKlasyChoiceBoxKlasa.setItems(FXCollections.observableArrayList(query2.list()));
+                    przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getSelectionModel().select(0);
+                }
+            }
         }
 
-        //================================================================================
-        // Rodzic
-        //================================================================================
 
-        else if (tab.equals(tabUsprawiedliwienia)) {
+    }
 
-            Query<Nieobecnosci> query1 = session.createQuery("SELECT n FROM Nieobecnosci n", Nieobecnosci.class);
-            ObservableList<Nieobecnosci> listaUsprawiedliwien = FXCollections.observableArrayList(query1.list());
+    private void loadUczniowieToTableView(ChoiceBox<Klasy> choiceBoxKlasa, TableColumn<Uczniowie, String> columnNazwisko, TableColumn<Uczniowie, String> columnImie, TableView<Uczniowie> tableView) {
 
-            usprawiedliwieniaColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
-            usprawiedliwieniaColumnPrzedmiot.setCellValueFactory(new PropertyValueFactory<>("przedmiotyByPrzedmiotId"));
+        try (Session session = SessionController.getSession()) {
 
-            usprawiedliwieniaTableView.setItems(listaUsprawiedliwien);
+            Query<Uczniowie> query = session.createQuery("FROM Uczniowie u WHERE u.klasyByKlasaId.nazwaKlasy='" + choiceBoxKlasa.getValue() + "'", Uczniowie.class);
 
+            columnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
+            columnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
+
+            tableView.setItems(FXCollections.observableArrayList(query.list()));
         }
+    }
 
-        //================================================================================
-        // Nauczyciel
-        //================================================================================
+    private void loadPrzedmiotToChoiceBox(ChoiceBox<Przedmioty> cb) {
 
-        else if (tab.equals(tabListaUczniow)) {
+        try (Session session = SessionController.getSession()) {
 
-            if (listaUczniowChoiceBoxKlasa.getSelectionModel().isEmpty()) {
-                Query<Klasy> query1 = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
-                ObservableList<Klasy> listaKlas = FXCollections.observableArrayList(query1.list());
+            Query<Przedmioty> query = session.createQuery("SELECT kp.przedmiotyByPrzedmiotId FROM KlasyPrzedmioty kp WHERE kp.przedmiotyByPrzedmiotId.nauczycieleByNauczycielId.id=" + loggedNauczyciel.getNauczycielId() + " AND kp.klasyByKlasaId.nazwaKlasy='" + dodawanieUwagChoiceBoxKlasa.getValue() + "'", Przedmioty.class);
 
-                listaUczniowChoiceBoxKlasa.setItems(listaKlas);
-                listaUczniowChoiceBoxKlasa.getSelectionModel().select(0);
+            cb.setItems(FXCollections.observableArrayList(query.list()));
+
+            if (cb.getSelectionModel().isEmpty()) {
+                cb.getSelectionModel().select(0);
             }
-
-            Query<Uczniowie> query2 = session.createQuery("SELECT u FROM Uczniowie u, Klasy k WHERE u.klasyByKlasaId = k and k.nazwaKlasy='" + listaUczniowChoiceBoxKlasa.getValue() + "'", Uczniowie.class);
-            ObservableList<Uczniowie> listaUczniow = FXCollections.observableArrayList(query2.list());
-
-            listaUczniowColumnKlasa.setCellValueFactory(new PropertyValueFactory<>("klasyByKlasaId"));
-            listaUczniowColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-            listaUczniowColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
-
-            listaUczniowTableView.setItems(listaUczniow);
-
-        } else if (tab.equals(tabDodawanieUwag)) {
-
-            if (dodawanieUwagChoiceBoxKlasa.getSelectionModel().isEmpty()) {
-                Query<Klasy> query1 = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
-                ObservableList<Klasy> listaKlas = FXCollections.observableArrayList(query1.list());
-
-                dodawanieUwagChoiceBoxKlasa.setItems(listaKlas);
-                dodawanieUwagChoiceBoxKlasa.getSelectionModel().select(0);
-            }
-
-            Query<Przedmioty> query1 = session.createQuery("SELECT k.przedmiotyByPrzedmiotId FROM KlasyPrzedmioty k WHERE k.klasyByKlasaId.nazwaKlasy='" + dodawanieUwagChoiceBoxKlasa.getValue() + "'", Przedmioty.class);
-            ObservableList<Przedmioty> listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
-
-            dodawanieUwagChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
-
-            if (dodawanieUwagChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
-                dodawanieUwagChoiceBoxPrzedmiot.getSelectionModel().select(0);
-            }
-
-            Query<Uczniowie> query = session.createQuery("SELECT u FROM Uczniowie u WHERE u.klasyByKlasaId.nazwaKlasy='" + dodawanieUwagChoiceBoxKlasa.getValue() + "'", Uczniowie.class);
-            ObservableList<Uczniowie> listaUczniow = FXCollections.observableArrayList(query.list());
-
-            dodawanieUwagColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-            dodawanieUwagColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
-
-            dodawanieUwagTableView.setItems(listaUczniow);
-
-        } else if (tab.equals(tabDodajOcene)) {
-
-            if (dodawanieOcenChoiceBoxKlasa.getSelectionModel().isEmpty()) {
-                Query<Klasy> query1 = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
-                ObservableList<Klasy> listaKlas = FXCollections.observableArrayList(query1.list());
-
-                dodawanieOcenChoiceBoxKlasa.setItems(listaKlas);
-                dodawanieOcenChoiceBoxKlasa.getSelectionModel().select(0);
-            }
-
-            Query<Przedmioty> query1 = session.createQuery("SELECT k.przedmiotyByPrzedmiotId FROM KlasyPrzedmioty k WHERE k.klasyByKlasaId.nazwaKlasy='" + dodawanieOcenChoiceBoxKlasa.getValue() + "'", Przedmioty.class);
-            ObservableList<Przedmioty> listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
-
-            dodawanieOcenChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
-
-            if (dodawanieOcenChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
-                dodawanieOcenChoiceBoxPrzedmiot.getSelectionModel().select(0);
-            }
-
-            Query<Uczniowie> query = session.createQuery("SELECT u FROM Uczniowie u WHERE u.klasyByKlasaId.nazwaKlasy='" + dodawanieOcenChoiceBoxKlasa.getValue() + "'", Uczniowie.class);
-            ObservableList<Uczniowie> listaUczniow = FXCollections.observableArrayList(query.list());
-
-            dodawanieOcenColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-            dodawanieOcenColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
-
-            dodawanieOcenTableView.setItems(listaUczniow);
-
-        } else if (tab.equals(tabWpisywanieNieobecnosci)) {
-
-            if (dodawanieNieobecnosciChoiceBoxKlasa.getSelectionModel().isEmpty()) {
-                Query<Klasy> query1 = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
-                ObservableList<Klasy> listaKlas = FXCollections.observableArrayList(query1.list());
-
-                dodawanieNieobecnosciChoiceBoxKlasa.setItems(listaKlas);
-                dodawanieNieobecnosciChoiceBoxKlasa.getSelectionModel().select(0);
-            }
-
-            Query<Przedmioty> query1 = session.createQuery("SELECT k.przedmiotyByPrzedmiotId FROM KlasyPrzedmioty k WHERE k.klasyByKlasaId.nazwaKlasy='" + dodawanieNieobecnosciChoiceBoxKlasa.getValue() + "'", Przedmioty.class);
-            ObservableList<Przedmioty> listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
-
-            dodawanieNieobecnosciChoiceBoxPrzedmiot.setItems(listaPrzedmiotow);
-
-            if (dodawanieNieobecnosciChoiceBoxPrzedmiot.getSelectionModel().isEmpty()) {
-                dodawanieNieobecnosciChoiceBoxPrzedmiot.getSelectionModel().select(0);
-            }
-
-            Query<Uczniowie> query = session.createQuery("SELECT u FROM Uczniowie u WHERE u.klasyByKlasaId.nazwaKlasy='" + dodawanieNieobecnosciChoiceBoxKlasa.getValue() + "'", Uczniowie.class);
-            ObservableList<Uczniowie> listaUczniow = FXCollections.observableArrayList(query.list());
-
-            wpisywanieNieobecnosciColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-            wpisywanieNieobecnosciColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
-
-            wpisywanieNieobecnosciTableView.setItems(listaUczniow);
-
-        } else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
-
-            if (akceptacjaUsprawiedliwienChoiceBoxKlasa.getSelectionModel().isEmpty()) {
-                Query<Klasy> query1 = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
-                ObservableList<Klasy> listaKlas = FXCollections.observableArrayList(query1.list());
-
-                akceptacjaUsprawiedliwienChoiceBoxKlasa.setItems(listaKlas);
-                akceptacjaUsprawiedliwienChoiceBoxKlasa.getSelectionModel().select(0);
-            }
-
-            Query<Nieobecnosci> query = session.createQuery("SELECT n FROM Nieobecnosci n, Uczniowie u, Klasy k WHERE n.trescUsprawiedliwienia not like '' and n.uczniowieByUczenId=u and u.klasyByKlasaId=k and k='" + akceptacjaUsprawiedliwienChoiceBoxKlasa.getValue() + "'", Nieobecnosci.class);
-            ObservableList<Nieobecnosci> listaUsprawiedliwien = FXCollections.observableArrayList(query.list());
-
-            akceptacjaUsprawiedliwienColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-            akceptacjaUsprawiedliwienColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
-            akceptacjaUsprawiedliwienColumnData.setCellValueFactory(new PropertyValueFactory<>("data"));
-            akceptacjaUsprawiedliwienColumnTresc.setCellValueFactory(new PropertyValueFactory<>("trescUsprawiedliwienia"));
-
-            akceptacjaUsprawiedliwienTableView.setItems(listaUsprawiedliwien);
-
         }
+    }
 
-        //================================================================================
-        // Dyrektor
-        //================================================================================
+    private void loadKlasaToChoiceBox(ChoiceBox<Klasy> cb) {
+        try (Session session = SessionController.getSession()) {
+            if (cb.getSelectionModel().isEmpty()) {
 
-        else if (tab.equals(tabDodajUczniow)) {
+                Query<Klasy> query = session.createQuery("SELECT kp.klasyByKlasaId FROM KlasyPrzedmioty kp WHERE kp.przedmiotyByPrzedmiotId.nauczycieleByNauczycielId.id=" + loggedNauczyciel.getNauczycielId(), Klasy.class);
 
-            Query<Klasy> query1 = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
-            ObservableList<Klasy> listaKlas = FXCollections.observableArrayList(query1.list());
+                cb.setItems(FXCollections.observableArrayList(query.list()));
+                cb.getSelectionModel().select(0);
+            }
+        }
+    }
 
-            dodajUczniowChoiceBoxKlasa.setItems(listaKlas);
-            dodajUczniowChoiceBoxKlasa.getSelectionModel().select(0);
+    private void loadDzieciToChoiceBox(ChoiceBox<Uczniowie> cb) {
 
-            Query<Rodzice> query2 = session.createQuery("SELECT r FROM Rodzice r", Rodzice.class);
-            ObservableList<Rodzice> listaRodzicow = FXCollections.observableArrayList(query2.list());
+        try (Session session = SessionController.getSession()) {
+            if (cb.getSelectionModel().isEmpty()) {
+                Query<Uczniowie> query1 = session.createQuery("FROM Uczniowie u WHERE u.rodziceByRodzicId.id=" + loggedRodzic.getRodzicId(), Uczniowie.class);
 
-            dodajUczniowColumnImieOjca.setCellValueFactory(new PropertyValueFactory<>("imieOjca"));
-            dodajUczniowColumnNazwiskoOjca.setCellValueFactory(new PropertyValueFactory<>("nazwiskoOjca"));
-            dodajUczniowColumnImieMatki.setCellValueFactory(new PropertyValueFactory<>("imieMatki"));
-            dodajUczniowColumnNazwiskoMatki.setCellValueFactory(new PropertyValueFactory<>("nazwiskoMatki"));
-
-            dodajUczniowTableView.setItems(listaRodzicow);
-
-        } else if (tab.equals(tabDodajPrzedmioty)) {
-
-            Query<Nauczyciele> query1 = session.createQuery("SELECT n FROM Nauczyciele n", Nauczyciele.class);
-            ObservableList<Nauczyciele> listaNauczycieli = FXCollections.observableArrayList(query1.list());
-
-            dodajPrzedmiotyColumnNazwisko.setCellValueFactory(new PropertyValueFactory<>("nazwisko"));
-            dodajPrzedmiotyColumnImie.setCellValueFactory(new PropertyValueFactory<>("imie"));
-
-            dodajPrzedmiotyTableView.setItems(listaNauczycieli);
-
-        } else if (tab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
-
-            Query<Przedmioty> query1 = session.createQuery("SELECT p FROM Przedmioty p", Przedmioty.class);
-            ObservableList<Przedmioty> listaPrzedmiotow = FXCollections.observableArrayList(query1.list());
-
-            przydzielPrzedmiotDoKlasyColumnNazwaPrzedmiotu.setCellValueFactory(new PropertyValueFactory<>("nazwaPrzedmiotu"));
-            przydzielPrzedmiotDoKlasyColumnProwadzacy.setCellValueFactory(new PropertyValueFactory<>("nauczycieleByNauczycielId"));
-
-            przydzielPrzedmiotDoKlasyTableView.setItems(listaPrzedmiotow);
-
-            if (przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getSelectionModel().isEmpty()) {
-                Query<Klasy> query2 = session.createQuery("SELECT k FROM Klasy k", Klasy.class);
-                ObservableList<Klasy> listaKlas = FXCollections.observableArrayList(query2.list());
-
-                przydzielPrzedmiotDoKlasyChoiceBoxKlasa.setItems(listaKlas);
-                przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getSelectionModel().select(0);
+                cb.setItems(FXCollections.observableArrayList(query1.list()));
+                cb.getSelectionModel().select(0);
             }
         }
 
@@ -439,669 +461,369 @@ public class EdiaryController {
 
     private void saveData(Tab tab) {
 
-        //================================================================================
-        // Rodzic
-        //================================================================================
+        try (Session session = SessionController.getSession()) {
 
-        if (tab.equals(tabUsprawiedliwienia)) {
-            if (usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
-                Nieobecnosci nieobecnosci = usprawiedliwieniaTableView.getSelectionModel().getSelectedItem();
+            //================================================================================
+            // Rodzic
+            //================================================================================
 
-                nieobecnosci.setTrescUsprawiedliwienia(usprawiedliwieniaTextFieldTresc.getText());
+            if (tab.equals(tabUsprawiedliwienia)) {
 
-                session.beginTransaction();
-                session.update(nieobecnosci);
-                session.getTransaction().commit();
+                if (usprawiedliwieniaTableView.getSelectionModel().getSelectedItem() != null) {
+                    Nieobecnosci nieobecnosci = usprawiedliwieniaTableView.getSelectionModel().getSelectedItem();
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Pomyslnie dodano!");
+                    nieobecnosci.setTrescUsprawiedliwienia(usprawiedliwieniaTextFieldTresc.getText());
 
-                ButtonType buttonTypeYes = new ButtonType("OK");
+                    session.beginTransaction();
+                    session.update(nieobecnosci);
+                    session.getTransaction().commit();
 
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
+                    if (usprawiedliwieniaTextFieldTresc.getText().isEmpty()) {
+                        showAlert(Alert.AlertType.WARNING, "Podaj treść usprawiedliwienia!");
+                    } else {
+                        showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano usprawiedliwienie!");
+                        clear(currentTab);
                     }
-                });
 
-                session.close();
-                session = SessionController.getSession();
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Wybierz nieobecność do usprawiedliwienia");
+                }
+            }
 
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Podaj tresc!");
+            //================================================================================
+            // Nauczyciel
+            //================================================================================
 
-                ButtonType buttonTypeYes = new ButtonType("OK");
+            else if (tab.equals(tabDodawanieUwag)) {
 
-                alert.getButtonTypes().setAll(buttonTypeYes);
+                if (dodawanieUwagTableView.getSelectionModel().getSelectedItem() != null) {
 
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
+                    if (!dodawanieUwagTextFieldTresc.getText().isEmpty() && dodawanieUwagDatePickerData.getValue() != null) {
+                        Uwagi nowaUwaga = new Uwagi();
+
+                        nowaUwaga.setUczniowieByUczenId(dodawanieUwagTableView.getSelectionModel().getSelectedItem());
+                        nowaUwaga.setPrzedmiotyByPrzedmiotId(dodawanieUwagChoiceBoxPrzedmiot.getValue());
+                        nowaUwaga.setWartosc(dodawanieUwagTextFieldTresc.getText());
+                        nowaUwaga.setData(Date.valueOf(dodawanieUwagDatePickerData.getValue()));
+
+                        session.beginTransaction();
+                        session.save(nowaUwaga);
+                        session.getTransaction().commit();
+
+                        showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano uwagę!");
+                        clear(currentTab);
+
+                    } else {
+                        showAlert(Alert.AlertType.CONFIRMATION, "Uzupełnij wszystkie pola!");
                     }
-                });
+
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Nie wybrano ucznia!");
+                }
+
+            } else if (tab.equals(tabDodajOcene)) {
+
+                if (dodawanieOcenTableView.getSelectionModel().getSelectedItem() != null) {
+
+                    if (!dodawanieOcenInputStopien.getText().isEmpty() && !dodawanieOcenInputZaco.getText().isEmpty() && dodawanieOcenInputData.getValue() != null) {
+                        Oceny nowaOcena = new Oceny();
+
+                        nowaOcena.setUczniowieByUczenId(dodawanieOcenTableView.getSelectionModel().getSelectedItem());
+                        nowaOcena.setPrzedmiotyByPrzedmiotId(dodawanieOcenChoiceBoxPrzedmiot.getValue());
+                        nowaOcena.setWartosc(dodawanieOcenInputStopien.getText());
+                        nowaOcena.setOpis(dodawanieOcenInputZaco.getText());
+                        nowaOcena.setData(Date.valueOf(dodawanieOcenInputData.getValue()));
+
+                        session.beginTransaction();
+                        session.save(nowaOcena);
+                        session.getTransaction().commit();
+
+                        showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano ocenę!");
+                        clear(currentTab);
+
+                    } else {
+                        showAlert(Alert.AlertType.WARNING, "Uzupełnij wszystkie pola!");
+                    }
+
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Nie wybrano ucznia!");
+                }
+
+            } else if (tab.equals(tabWpisywanieNieobecnosci)) {
+
+                if (wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem() != null) {
+
+                    if (wpisywanieNieobecnosciInputData.getValue() != null) {
+                        Nieobecnosci nowaNieobecnosc = new Nieobecnosci();
+
+                        nowaNieobecnosc.setUczniowieByUczenId(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem());
+                        nowaNieobecnosc.setPrzedmiotyByPrzedmiotId(dodawanieNieobecnosciChoiceBoxPrzedmiot.getValue());
+                        nowaNieobecnosc.setData(Date.valueOf(wpisywanieNieobecnosciInputData.getValue()));
+                        nowaNieobecnosc.setWartosc("nieobecny");
+                        nowaNieobecnosc.setTrescUsprawiedliwienia("");
+
+                        session.beginTransaction();
+                        session.save(nowaNieobecnosc);
+                        session.getTransaction().commit();
+
+                        showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano nieobecność!");
+
+                    } else {
+                        showAlert(Alert.AlertType.WARNING, "Nie podano daty!");
+                    }
+
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Nie wybrano ucznia!");
+                }
+
+            } else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
+
+                if (akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null) {
+
+                    Nieobecnosci nieobecnosc = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
+
+                    nieobecnosc.setWartosc("usprawiedliwiona");
+
+                    session.beginTransaction();
+                    session.update(nieobecnosc);
+                    session.getTransaction().commit();
+
+                    showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie usprawiedliwiono!");
+
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Nie wybrano usprawiedliwienia!");
+                }
+
+            }
+
+            //================================================================================
+            // Dyrektor
+            //================================================================================
+
+            else if (tab.equals(tabDodajRodzicow)) {
+
+                if (!dodajRodzicowInputLogin.getText().isEmpty()
+                        && !dodajRodzicowInputHaslo.getText().isEmpty() && !dodajRodzicowInputPowtorzHaslo.getText().isEmpty()
+                        && !dodajRodzicowInputImieOjca.getText().isEmpty()
+                        && !dodajRodzicowInputNazwiskoOjca.getText().isEmpty()
+                        && !dodajRodzicowInputImieMatki.getText().isEmpty()
+                        && !dodajRodzicowInputNazwiskoMatki.getText().isEmpty()
+                ) {
+                    if (dodajRodzicowInputPowtorzHaslo.getText().equals(dodajRodzicowInputHaslo.getText())) {
+
+                        Query<Konta> query = session.createQuery("FROM Konta k WHERE k.login='" + dodajRodzicowInputLogin.getText() + "'", Konta.class);
+
+                        if (FXCollections.observableArrayList(query.list()).isEmpty()) {
+                            Query<Role> query1 = session.createQuery("FROM Role r WHERE r.nazwaRoli LIKE 'rodzic'", Role.class);
+
+                            createNewAccount(query1, dodajRodzicowInputLogin, dodajRodzicowInputHaslo);
+
+                            Query<Konta> query2 = session.createQuery("FROM Konta k WHERE k.login='" + dodajRodzicowInputLogin.getText() + "'", Konta.class);
+                            Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
+
+                            Rodzice nowyRodzic = new Rodzice();
+
+                            nowyRodzic.setKontaByKontoId(konto);
+                            nowyRodzic.setImieOjca(dodajRodzicowInputImieOjca.getText());
+                            nowyRodzic.setNazwiskoOjca(dodajRodzicowInputNazwiskoOjca.getText());
+                            nowyRodzic.setImieMatki(dodajRodzicowInputImieMatki.getText());
+                            nowyRodzic.setNazwiskoMatki(dodajRodzicowInputNazwiskoMatki.getText());
+
+                            session.beginTransaction();
+                            session.save(nowyRodzic);
+                            session.getTransaction().commit();
+
+                            showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano konto rodzica!");
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, "Konto o takim loginie już istnieje!");
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.WARNING, "Hasła nie są identyczne");
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Uzupełnij wszystkie pola!");
+                }
+
+            } else if (tab.equals(tabDodajUczniow)) {
+
+                Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'uczen'", Role.class);
+
+                Konta noweKonto = new Konta();
+                if (!dodajUczniowInputLogin.getText().isEmpty() && !dodajUczniowInputHaslo.getText().isEmpty() && !dodajUczniowInputPowtorzHaslo.getText().isEmpty() && !dodajUczniowInputImie.getText().isEmpty() && !dodajUczniowInputNazwisko.getText().isEmpty() && dodajUczniowTableView.getSelectionModel().getSelectedItem() != null) {
+
+                    if (dodajUczniowInputPowtorzHaslo.getText().equals(dodajUczniowInputHaslo.getText())) {
+
+                        Query<Konta> query = session.createQuery("FROM Konta k WHERE k.login='" + dodajUczniowInputLogin.getText() + "'", Konta.class);
+
+                        if (FXCollections.observableArrayList(query.list()).isEmpty()) {
+                            noweKonto.setLogin(dodajUczniowInputLogin.getText());
+                            noweKonto.setHaslo(dodajUczniowInputHaslo.getText());
+                            noweKonto.setRoleByRolaId(FXCollections.observableArrayList(query1.list()).get(0));
+
+                            session.beginTransaction();
+                            session.save(noweKonto);
+                            session.getTransaction().commit();
+
+                            Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajUczniowInputLogin.getText() + "'", Konta.class);
+
+                            Uczniowie nowyUczen = new Uczniowie();
+
+                            nowyUczen.setKontaByKontoId(FXCollections.observableArrayList(query2.list()).get(0));
+                            nowyUczen.setImie(dodajUczniowInputImie.getText());
+                            nowyUczen.setNazwisko(dodajUczniowInputNazwisko.getText());
+                            nowyUczen.setKlasyByKlasaId(dodajUczniowChoiceBoxKlasa.getValue());
+                            nowyUczen.setRodziceByRodzicId(dodajUczniowTableView.getSelectionModel().getSelectedItem());
+                            session.beginTransaction();
+                            session.save(nowyUczen);
+                            session.getTransaction().commit();
+
+                            showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano konto ucznia!");
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, "Konto o takim loginie już istnieje!");
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.WARNING, "Hasła nie są identyczne");
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Uzupełnij wszystkie pola!");
+                }
+            } else if (tab.equals(tabDodajNauczycieli)) {
+
+                if (!dodajNauczycieliInputLogin.getText().isEmpty() && !dodajNauczycieliInputHaslo.getText().isEmpty() && !dodajNauczycieliInputPowtorzHaslo.getText().isEmpty() && !dodajNauczycieliInputImie.getText().isEmpty() && !dodajNauczycieliInputNazwisko.getText().isEmpty()) {
+
+                    if (dodajNauczycieliInputPowtorzHaslo.getText().equals(dodajNauczycieliInputHaslo.getText())) {
+
+                        Query<Konta> query = session.createQuery("FROM Konta k WHERE k.login='" + dodajNauczycieliInputLogin.getText() + "'", Konta.class);
+
+                        if (FXCollections.observableArrayList(query.list()).isEmpty()) {
+                            Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'nauczyciel'", Role.class);
+
+                            createNewAccount(query1, dodajNauczycieliInputLogin, dodajNauczycieliInputHaslo);
+
+                            Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajNauczycieliInputLogin.getText() + "'", Konta.class);
+                            Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
+
+                            Nauczyciele nowyNauczyciel = new Nauczyciele();
+
+                            nowyNauczyciel.setKontaByKontoId(konto);
+                            nowyNauczyciel.setImie(dodajNauczycieliInputImie.getText());
+                            nowyNauczyciel.setNazwisko(dodajNauczycieliInputNazwisko.getText());
+
+                            session.beginTransaction();
+                            session.save(nowyNauczyciel);
+                            session.getTransaction().commit();
+
+                            showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano konto nauczyciela");
+                        } else {
+                            showAlert(Alert.AlertType.ERROR, "Konto o takim loginie już istnieje!");
+                        }
+                    } else {
+                        showAlert(Alert.AlertType.WARNING, "Hasła nie są identyczne");
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Uzupełnij wszystkie pola!");
+                }
+
+            } else if (tab.equals(tabDodajPrzedmioty)) {
+
+                if (dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem() != null && !dodajPrzedmiotyInputNazwaPrzedmioty.getText().isEmpty()) {
+
+                    Query<Przedmioty> query = session.createQuery("FROM Przedmioty p WHERE p.nazwaPrzedmiotu='" + dodajPrzedmiotyInputNazwaPrzedmioty.getText() + "' AND p.nauczycieleByNauczycielId.id=" + dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem().getNauczycielId(), Przedmioty.class);
+
+                    if (FXCollections.observableArrayList(query.list()).isEmpty()) {
+
+                        Przedmioty nowyPrzedmiot = new Przedmioty();
+                        nowyPrzedmiot.setNazwaPrzedmiotu(dodajPrzedmiotyInputNazwaPrzedmioty.getText());
+                        nowyPrzedmiot.setNauczycieleByNauczycielId(dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem());
+
+                        session.beginTransaction();
+                        session.save(nowyPrzedmiot);
+                        session.getTransaction().commit();
+
+                        showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie dodano przedmiot");
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Ten nauczyciel już uczy tego przedmiotu");
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Uzupełnij wszystkie pola!");
+                }
+
+            } else if (tab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
+
+                if (przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem() != null) {
+
+                    Query<KlasyPrzedmioty> query = session.createQuery("FROM KlasyPrzedmioty kp WHERE kp.klasyByKlasaId.id=" + przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getValue().getKlasaId() + " AND kp.przedmiotyByPrzedmiotId.id=" + przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem().getPrzedmiotId(), KlasyPrzedmioty.class);
+
+                    if (FXCollections.observableArrayList(query.list()).isEmpty()) {
+                        KlasyPrzedmioty klasyPrzedmioty = new KlasyPrzedmioty();
+                        klasyPrzedmioty.setKlasyByKlasaId(przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getValue());
+                        klasyPrzedmioty.setPrzedmiotyByPrzedmiotId(przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem());
+
+                        session.beginTransaction();
+                        session.save(klasyPrzedmioty);
+                        session.getTransaction().commit();
+
+                        showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie przypisano przedmiot do klasy.");
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Ten przedmiot jest już przypisany do tej klasy!");
+                    }
+                } else {
+                    showAlert(Alert.AlertType.WARNING, "Wybierz przedmiot");
+                }
             }
         }
 
-        //================================================================================
-        // Nauczyciel
-        //================================================================================
+    }
 
-        else if (tab.equals(tabDodawanieUwag)) {
+    private void createNewAccount(Query<Role> queryRola, TextField inputLogin, PasswordField inputHaslo) {
 
-            if (dodawanieUwagTableView.getSelectionModel().getSelectedItem() != null) {
+        try (Session session = SessionController.getSession()) {
+            Konta noweKonto = new Konta();
+            noweKonto.setLogin(inputLogin.getText());
+            noweKonto.setHaslo(inputHaslo.getText());
+            noweKonto.setRoleByRolaId(FXCollections.observableArrayList(queryRola.list()).get(0));
 
-                if (!dodawanieUwagTextFieldTresc.getText().isEmpty() && dodawanieUwagDatePickerData.getValue() != null) {
-                    Uwagi nowaUwaga = new Uwagi();
+            session.beginTransaction();
+            session.save(noweKonto);
+            session.getTransaction().commit();
+        }
+    }
 
-                    nowaUwaga.setUczniowieByUczenId(dodawanieUwagTableView.getSelectionModel().getSelectedItem());
-                    nowaUwaga.setPrzedmiotyByPrzedmiotId(dodawanieUwagChoiceBoxPrzedmiot.getValue());
-                    nowaUwaga.setWartosc(dodawanieUwagTextFieldTresc.getText());
-                    nowaUwaga.setData(Date.valueOf(dodawanieUwagDatePickerData.getValue()));
+    public void rejectExcuse() {
 
-                    session.beginTransaction();
-                    session.save(nowaUwaga);
-                    session.getTransaction().commit();
-
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Pomyślnie dodano uwage!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                  
-                    session.close();
-                    session = SessionController.getSession();
-                } else if (dodawanieUwagDatePickerData.getValue() == null){
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Uzupelnij pole data!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                } else if (dodawanieUwagTextFieldTresc.getText().isEmpty()) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Uzupelnij pole tresc!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                }
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie wybrano ucznia!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-
-        } else if (tab.equals(tabDodajOcene)) {
-
-            if(dodawanieOcenTableView.getSelectionModel().getSelectedItem() != null) {
-
-                if (!dodawanieOcenInputStopien.getText().isEmpty() && !dodawanieOcenInputZaco.getText().isEmpty() && dodawanieOcenInputData.getValue() != null) {
-                    Oceny nowaOcena = new Oceny();
-
-                    nowaOcena.setUczniowieByUczenId(dodawanieOcenTableView.getSelectionModel().getSelectedItem());
-                    nowaOcena.setPrzedmiotyByPrzedmiotId(dodawanieOcenChoiceBoxPrzedmiot.getValue());
-                    nowaOcena.setWartosc(dodawanieOcenInputStopien.getText());
-                    nowaOcena.setOpis(dodawanieOcenInputZaco.getText());
-                    nowaOcena.setData(Date.valueOf(dodawanieOcenInputData.getValue()));
-
-                    session.beginTransaction();
-                    session.save(nowaOcena);
-                    session.getTransaction().commit();
-
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Pomyślnie dodano ocene!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                    session.close();
-                    session = SessionController.getSession();
-                } else if (dodawanieOcenInputStopien.getText().isEmpty()) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Nie podano stopnia!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                } else if (dodawanieOcenInputZaco.getText().isEmpty()) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Nie podano opisu!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                } else if (dodawanieOcenInputData.getValue() == null) {
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Nie podano daty!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                }
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie wybrano ucznia!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-        } else if (tab.equals(tabWpisywanieNieobecnosci)) {
-
-            if (wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem() != null) {
-
-                if (wpisywanieNieobecnosciInputData.getValue() != null) {
-                    Nieobecnosci nowaNieobecnosc = new Nieobecnosci();
-
-                    nowaNieobecnosc.setUczniowieByUczenId(wpisywanieNieobecnosciTableView.getSelectionModel().getSelectedItem());
-                    nowaNieobecnosc.setPrzedmiotyByPrzedmiotId(dodawanieNieobecnosciChoiceBoxPrzedmiot.getValue());
-                    nowaNieobecnosc.setData(Date.valueOf(wpisywanieNieobecnosciInputData.getValue()));
-                    nowaNieobecnosc.setWartosc("nieobecny");
-                    nowaNieobecnosc.setTrescUsprawiedliwienia("");
-
-                    session.beginTransaction();
-                    session.save(nowaNieobecnosc);
-                    session.getTransaction().commit();
-
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Pomyślnie dodano nieobecnosc!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                    session.close();
-                    session = SessionController.getSession();
-                } else {
-                  
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Komunikat");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Nie podano daty!");
-
-                    ButtonType buttonTypeYes = new ButtonType("OK");
-
-                    alert.getButtonTypes().setAll(buttonTypeYes);
-
-                    alert.showAndWait().ifPresent(rs -> {
-                        if (rs == buttonTypeYes) {
-                        }
-                    });
-                }
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie wybrano ucznia!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-
-        } else if (tab.equals(tabAkceptacjaUsprawiedliwien)) {
+        try (Session session = SessionController.getSession()) {
 
             if (akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null) {
 
                 Nieobecnosci nieobecnosc = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
 
-                nieobecnosc.setWartosc("usprawiedliwiona");
+                nieobecnosc.setWartosc("nieusprawiedliwiona");
 
                 session.beginTransaction();
                 session.update(nieobecnosc);
                 session.getTransaction().commit();
 
-                session.close();
-                session = SessionController.getSession();
-
+                showAlert(Alert.AlertType.CONFIRMATION, "Pomyślnie nieusprawiedliwiono!");
             } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie wybrano ucznia!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
+                showAlert(Alert.AlertType.WARNING, "Nie wybrano usprawiedliwienia!");
             }
 
         }
 
-        //================================================================================
-        // Dyrektor
-        //================================================================================
+        loadData(currentTab);
+    }
 
-        else if (tab.equals(tabDodajRodzicow)) {
+    private void showAlert(Alert.AlertType warning, String content) {
+        Alert alert = new Alert(warning);
+        alert.setTitle("Komunikat");
+        alert.setHeaderText(null);
+        alert.setContentText(content);
 
-            if (!dodajRodzicowInputLogin.getText().isEmpty()
-                    && !dodajRodzicowInputHaslo.getText().isEmpty()
-                    && !dodajRodzicowInputImieOjca.getText().isEmpty()
-                    && !dodajRodzicowInputNazwiskoOjca.getText().isEmpty()
-                    && !dodajRodzicowInputImieMatki.getText().isEmpty()
-                    && !dodajRodzicowInputNazwiskoMatki.getText().isEmpty()
-            ) {
-                Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'rodzic'", Role.class);
-                Role rolaRodzic = FXCollections.observableArrayList(query1.list()).get(0);
+        ButtonType buttonTypeYes = new ButtonType("OK");
 
-                Konta noweKonto = new Konta();
-                noweKonto.setLogin(dodajRodzicowInputLogin.getText());
-                noweKonto.setHaslo(dodajRodzicowInputHaslo.getText());
-                noweKonto.setRoleByRolaId(rolaRodzic);
+        alert.getButtonTypes().setAll(buttonTypeYes);
 
-                session.beginTransaction();
-                session.save(noweKonto);
-                session.getTransaction().commit();
-                session.close();
-                session = SessionController.getSession();
-
-                Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajRodzicowInputLogin.getText() + "'", Konta.class);
-                Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
-
-                Rodzice nowyRodzic = new Rodzice();
-
-                nowyRodzic.setKontaByKontoId(konto);
-                nowyRodzic.setImieOjca(dodajRodzicowInputImieOjca.getText());
-                nowyRodzic.setNazwiskoOjca(dodajRodzicowInputNazwiskoOjca.getText());
-                nowyRodzic.setImieMatki(dodajRodzicowInputImieMatki.getText());
-                nowyRodzic.setNazwiskoMatki(dodajRodzicowInputNazwiskoMatki.getText());
-
-                session.beginTransaction();
-                session.save(nowyRodzic);
-                session.getTransaction().commit();
-
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Pomyslnie dodano rodzica!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-
-                session.close();
-                session = SessionController.getSession();
-            } else if (dodajRodzicowInputLogin.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie podano loginu!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            } else if (dodajRodzicowInputHaslo.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie podano hasla!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            } else if (dodajRodzicowInputImieOjca.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie podano imienia ojca!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            } else if (dodajRodzicowInputNazwiskoOjca.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie podano nazwiska ojca!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            } else if (dodajRodzicowInputImieMatki.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie podano imienia matki!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            } else if (dodajRodzicowInputNazwiskoMatki.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Nie podano nazwiska matki!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-
-        } else if (tab.equals(tabDodajUczniow)) {
-
-            Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'uczen'", Role.class);
-            Role rolaUczen = FXCollections.observableArrayList(query1.list()).get(0);
-
-            Konta noweKonto = new Konta();
-            if (!dodajUczniowInputLogin.getText().isEmpty() && !dodajUczniowInputHaslo.getText().isEmpty()) {
-                noweKonto.setLogin(dodajUczniowInputLogin.getText());
-                noweKonto.setHaslo(dodajUczniowInputHaslo.getText());
-                noweKonto.setRoleByRolaId(rolaUczen);
-            }
-
-            session.beginTransaction();
-            session.save(noweKonto);
-            session.getTransaction().commit();
-            session.close();
-            session = SessionController.getSession();
-
-            Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajUczniowInputLogin.getText() + "'", Konta.class);
-            Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
-
-            Uczniowie nowyUczen = new Uczniowie();
-
-            if (!dodajUczniowInputImie.getText().isEmpty() && !dodajUczniowInputNazwisko.getText().isEmpty() && dodajUczniowTableView.getSelectionModel().getSelectedItem() != null) {
-                nowyUczen.setKontaByKontoId(konto);
-                nowyUczen.setImie(dodajUczniowInputImie.getText());
-                nowyUczen.setNazwisko(dodajUczniowInputNazwisko.getText());
-                nowyUczen.setKlasyByKlasaId(dodajUczniowChoiceBoxKlasa.getValue());
-                nowyUczen.setRodziceByRodzicId(dodajUczniowTableView.getSelectionModel().getSelectedItem());
-                session.beginTransaction();
-                session.save(nowyUczen);
-                session.getTransaction().commit();
-
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Pomyslnie dodano ucznia!");
-
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-                session.close();
-                session = SessionController.getSession();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Uzupelnij wszystkie dane!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-        }
-        else if (tab.equals(tabDodajNauczycieli)) {
-
-            if (!dodajNauczycieliInputLogin.getText().isEmpty() && !dodajNauczycieliInputHaslo.getText().isEmpty() && !dodajNauczycieliInputImie.getText().isEmpty() && !dodajNauczycieliInputNazwisko.getText().isEmpty()) {
-                Query<Role> query1 = session.createQuery("SELECT r FROM Role r WHERE r.nazwaRoli LIKE 'nauczyciel'", Role.class);
-                Role rolaNauczyciel = FXCollections.observableArrayList(query1.list()).get(0);
-
-                Konta noweKonto = new Konta();
-                noweKonto.setLogin(dodajNauczycieliInputLogin.getText());
-                noweKonto.setHaslo(dodajNauczycieliInputHaslo.getText());
-                noweKonto.setRoleByRolaId(rolaNauczyciel);
-
-                session.beginTransaction();
-                session.save(noweKonto);
-                session.getTransaction().commit();
-                session.close();
-                session = SessionController.getSession();
-
-                Query<Konta> query2 = session.createQuery("SELECT k FROM Konta k WHERE k.login='" + dodajNauczycieliInputLogin.getText() + "'", Konta.class);
-                Konta konto = FXCollections.observableArrayList(query2.list()).get(0);
-
-                Nauczyciele nowyNauczyciel = new Nauczyciele();
-
-                nowyNauczyciel.setKontaByKontoId(konto);
-                nowyNauczyciel.setImie(dodajNauczycieliInputImie.getText());
-                nowyNauczyciel.setNazwisko(dodajNauczycieliInputNazwisko.getText());
-
-                session.beginTransaction();
-                session.save(nowyNauczyciel);
-                session.getTransaction().commit();
-
-                session.close();
-                session = SessionController.getSession();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Uzupelnij wszystkie dane!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-
-        } else if (tab.equals(tabDodajPrzedmioty)) {
-
-            if (dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem() != null && !dodajPrzedmiotyInputNazwaPrzedmioty.getText().isEmpty()) {
-                Przedmioty nowyPrzedmiot = new Przedmioty();
-                nowyPrzedmiot.setNazwaPrzedmiotu(dodajPrzedmiotyInputNazwaPrzedmioty.getText());
-                nowyPrzedmiot.setNauczycieleByNauczycielId(dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem());
-
-                session.beginTransaction();
-                session.save(nowyPrzedmiot);
-                session.getTransaction().commit();
-
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Pomyslnie dodano przedmiot!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-                session.close();
-                session = SessionController.getSession();
-            } else if (dodajPrzedmiotyTableView.getSelectionModel().getSelectedItem() == null) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Wybierz nauczyciela!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            } else if (dodajPrzedmiotyInputNazwaPrzedmioty.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Podaj przedmiot!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-
-        } else if (tab.equals(tabPrzydzielPrzedmiotDoKlasy)) {
-
-            if (przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem() != null) {
-                KlasyPrzedmioty klasyPrzedmioty = new KlasyPrzedmioty();
-                klasyPrzedmioty.setKlasyByKlasaId(przydzielPrzedmiotDoKlasyChoiceBoxKlasa.getValue());
-                klasyPrzedmioty.setPrzedmiotyByPrzedmiotId(przydzielPrzedmiotDoKlasyTableView.getSelectionModel().getSelectedItem());
-
-                session.beginTransaction();
-                session.save(klasyPrzedmioty);
-                session.getTransaction().commit();
-                session.close();
-                session = SessionController.getSession();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Komunikat");
-                alert.setHeaderText(null);
-                alert.setContentText("Wybierz nauczyciela!");
-
-                ButtonType buttonTypeYes = new ButtonType("OK");
-
-                alert.getButtonTypes().setAll(buttonTypeYes);
-
-                alert.showAndWait().ifPresent(rs -> {
-                    if (rs == buttonTypeYes) {
-                    }
-                });
-            }
-
-        }
-
+        alert.showAndWait();
     }
 
     //    Function that removes tabs id user has no privileges to see them
@@ -1137,7 +859,6 @@ public class EdiaryController {
 
     }
 
-
     private void hideElementsDyrektor() {
 
         tabPane.getTabs().remove(tabListaUczniow);
@@ -1161,7 +882,11 @@ public class EdiaryController {
     private void hideElementsRodzic() {
 
         tabPane.getTabs().remove(tabUsprawiedliwienia);
-      
+        tabOcenyGridPaneDziecko.setManaged(false);
+        tabNieobecnosciGridPaneDziecko.setManaged(false);
+        tabUwagiGridPaneDziecko.setManaged(false);
+        tabUsprawiedliwieniaGridPaneDziecko.setManaged(false);
+
     }
 
     private void hideElementsUczen() {
@@ -1171,68 +896,127 @@ public class EdiaryController {
         tabPane.getTabs().remove(tabUwagi);
     }
 
-    public void generateGrades(ActionEvent actionEvent) throws IOException, DocumentException {
-        Query<Oceny> query1 = session.createQuery("SELECT o FROM Oceny o", Oceny.class);
-        ObservableList<Oceny> listaOcen = FXCollections.observableArrayList(query1.list());
+    public void generateGrades() {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Generowanie PDF");
-        alert.setHeaderText(null);
-        alert.setContentText("Jesteś pewien, że chcesz wygenerować PDF?");
+        try (Session session = SessionController.getSession()) {
 
-        ButtonType buttonTypeNo = new ButtonType("Nie");
-        ButtonType buttonTypeYes = new ButtonType("Tak");
+            Query<Oceny> query;
 
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            if (authenticatedUser.getRoleByRolaId().getNazwaRoli().equals("rodzic")) {
+                query = session.createQuery("FROM Oceny o JOIN FETCH o.przedmiotyByPrzedmiotId WHERE o.uczniowieByUczenId.uczenId=" + ocenyChoiceBoxDziecko.getValue().getUczenId(), Oceny.class);
+            } else {
+                query = session.createQuery("FROM Oceny o JOIN FETCH o.przedmiotyByPrzedmiotId WHERE o.uczniowieByUczenId.uczenId=" + loggedUczen.getUczenId(), Oceny.class);
+            }
 
-        alert.showAndWait().ifPresent(rs -> {
-            if (rs == buttonTypeYes) {
-                try {
-                    new PdfGenerator().PDFGenerateGrades(listaOcen);
-                } catch (IOException | DocumentException e) {
-                    e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Generowanie PDF");
+            alert.setHeaderText(null);
+            alert.setContentText("Jesteś pewien, że chcesz wygenerować PDF?");
+
+            ButtonType buttonTypeNo = new ButtonType("Nie");
+            ButtonType buttonTypeYes = new ButtonType("Tak");
+
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == buttonTypeYes) {
+                    try {
+                        new PdfGenerator().PDFGenerateGrades(FXCollections.observableArrayList(query.list()));
+                    } catch (IOException | DocumentException e) {
+                        e.printStackTrace();
+                    }
+
+                    showAlert(Alert.AlertType.CONFIRMATION, "PDF został zapisany w folderze z aplikacją.");
                 }
-            }
-        });
-
-    }
-
-    //    Handle refresh button action
-    public void refreshActionHandle(ActionEvent actionEvent) {
-        refresh();
-    }
-
-    //    Function that refresh actually selected tab
-    private void refresh() {
-        loadData(currentTab);
-    }
-
-    public void saveData(ActionEvent actionEvent) {
-        saveData(currentTab);
-    }
-
-    public void deleteData(ActionEvent actionEvent) {
-
-        if (currentTab.equals(tabAkceptacjaUsprawiedliwien)) {
-
-            if (akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem() != null) {
-
-                Nieobecnosci nieobecnosc = akceptacjaUsprawiedliwienTableView.getSelectionModel().getSelectedItem();
-
-                nieobecnosc.setWartosc("nieusprawiedliwiona");
-
-                session.beginTransaction();
-                session.update(nieobecnosc);
-                session.getTransaction().commit();
-
-                session.close();
-                session = SessionController.getSession();
-
-            }
+            });
 
         }
 
     }
 
+    //    Handle refresh button action
+    public void refreshActionHandle() {
+        loadData(currentTab);
+    }
+
+    public void saveData() {
+        saveData(currentTab);
+        loadData(currentTab);
+    }
+
+    public void clearButtonActionHandle() {
+        clear(currentTab);
+    }
+
+    private void clear(Tab tab) {
+
+        //================================================================================
+        // Rodzic
+        //================================================================================
+
+        if (tab.equals(tabUsprawiedliwienia)) {
+            usprawiedliwieniaTextFieldTresc.clear();
+        }
+
+        //================================================================================
+        // Nauczyciel
+        //================================================================================
+
+        else if (tab.equals(tabDodawanieUwag)) {
+            dodawanieUwagDatePickerData.setValue(null);
+            dodawanieUwagTextFieldTresc.clear();
+
+        } else if (tab.equals(tabDodajOcene)) {
+            dodawanieOcenInputData.setValue(null);
+            dodawanieOcenInputStopien.clear();
+            dodawanieOcenInputZaco.clear();
+
+        } else if (tab.equals(tabWpisywanieNieobecnosci)) {
+            wpisywanieNieobecnosciInputData.setValue(null);
+        }
+
+        //================================================================================
+        // Dyrektor
+        //================================================================================
+
+        else if (tab.equals(tabDodajRodzicow)) {
+            dodajRodzicowInputLogin.clear();
+            dodajRodzicowInputHaslo.clear();
+            dodajRodzicowInputPowtorzHaslo.clear();
+            dodajRodzicowInputImieOjca.clear();
+            dodajRodzicowInputNazwiskoOjca.clear();
+            dodajRodzicowInputImieMatki.clear();
+            dodajRodzicowInputNazwiskoMatki.clear();
+
+        } else if (tab.equals(tabDodajUczniow)) {
+            dodajUczniowInputLogin.clear();
+            dodajUczniowInputHaslo.clear();
+            dodajUczniowInputPowtorzHaslo.clear();
+            dodajUczniowInputImie.clear();
+            dodajUczniowInputNazwisko.clear();
+            dodajUczniowInputSzukaj.clear();
+            loadData(currentTab);
+
+        } else if (tab.equals(tabDodajNauczycieli)) {
+            dodajNauczycieliInputLogin.clear();
+            dodajNauczycieliInputHaslo.clear();
+            dodajNauczycieliInputPowtorzHaslo.clear();
+            dodajNauczycieliInputImie.clear();
+            dodajNauczycieliInputNazwisko.clear();
+
+        } else if (tab.equals(tabDodajPrzedmioty)) {
+            dodajPrzedmiotyInputNazwaPrzedmioty.clear();
+
+        }
+    }
+
+    public void searchButtonActionHandle() {
+
+        try (Session session = SessionController.getSession()) {
+            Query<Rodzice> query = session.createQuery("FROM Rodzice r WHERE r.imieOjca LIKE '%" + dodajUczniowInputSzukaj.getText() + "%' OR r.nazwiskoOjca LIKE '%" + dodajUczniowInputSzukaj.getText() + "%' OR r.imieMatki LIKE '%" + dodajUczniowInputSzukaj.getText() + "%' OR r.nazwiskoMatki LIKE '%" + dodajUczniowInputSzukaj.getText() + "%'", Rodzice.class);
+
+            dodajUczniowTableView.setItems(FXCollections.observableArrayList(query.list()));
+        }
+    }
 }
 
