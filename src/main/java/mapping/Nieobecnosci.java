@@ -90,7 +90,7 @@ public class Nieobecnosci {
     }
 
     public String getImie() {
-        return uczniowieByUczenId.getImie();
+        return this.uczniowieByUczenId.getImie();
     }
 
     public void setImie(String imie) {
@@ -98,7 +98,7 @@ public class Nieobecnosci {
     }
 
     public String getNazwisko() {
-        return uczniowieByUczenId.getNazwisko();
+        return this.uczniowieByUczenId.getNazwisko();
     }
 
     public void setNazwisko(String nazwisko) {
