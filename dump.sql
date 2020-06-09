@@ -177,7 +177,7 @@ CREATE TABLE `Oceny` (
   KEY `FKt2lf19edct88su2x9dalc75j9` (`przedmiot_id`),
   CONSTRAINT `FKjvhqqbpojlejaqo6rqcv8fvyv` FOREIGN KEY (`uczen_id`) REFERENCES `Uczniowie` (`uczen_id`),
   CONSTRAINT `FKt2lf19edct88su2x9dalc75j9` FOREIGN KEY (`przedmiot_id`) REFERENCES `Przedmioty` (`przedmiot_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +186,7 @@ CREATE TABLE `Oceny` (
 
 LOCK TABLES `Oceny` WRITE;
 /*!40000 ALTER TABLE `Oceny` DISABLE KEYS */;
-INSERT INTO `Oceny` VALUES (1,1,1,'5','odpowiedz ustna','2020-11-05'),(2,2,2,'4','odpowiedz ustna','2020-11-07'),(3,3,2,'4','odpowiedz ustna','2020-11-07'),(4,2,2,'4','za kartkowke','2020-05-15'),(5,1,1,'5','za kartkowke','2020-05-19'),(6,3,5,'3','za kartkowke','2020-10-05'),(7,3,5,'3','za sprawdzian','2020-05-12'),(8,1,2,'4','za kartkowke','2020-05-06'),(9,4,3,'5','odpowiedz ustna','2020-03-15'),(10,4,3,'2','za sprawdzian','2020-06-06'),(11,5,5,'3','odpowiedz ustna','2020-07-06'),(12,6,1,'4','za kartkowke','2020-08-06'),(13,2,2,'5','odpowiedz ustna','2020-09-06'),(14,1,1,'6','za sprawdzian','2020-10-06'),(15,4,5,'2','za sprawdzian','2020-11-06'),(16,3,5,'3','za kartkowke','2020-12-06'),(17,5,3,'4','odpowiedz ustna','2020-10-06'),(18,6,2,'5','za sprawdzian','2020-11-06'),(19,5,5,'6','za sprawdzian','2020-11-07'),(20,2,2,'2','za kartkowke','2020-12-09');
+INSERT INTO `Oceny` VALUES (1,1,1,'5','odpowiedz ustna','2020-11-05'),(2,2,2,'4','odpowiedz ustna','2020-11-07'),(3,3,2,'4','odpowiedz ustna','2020-11-07'),(4,2,2,'4','za kartkowke','2020-05-15'),(5,1,1,'5','za kartkowke','2020-05-19'),(6,3,5,'3','za kartkowke','2020-10-05'),(7,3,5,'3','za sprawdzian','2020-05-12'),(8,1,2,'4','za kartkowke','2020-05-06'),(9,4,3,'5','odpowiedz ustna','2020-03-15'),(10,4,3,'2','za sprawdzian','2020-06-06'),(11,5,5,'3','odpowiedz ustna','2020-07-06'),(12,6,1,'4','za kartkowke','2020-08-06'),(13,2,2,'5','odpowiedz ustna','2020-09-06'),(14,1,1,'6','za sprawdzian','2020-10-06'),(15,4,5,'2','za sprawdzian','2020-11-06'),(16,3,5,'3','za kartkowke','2020-12-06'),(17,5,3,'4','odpowiedz ustna','2020-10-06'),(18,6,2,'5','za sprawdzian','2020-11-06'),(19,5,5,'6','za sprawdzian','2020-11-07'),(20,2,2,'2','za kartkowke','2020-12-09'),(22,1,1,'4','za odpowiedz ustna','2020-06-23');
 /*!40000 ALTER TABLE `Oceny` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,7 +301,7 @@ CREATE TABLE `Uczniowie` (
 
 LOCK TABLES `Uczniowie` WRITE;
 /*!40000 ALTER TABLE `Uczniowie` DISABLE KEYS */;
-INSERT INTO `Uczniowie` VALUES (1,'Kamil','Kowalski',1,1,4),(2,'Witek','Krawczyk',2,2,5),(3,'Brian','Kowalski',2,1,6),(4,'Jakub','Kaczor',3,3,11),(5,'Radek','Nieboszczyk',3,4,12),(6,'Piotr','Malina',1,6,14);
+INSERT INTO `Uczniowie` VALUES (1,'Kamil','Kowalski',1,1,4),(2,'Witek','Krawczyk',2,2,5),(3,'Brian','Kowalski',2,1,6),(4,'Jakub','Kaczor',5,3,11),(5,'Radek','Nieboszczyk',3,4,12),(6,'Piotr','Malina',1,6,14);
 /*!40000 ALTER TABLE `Uczniowie` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +323,7 @@ CREATE TABLE `Uwagi` (
   KEY `FK1509p8yw6jfg28jgd9n5hh58l` (`przedmiot_id`),
   CONSTRAINT `FK1509p8yw6jfg28jgd9n5hh58l` FOREIGN KEY (`przedmiot_id`) REFERENCES `Przedmioty` (`przedmiot_id`),
   CONSTRAINT `FKb93i5psg8kpwjnw94eytmapo8` FOREIGN KEY (`uczen_id`) REFERENCES `Uczniowie` (`uczen_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,7 +332,7 @@ CREATE TABLE `Uwagi` (
 
 LOCK TABLES `Uwagi` WRITE;
 /*!40000 ALTER TABLE `Uwagi` DISABLE KEYS */;
-INSERT INTO `Uwagi` VALUES (1,1,1,'Glosno zachowywal sie na lekcji','2020-05-05'),(2,3,2,'Jadl na zajeciach','2020-05-10'),(3,3,2,'Obrazal rowiesników podczas zajec','2020-05-09'),(4,2,2,'Przeszkadzal w prowadzeniu zajec','2020-05-04'),(5,2,2,'Rzucal kreda po sali','2020-05-04'),(6,1,1,'Brak zeszytu ','2020-05-13'),(34,1,1,'nie uważał na lekcji','2020-06-08');
+INSERT INTO `Uwagi` VALUES (1,1,1,'Glosno zachowywal sie na lekcji','2020-05-05'),(2,3,2,'Jadl na zajeciach','2020-05-10'),(3,3,2,'Obrazal rowiesników podczas zajec','2020-05-09'),(4,2,2,'Przeszkadzal w prowadzeniu zajec','2020-05-04'),(5,2,2,'Rzucal kreda po sali','2020-05-04'),(6,1,1,'Brak zeszytu ','2020-05-13'),(34,1,1,'nie uważał na lekcji','2020-06-08'),(36,4,1,'Pił na lekcji ','2020-06-22');
 /*!40000 ALTER TABLE `Uwagi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,4 +349,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-09  2:30:56
+-- Dump completed on 2020-06-09 15:24:59
