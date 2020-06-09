@@ -28,11 +28,11 @@ public class PdfGenerator {
         cell = new PdfPCell(new Phrase("Opis"));
         table.addCell(cell);
 
-        for (int i = 0; i < listaOcen.size(); i++) {
-            table.addCell(listaOcen.get(i).getData().toString());
-            table.addCell(listaOcen.get(i).getPrzedmiotyByPrzedmiotId().toString());
-            table.addCell(listaOcen.get(i).getWartosc());
-            table.addCell(listaOcen.get(i).getOpis());
+        for (Oceny oceny : listaOcen) {
+            table.addCell(oceny.getData().toString());
+            table.addCell(oceny.getPrzedmiotyByPrzedmiotId().toString());
+            table.addCell(oceny.getWartosc());
+            table.addCell(oceny.getOpis());
         }
         return table;
     }
