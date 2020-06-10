@@ -1,16 +1,43 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
 package mapping;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Klasa Klasy, przechowuje informacje o klasach jakie znajdują się w szkole.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Klasy {
+    /**
+     * Zmienna przechowująca id naszej klasy.
+     */
     private int klasaId;
+    /**
+     * Zmienna przechowująca nazwe klasy.
+     */
     private String nazwaKlasy;
+    /**
+     * Zmienna przechowująca informacje o roku szkolnym.
+     */
     private String rokSzkolny;
+    /**
+     * Zmienna zawierająca wszystkie przedmioty, zawierające się w danej klasie.
+     */
     private Collection<KlasyPrzedmioty> klasyPrzedmiotiesByKlasaId;
+    /**
+     * Zmienna zawierająca wszystkich uczniów, należących do danej klasy.
+     */
     private Collection<Uczniowie> uczniowiesByKlasaId;
+
 
     @Id
     @Column(name = "klasa_id", nullable = false)
