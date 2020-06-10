@@ -1,3 +1,7 @@
+/**
+ * Package utils, specjalna paczka stworzona do przechowywania plików, odnoszących się do generowania raportów.
+ */
+
 package utils;
 
 import com.itextpdf.text.Document;
@@ -13,8 +17,27 @@ import mapping.Oceny;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * Klasa PdfGenerator jest to klasa obsługująca generowanie pdfów.
+ *
+ * @author Paweł Kolano
+ * @version 1.0
+ * @since   2020-05-18 *
+ *
+ */
+
+
+
 
 public class PdfGenerator {
+
+
+    /**
+     * Metoda PdfPTable ma za zadanie stworzenie tabeli przechowującej dane o ocenach ucznia.
+     * @param listaOcen Jest to lista, która przechowuje informacje o ocenach.
+     * @return table Zwraca nam tabele, w której przechowuje informacje z listy.
+     */
+
     private static PdfPTable createTable(ObservableList<Oceny> listaOcen) {
         PdfPTable table = new PdfPTable(4);
         PdfPCell cell;
@@ -36,6 +59,13 @@ public class PdfGenerator {
         }
         return table;
     }
+
+    /**
+     * Metoda PDFGenerateGrades ma za zadanie stworzenie tabeli, która będzie w raporcie zapisanym w odpowiednim pliku pdf.
+     * @param listaOcen Jest to lista, która przechowuje informacje trafiające do tabeli.
+     * @throws IOException Występuje w przypadku braku uprawnień.
+     * @throws DocumentException Występuje w przypadku błędów w dokumencie.
+     */
 
     public void PDFGenerateGrades(ObservableList<Oceny> listaOcen) throws IOException, DocumentException {
         Document doc = new Document();
