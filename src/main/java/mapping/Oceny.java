@@ -1,16 +1,45 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
 package mapping;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
+/**
+ * Klasa Oceny, przechowuje informacje o ocenach danych uczniów.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Oceny {
+    /**
+     * Zmienna przechowująca klucz główny 'id' naszej klasy Oceny.
+     */
     private int ocenaId;
+    /**
+     * Zmienna przechowująca stopień oceny.
+     */
     private String wartosc;
+    /**
+     * Zmienna przechowująca opis za co dostaliśmy daną ocenę.
+     */
     private String opis;
+    /**
+     * Zmienna przechowująca datę, kiedy wstawiono daną ocenę.
+     */
     private Date data;
+    /**
+     * Zmienna przechowująca klucz główny klasy Uczniowie.
+     */
     private Uczniowie uczniowieByUczenId;
+    /**
+     * Zmienna przechowująca klucz główny klasy Przedmioty.
+     */
     private Przedmioty przedmiotyByPrzedmiotId;
 
     @Id
