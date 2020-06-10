@@ -13,7 +13,7 @@ public class Main {
      * Główna metoda klasy Main, służąca do otwarcia klasy MainFX, czyli GUI naszej apliacji.
      * @param args Zawiera dostarczone argumenty wiersza polecenia jako tablicę String obiektów.
      */
-    //    Project Main function
+
     public static void main(String[] args) {
 
         MainFX.main(args);
