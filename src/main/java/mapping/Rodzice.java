@@ -1,17 +1,49 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
 package mapping;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Klasa Rodzce, przechowuje informacje o rodzicach danego ucznia.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Rodzice {
+    /**
+     * Zmienna przechowująca klucz główny 'id' naszej klasy Rodzice.
+     */
     private int rodzicId;
+    /**
+     * Zmienna przechowująca informacje o imieniu ojca.
+     */
     private String imieOjca;
+    /**
+     * Zmienna przechowująca informacje o nazwisku ojca.
+     */
     private String nazwiskoOjca;
+    /**
+     * Zmienna przechowująca informacje o imieniu matki.
+     */
     private String imieMatki;
+    /**
+     * Zmienna przechowująca informacje o nazwisku matki.
+     */
     private String nazwiskoMatki;
+    /**
+     * Zmienna przechowująca klucz główny 'id' klasy Konto.
+     */
     private Konta kontaByKontoId;
+    /**
+     * Zmienna przechowująca informacje o uczniach danych rodziców.
+     */
     private Collection<Uczniowie> uczniowiesByRodzicId;
 
     @Id
