@@ -1,19 +1,57 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
 package mapping;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Klasa Uczniowie przechowuje informacje o uczniach w naszej szkole.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Uczniowie {
+    /**
+     * Zmienna przechowująca klucz główny 'id' naszej klasy Rodzice.
+     */
     private int uczenId;
+    /**
+     * Zmienna przechowująca imie danego ucznia.
+     */
     private String imie;
+    /**
+     * Zmienna przechowująca nazwisko danego ucznia.
+     */
     private String nazwisko;
+    /**
+     * Zmienna przechowująca nieobecności jakie posiada dany uczeń.
+     */
     private Collection<Nieobecnosci> nieobecnoscisByUczenId;
+    /**
+     * Zmienna przechowująca oceny danego ucznia.
+     */
     private Collection<Oceny> oceniesByUczenId;
+    /**
+     * Zmienna przechowująca informacje o klasie do jakiej należy uczeń.
+     */
     private Klasy klasyByKlasaId;
+    /**
+     * Zmienna przechowująca informacje o rodzicach danego ucznia.
+     */
     private Rodzice rodziceByRodzicId;
+    /**
+     * Zmienna przechowująca klucz główny klasy Konto.
+     */
     private Konta kontaByKontoId;
+    /**
+     * Zmienna przechowująca informacje o uwagach danego ucznia.
+     */
     private Collection<Uwagi> uwagisByUczenId;
 
     @Id
