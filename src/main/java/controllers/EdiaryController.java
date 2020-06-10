@@ -1,3 +1,8 @@
+
+ /**
+ * Package controllers przechowuje klasy, odpowiadające za sterowanie naszą aplikacją.
+ */
+
 package controllers;
 
 import com.itextpdf.text.DocumentException;
@@ -16,8 +21,18 @@ import java.sql.Date;
 import static controllers.LoginController.authenticatedUser;
 
 // Class handling Ediary Window actions
+/**
+ * Klasa EdiaryController służy do zarządzania naszym e-dziennika.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-04-05
+ */
 
 public class EdiaryController {
+    /**
+     * Jest to zmienna przechowująca pojemnik TabPane, w którym znajdują się elementy naszego e-dziennika np. zakładki.
+     */
 
     public TabPane tabPane;
 
@@ -25,149 +40,683 @@ public class EdiaryController {
     // Uczeń
     //================================================================================
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Oceny.
+     */
+
     public Tab tabOceny;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Oceny.
+     */
+
     public TableView<Oceny> ocenyTableEdiary;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o dacie dodania oceny.
+     */
+
     public TableColumn<Oceny, Date> ocenyColumnData;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o przedmiocie z jakiej dostaliśmy daną ocenę.
+     */
+
     public TableColumn<Oceny, String> ocenyColumnPrzedmiot;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o stopniu oceny jakiej dostał dany uczeń.
+     */
+
     public TableColumn<Oceny, String> ocenyColumnOcena;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o tym za co dostaliśmy daną ocenę.
+     */
+
     public TableColumn<Oceny, String> ocenyColumnZaCo;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Nieobecnosci.
+     */
+
     public Tab tabNieobecnosci;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Nieobecnosci.
+     */
+
     public TableView<Nieobecnosci> nieobecnosciTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o tym kiedy byliśmy nieobecni.
+     */
+
     public TableColumn<Nieobecnosci, Date> nieobecnosciColumnData;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o tym na jakim przedmiocie mamy nieobecność.
+     */
+
     public TableColumn<Nieobecnosci, String> nieobecnosciColumnPrzedmiot;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o tym jaki jest aktualny status danej nieobecności.
+     */
+
     public TableColumn<Nieobecnosci, String> nieobecnosciColumnStatus;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Uwagi.
+     */
+
     public Tab tabUwagi;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Uwagi.
+     */
+
     public TableView<Uwagi> uwagiTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o treści danej uwagi.
+     */
+
     public TableColumn<Uwagi, String> uwagiColumnTresc;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o przedmiocie na jakim uczeń dostał uwagę.
+     */
+
     public TableColumn<Uwagi, String> uwagiColumnPrzedmiot;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o tym kiedy uczeń dostał daną uwagę.
+     */
+
     public TableColumn<Uwagi, Date> uwagiColumnData;
 
     //================================================================================
     // Rodzic
     //================================================================================
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Usprawiedliwienia.
+     */
+
     public Tab tabUsprawiedliwienia;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, zawierającego treść usprawiedliwienia.
+     */
+
     public TextField usprawiedliwieniaTextFieldTresc;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Nieobecności.
+     */
+
     public TableView<Nieobecnosci> usprawiedliwieniaTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o dacie usprawiedliwienia.
+     */
+
     public TableColumn<Nieobecnosci, Date> usprawiedliwieniaColumnData;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o przedmiocie, z którego jest dane usprawiedliwienie.
+     */
+
     public TableColumn<Nieobecnosci, String> usprawiedliwieniaColumnPrzedmiot;
 
+    /**
+     * Jest to zmienna odnosząca się do listy, gdzie rodzic może wybrać podgląd danego dziecka.
+     */
+
     public GridPane tabOcenyGridPaneDziecko;
+
+    /**
+     * Jest to zmienna odnosząca się do listy, gdzie rodzic może wybrać dane dziecka, którego chce zobaczyć nieobecności.
+     */
+
     public GridPane tabNieobecnosciGridPaneDziecko;
+
+    /**
+     * Jest to zmienna odnosząca się do listy, gdzie rodzic może wybrać dane dziecka, którego chce zobaczyć uwagi.
+     */
+
     public GridPane tabUwagiGridPaneDziecko;
+
+    /**
+     * Jest to zmienna odnosząca się do listy, gdzie rodzic może wybrać dane dziecka, którego chce zobaczyć usprawiedliwienia.
+     */
+
     public GridPane tabUsprawiedliwieniaGridPaneDziecko;
 
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie rodzic może wybrać dane dziecko w celu zobaczenia ocen.
+     */
+
     public ChoiceBox<Uczniowie> ocenyChoiceBoxDziecko;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie rodzic może wybrać dane dziecko w celu zobaczenia nieobecności.
+     */
+
     public ChoiceBox<Uczniowie> nieobecnosciChoiceBoxDziecko;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie rodzic może wybrać dane dziecko w celu zobaczenia uwag.
+     */
+
     public ChoiceBox<Uczniowie> uwagiChoiceBoxDziecko;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie rodzic może wybrać dane dziecko w celu zobaczenia usprawiedliwień.
+     */
+
     public ChoiceBox<Uczniowie> usprawiedliwieniaChoiceBoxDziecko;
 
     //================================================================================
     // Nauczyciel
     //================================================================================
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki DodawanieUwag.
+     */
+
     public Tab tabDodawanieUwag;
+
+    /**
+     * Jest to zmienna typu DatePicker, gdzie nauczyciel wprowadza datę dodanie uwagi.
+     */
+
     public DatePicker dodawanieUwagDatePickerData;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie nauczyciel wpisuje treść uwagi.
+     */
+
     public TextField dodawanieUwagTextFieldTresc;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie nauczyciel może wybrać daną klase.
+     */
+
     public ChoiceBox<Klasy> dodawanieUwagChoiceBoxKlasa;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie nauczyciel może wybrać dany przedmiot.
+     */
+
     public ChoiceBox<Przedmioty> dodawanieUwagChoiceBoxPrzedmiot;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Uczniowie.
+     */
+
     public TableView<Uczniowie> dodawanieUwagTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwisku danego ucznia, któremu nauczyciel chce dodać uwagę.
+     */
+
     public TableColumn<Uczniowie, String> dodawanieUwagColumnNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imieniu danego ucznia, któremu nauczyciel chce dodać uwagę.
+     */
+
     public TableColumn<Uczniowie, String> dodawanieUwagColumnImie;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki DodajOcenę.
+     */
+
     public Tab tabDodajOcene;
+
+    /**
+     * Jest to zmienna typu Button odnosząca się do przycisku, który nauczyciel dodaje ocenę.
+     */
+
     public Button dodawanieOcenButtonDodaj;
+
+    /**
+     * Jest to zmienna typu DatePicker, gdzie wybieramy datę dodania oceny.
+     */
+
     public DatePicker dodawanieOcenInputData;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, w które wprowadzamy stopień oceny.
+     */
+
     public TextField dodawanieOcenInputStopien;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, w które wprowadzamy opis za co jest dana ocena.
+     */
+
     public TextField dodawanieOcenInputZaco;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie nauczyciel może wybrać daną klasę, którą uczy.
+     */
+
     public ChoiceBox<Klasy> dodawanieOcenChoiceBoxKlasa;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie nauczyciel może wybrać dany przedmiot, którego uczy.
+     */
+
     public ChoiceBox<Przedmioty> dodawanieOcenChoiceBoxPrzedmiot;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Uczniowie.
+     */
+
     public TableView<Uczniowie> dodawanieOcenTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwisku danego ucznia, któremu nauczyciel chce dodać ocenę.
+     */
+
     public TableColumn<Uczniowie, String> dodawanieOcenColumnNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imieniu danego ucznia, któremu nauczyciel chce dodać ocenę.
+     */
+
     public TableColumn<Uczniowie, String> dodawanieOcenColumnImie;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki WpisywanieNieobecnosci.
+     */
+
     public Tab tabWpisywanieNieobecnosci;
+
+    /**
+     * Jest to zmienna typu DatePicker, gdzie nauczyciel może wybrać datę wprowadzania nieobecności.
+     */
+
     public DatePicker wpisywanieNieobecnosciInputData;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie nauczyciel może wybrać daną klasę, gdzie chce wprowadzić nieobecność.
+     */
+
     public ChoiceBox<Klasy> dodawanieNieobecnosciChoiceBoxKlasa;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie nauczyciel może wybrać dany przedmiot, z którego chce wprowadzić uczniowi nieobecność.
+     */
+
     public ChoiceBox<Przedmioty> dodawanieNieobecnosciChoiceBoxPrzedmiot;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Uczniowie.
+     */
+
     public TableView<Uczniowie> wpisywanieNieobecnosciTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwisku danego ucznia, któremu nauczyciel chce wpisać nieobecność.
+     */
+
     public TableColumn<Uczniowie, String> wpisywanieNieobecnosciColumnNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imieniu danego ucznia, któremu nauczyciel chce dodać ocenę.
+     */
+
     public TableColumn<Uczniowie, String> wpisywanieNieobecnosciColumnImie;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki AkceptacjiUsprawiedliwień.
+     */
+
     public Tab tabAkceptacjaUsprawiedliwien;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie nauczyciel może wybrać daną klasę, w której chce zaakceptować usprawiedliwienie.
+     */
+
     public ChoiceBox<Klasy> akceptacjaUsprawiedliwienChoiceBoxKlasa;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Nieobecnosci.
+     */
+
     public TableView<Nieobecnosci> akceptacjaUsprawiedliwienTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o dacie danej nieobecności.
+     */
+
     public TableColumn<Nieobecnosci, Date> akceptacjaUsprawiedliwienColumnData;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwisku ucznia, któremu nauczyciel chce akceptować usprawiedliwienie.
+     */
+
     public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imieniu danego ucznia, któremu nauczyciel chce akceptować usprawiedliwienie.
+     */
+
     public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnImie;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o przedmiocie, z którego nauczyciel chce akceptować usprawiedliwienie.
+     */
+
     public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnPrzedmiot;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o treści usprawiedliwienia, które nauczyciel rozpatrza.
+     */
+
     public TableColumn<Nieobecnosci, String> akceptacjaUsprawiedliwienColumnTresc;
+
+
+
 
     //================================================================================
     // Dyrektor
     //================================================================================
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Lista uczniów.
+     */
+
     public Tab tabListaUczniow;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie dyrektor, może wybrać daną klase.
+     */
+
     public ChoiceBox<Klasy> listaUczniowChoiceBoxKlasa;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Nieobecnosci.
+     */
+
     public TableView<Uczniowie> listaUczniowTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o liście uczniów w danej klasie.
+     */
+
     public TableColumn<Uczniowie, String> listaUczniowColumnKlasa;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwiskach uczniów w danej klasie.
+     */
+
     public TableColumn<Uczniowie, String> listaUczniowColumnNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imionach uczniów w danej klasie.
+     */
+
     public TableColumn<Uczniowie, String> listaUczniowColumnImie;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Dodaj rodziców.
+     */
+
     public Tab tabDodajRodzicow;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza imie ojca.
+     */
+
     public TextField dodajRodzicowInputImieOjca;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza nazwisko ojca.
+     */
+
     public TextField dodajRodzicowInputNazwiskoOjca;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza imie matki.
+     */
+
     public TextField dodajRodzicowInputImieMatki;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza nazwisko matki.
+     */
+
     public TextField dodajRodzicowInputNazwiskoMatki;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza login rodziców.
+     */
+
     public TextField dodajRodzicowInputLogin;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza hasło rodziców.
+     */
+
     public PasswordField dodajRodzicowInputHaslo;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza powtórnie hasło rodziców.
+     */
+
     public PasswordField dodajRodzicowInputPowtorzHaslo;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Dodaj uczniów.
+     */
+
     public Tab tabDodajUczniow;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza imie ucznia.
+     */
+
     public TextField dodajUczniowInputImie;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza nazwisko ucznia.
+     */
+
     public TextField dodajUczniowInputNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza nazwisko rodzica, do którego konta, chce dodać rodzica.
+     */
+
     public TextField dodajUczniowInputSzukaj;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza login ucznia.
+     */
+
     public TextField dodajUczniowInputLogin;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza hasło ucznia.
+     */
+
     public PasswordField dodajUczniowInputHaslo;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza powtórnie login ucznia.
+     */
+
     public PasswordField dodajUczniowInputPowtorzHaslo;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie dyrektor, może wybrać klase, do której chce przypisać ucznia.
+     */
+
     public ChoiceBox<Klasy> dodajUczniowChoiceBoxKlasa;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Rodzice.
+     */
+
     public TableView<Rodzice> dodajUczniowTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imieniu ojca, któremu dziecko przypisuje dyrektor.
+     */
+
     public TableColumn<Rodzice, String> dodajUczniowColumnImieOjca;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwisku ojca, któremu dziecko przypisuje dyrektor.
+     */
+
     public TableColumn<Rodzice, String> dodajUczniowColumnNazwiskoOjca;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imieniu matki, której dziecko przypisuje dyrektor.
+     */
+
     public TableColumn<Rodzice, String> dodajUczniowColumnImieMatki;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwisku matki, której dziecko przypisuje dyrektor.
+     */
+
     public TableColumn<Rodzice, String> dodajUczniowColumnNazwiskoMatki;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Dodaj nauczycieli.
+     */
+
     public Tab tabDodajNauczycieli;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza imie nauczyciela, któremu chce stworzyć konto.
+     */
+
     public TextField dodajNauczycieliInputImie;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza nazwisko nauczyciela, któremu chce stworzyć konto.
+     */
+
     public TextField dodajNauczycieliInputNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza login nauczyciela, któremu chce stworzyć konto.
+     */
+
     public TextField dodajNauczycieliInputLogin;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza hasło nauczyciela, któremu chce stworzyć konto.
+     */
+
     public PasswordField dodajNauczycieliInputHaslo;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza powtórnie hasło nauczyciela, któremu chce stworzyć konto.
+     */
+
     public PasswordField dodajNauczycieliInputPowtorzHaslo;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Dodaj przedmioty.
+     */
+
     public Tab tabDodajPrzedmioty;
+
+    /**
+     * Jest to zmienna odnosząca się do pola, gdzie dyrektor wprowadza nazwe przedmiotu jaki chce dodać.
+     */
+
     public TextField dodajPrzedmiotyInputNazwaPrzedmioty;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Nauczyciele.
+     */
+
     public TableView<Nauczyciele> dodajPrzedmiotyTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwisku nauczyciela, któremu dyrekor przypisuje dany przedmiot.
+     */
+
     public TableColumn<Nauczyciele, String> dodajPrzedmiotyColumnNazwisko;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o imieniu nauczyciela, któremu dyrekor przypisuje dany przedmiot.
+     */
+
     public TableColumn<Nauczyciele, String> dodajPrzedmiotyColumnImie;
 
+    /**
+     * Jest to zmienna typu Tab wewnątrz TabPane, odnosząca się do zakładki Przydziel przedmiot do klasy.
+     */
+
     public Tab tabPrzydzielPrzedmiotDoKlasy;
+
+    /**
+     * Jest to zmienna odnosząca się do pola wyboru, gdzie dyrektor, może wybrać przedmiot, który chce przydzielić do danej klasy.
+     */
+
     public ChoiceBox<Klasy> przydzielPrzedmiotDoKlasyChoiceBoxKlasa;
+
+    /**
+     * Jest to zmienna przechowująca widok tabeli TableView, w której znajdują się obiekty Przedmioty.
+     */
+
     public TableView<Przedmioty> przydzielPrzedmiotDoKlasyTableView;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o nazwie przedmiotu, który dyrekor przypisuje do danej klasy.
+     */
+
     public TableColumn<Przedmioty, String> przydzielPrzedmiotDoKlasyColumnNazwaPrzedmiotu;
+
+    /**
+     * Jest to zmienna odnosząca się do kolumny zawierającej informacje o prowadzącym dany przedmiot, któremu dyrektor przypisuje klasę.
+     */
+
     public TableColumn<Przedmioty, String> przydzielPrzedmiotDoKlasyColumnProwadzacy;
 
     //================================================================================
     // Private
     //================================================================================
 
+    /**
+     * Jest to zmienna typu Tab, która przechowuje informacje o aktualnie wybranej zakładce.
+     */
+
     private Tab currentTab;
+
+    /**
+     * Jest to zmienna odnosząca się do aktualnie zalogowanego obiektu Nauczyciele.
+     */
+
     private Nauczyciele loggedNauczyciel;
+
+    /**
+     * Jest to zmienna odnosząca się do aktualnie zalogowanego obiektu Rodzice.
+     */
+
     private Rodzice loggedRodzic;
+
+    /**
+     * Jest to zmienna odnosząca się do aktualnie zalogowanego obiektu Uczniowie.
+     */
+
     private Uczniowie loggedUczen;
 
-    //    Function run when user logs on
+    /**
+     * Metoda initialize uruchamia się jednocześnie z pozytywnym zalogowaniem się do e-dziennika.
+     */
+
     public void initialize() {
 
         hideElements();
@@ -183,6 +732,11 @@ public class EdiaryController {
         });
 
     }
+
+    /**
+     * Metoda loadLoggedUser odpowiada za sprawdzenie roli,
+     * oraz przypisania obiektu użytkownika związanego z zalogowanym kontem do zmiennej.
+     */
 
     private void loadLoggedUser() {
 
@@ -209,6 +763,11 @@ public class EdiaryController {
         }
 
     }
+
+    /**
+     * Metoda loadData odpowiada za załadowanie danych z bazy danych do tabel.
+     * @param tab Jest to parametr, który nam mówi, gdzie dane mają być załadowane.
+     */
 
     //    Function that load data from database to tableviews
     private void loadData(Tab tab) {
@@ -403,9 +962,15 @@ public class EdiaryController {
                 }
             }
         }
-
-
     }
+
+    /**
+     * Metoda loadUczniowieToTableView odpowiada za załadowanie danych o danym uczniu do tabeli
+     * @param choiceBoxKlasa Jest to parametr przechowujący listę obiektów Klasy.
+     * @param columnNazwisko Jest to parametr wskazujący nazwiska uczniów w danej klasie.
+     * @param columnImie Jest to parametr wskazujący imiona uczniów w danej klasie.
+     * @param tableView Parametr przechowuje tabele, do której wrzucamy dane.
+     */
 
     private void loadUczniowieToTableView(ChoiceBox<Klasy> choiceBoxKlasa, TableColumn<Uczniowie, String> columnNazwisko, TableColumn<Uczniowie, String> columnImie, TableView<Uczniowie> tableView) {
 
@@ -419,6 +984,11 @@ public class EdiaryController {
             tableView.setItems(FXCollections.observableArrayList(query.list()));
         }
     }
+
+    /**
+     * Metoda loadPrzedmiotToChoiceBox odpowiada za załadowanie informacji o przedmiotach, które uczy zalogowany nauczyciel.
+     * @param cb Przechowuje listę przedmiotów, którę prowadzi zalogowane nauczyciel.
+     */
 
     private void loadPrzedmiotToChoiceBox(ChoiceBox<Przedmioty> cb) {
 
@@ -434,6 +1004,11 @@ public class EdiaryController {
         }
     }
 
+    /**
+     * Metoda loadKlasaToChoiceBox odpowiada za załadowanie informacji o klasach, które uczy zalogowany nauczyciel.
+     * @param cb Przechowuje listę klas, którę prowadzi zalogowane nauczyciel.
+     */
+
     private void loadKlasaToChoiceBox(ChoiceBox<Klasy> cb) {
         try (Session session = SessionController.getSession()) {
             if (cb.getSelectionModel().isEmpty()) {
@@ -445,6 +1020,15 @@ public class EdiaryController {
             }
         }
     }
+
+    //================================================================================
+    // Rodzic
+    //================================================================================
+
+    /**
+     * Metoda loadDzieciToChoiceBox odpowiada za załadowanie informacji o dziaciach zalogowanego rodzica.
+     * @param cb Przechowuje listę uczniów, których konta są powiązane z zalogowanym rodzicem.
+     */
 
     private void loadDzieciToChoiceBox(ChoiceBox<Uczniowie> cb) {
 
@@ -458,6 +1042,12 @@ public class EdiaryController {
         }
 
     }
+
+
+    /**
+     * Metoda saveData odpowiada za zapisanie danych z tabel do bazy danych.
+     * @param tab Jest to parametr, który nam mówi, gdzie dane mają być zapisane.
+     */
 
     private void saveData(Tab tab) {
 
@@ -775,6 +1365,13 @@ public class EdiaryController {
 
     }
 
+    /**
+     * Metoda createNewAccount odpowiada za dodanie nowego konta do aplikacji.
+     * @param queryRola Jest to parametr, który przechowuje role tworzonego użytkownika.
+     * @param inputLogin Jest to parametr, który przechowuje login tworzonego użytkownika.
+     * @param inputHaslo Jest to parametr, który przechowuje hasło tworzonego użytkownika.
+     */
+
     private void createNewAccount(Query<Role> queryRola, TextField inputLogin, PasswordField inputHaslo) {
 
         try (Session session = SessionController.getSession()) {
@@ -789,6 +1386,9 @@ public class EdiaryController {
         }
     }
 
+    /**
+     * Metoda rejectExcuse odpowiada za odrzucenie usprawiedliwienia przez nauczyciela.
+     */
     public void rejectExcuse() {
 
         try (Session session = SessionController.getSession()) {
@@ -813,8 +1413,14 @@ public class EdiaryController {
         loadData(currentTab);
     }
 
-    private void showAlert(Alert.AlertType warning, String content) {
-        Alert alert = new Alert(warning);
+    /**
+     * Metoda showAlert odpowiada wyświetlenie komunikatu w nowym oknie.
+     * @param alertType Przechowuje typ alertu.
+     * @param content Przechowuje treść alertu.
+     */
+
+    private void showAlert(Alert.AlertType alertType, String content) {
+        Alert alert = new Alert(alertType);
         alert.setTitle("Komunikat");
         alert.setHeaderText(null);
         alert.setContentText(content);
@@ -826,7 +1432,10 @@ public class EdiaryController {
         alert.showAndWait();
     }
 
-    //    Function that removes tabs id user has no privileges to see them
+    /**
+     * Metoda hideElements odpowiada za usunięcie elementów interfejsu, do których użytkownik nie ma uprawnień.
+     */
+
     private void hideElements() {
 
         switch (authenticatedUser.getRoleByRolaId().getNazwaRoli()) {
@@ -859,6 +1468,10 @@ public class EdiaryController {
 
     }
 
+    /**
+     * Metoda hideElementsDyrektor odpowiada za ukrycie elementów przeznaczonych tylko dla dyrektora.
+     */
+
     private void hideElementsDyrektor() {
 
         tabPane.getTabs().remove(tabListaUczniow);
@@ -870,6 +1483,10 @@ public class EdiaryController {
 
     }
 
+    /**
+     * Metoda hideElementsNauczyciel odpowiada za ukrycie elementów przeznaczonych tylko dla nauczyciela.
+     */
+
     private void hideElementsNauczyciel() {
 
         tabPane.getTabs().remove(tabDodawanieUwag);
@@ -878,6 +1495,10 @@ public class EdiaryController {
         tabPane.getTabs().remove(tabAkceptacjaUsprawiedliwien);
 
     }
+
+    /**
+     * Metoda hideElementsDyrektor odpowiada za ukrycie elementów przeznaczonych tylko dla rodzica.
+     */
 
     private void hideElementsRodzic() {
 
@@ -889,12 +1510,20 @@ public class EdiaryController {
 
     }
 
+    /**
+     * Metoda hideElementsDyrektor odpowiada za ukrycie elementów przeznaczonych tylko dla ucznia.
+     */
+
     private void hideElementsUczen() {
 
         tabPane.getTabs().remove(tabOceny);
         tabPane.getTabs().remove(tabNieobecnosci);
         tabPane.getTabs().remove(tabUwagi);
     }
+
+    /**
+     * Metoda generateGrades służy do generowania raportów PDF.
+     */
 
     public void generateGrades() {
 
@@ -922,11 +1551,10 @@ public class EdiaryController {
                 if (rs == buttonTypeYes) {
                     try {
                         new PdfGenerator().PDFGenerateGrades(FXCollections.observableArrayList(query.list()));
+                        showAlert(Alert.AlertType.CONFIRMATION, "PDF został zapisany w folderze z aplikacją.");
                     } catch (IOException | DocumentException e) {
-                        e.printStackTrace();
+                        showAlert(Alert.AlertType.ERROR, "Nie udało się zapisać raportu PDF.");
                     }
-
-                    showAlert(Alert.AlertType.CONFIRMATION, "PDF został zapisany w folderze z aplikacją.");
                 }
             });
 
@@ -934,19 +1562,34 @@ public class EdiaryController {
 
     }
 
-    //    Handle refresh button action
+    /**
+     * Metoda refreshActionHandle odpowiada za obsługę przycisku Odswież.
+     */
     public void refreshActionHandle() {
         loadData(currentTab);
     }
+
+    /**
+     * Metoda saveData odpowiada za obsługę przycisku Przypisz/Dodaj/Zapisz.
+     */
 
     public void saveData() {
         saveData(currentTab);
         loadData(currentTab);
     }
 
+    /**
+     * Metoda clearButtonActionHandle odpowiada za obsługę przycisku Wyczyść.
+     */
+
     public void clearButtonActionHandle() {
         clear(currentTab);
     }
+
+    /**
+     * Metoda clear odpowiada za wyczyszczenie pól do wpisywania danych(TextField).
+     * @param tab Przechowuje informacje o zakładce.
+     */
 
     private void clear(Tab tab) {
 
@@ -1009,6 +1652,10 @@ public class EdiaryController {
 
         }
     }
+
+    /**
+     * Metoda searchButtonActionHandle odpowiada za wyszukanie odpowiednich danych wyjściowych.
+     */
 
     public void searchButtonActionHandle() {
 
