@@ -1,17 +1,50 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
+
 package mapping;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Klasa Konta, przechowuje informacje o danym użytkowniku naszej aplikacji.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Konta {
+    /**
+     * Zmienna przechowujaca klucz główny naszej Konta.
+     */
     private int kontoId;
+    /**
+     * Zmienna przechowujaca login naszego użytkownika.
+     */
     private String login;
+    /**
+     * Zmienna przechowujaca hasło naszego użytkownika.
+     */
     private String haslo;
+    /**
+     * Zmienna przechowujaca klucz główny klasy Role.
+     */
     private Role roleByRolaId;
+    /**
+     * Zmienna przechowujaca wszystkie konta nauczycieli.
+     */
     private Collection<Nauczyciele> nauczycielesByKontoId;
+    /**
+     Zmienna przechowujaca wszystkie konta rodziców.
+     */
     private Collection<Rodzice> rodzicesByKontoId;
+    /**
+     * Zmienna przechowujaca wszystkie konta uczniów.
+     */
     private Collection<Uczniowie> uczniowiesByKontoId;
 
     @Id
