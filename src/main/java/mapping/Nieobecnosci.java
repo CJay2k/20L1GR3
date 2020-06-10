@@ -1,16 +1,46 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
+
 package mapping;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
+/**
+ * Klasa Nieobecnosci, przechowuje informacje o zgloszonych nieobecnościach przez nauczycieli.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Nieobecnosci {
+    /**
+     * Zmienna przechowująca id naszej klasy.
+     */
     private int nieobecnoscId;
+    /**
+     * Zmienna przechowująca informacje o obecności(nieobecny,nieusprawiedliwiony,usprawiedliwiony)
+     */
     private String wartosc;
+    /**
+     * Zmienna przechowująca informacje o dacie nieobecności.
+     */
     private Date data;
+    /**
+     * Zmienna przechowująca treść usprawiedliwienia.
+     */
     private String trescUsprawiedliwienia;
+    /**
+     * Zmienna przechowująca klucz główny klasy Uczniowie.
+     */
     private Uczniowie uczniowieByUczenId;
+    /**
+     * Zmienna przechowująca klucz główny klasy Przedmioty.
+     */
     private Przedmioty przedmiotyByPrzedmiotId;
 
     @Id
