@@ -1,15 +1,41 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
 package mapping;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
+/**
+ * Klasa Uwagi przechowuje informacje o uwagach jakie dostali poszczególni uczniowie.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Uwagi {
+    /**
+     * Zmienna przechowująca klucz główny 'id' naszej klasy Uwagi.
+     */
     private int obecnoscId;
+    /**
+     * Zmienna przechowująca informacje odnoszące się do danej uwagi.
+     */
     private String wartosc;
+    /**
+     * Zmienna przechowująca datę, kiedy uczeń otrzymał daną uwagę.
+     */
     private Date data;
+    /**
+     * Zmienna przechowująca klucz główny 'id' klasy Uczniowie.
+     */
     private Uczniowie uczniowieByUczenId;
+    /**
+     * Zmienna przechowująca klucz główny 'id' naszej klasy Przedmioty.
+     */
     private Przedmioty przedmiotyByPrzedmiotId;
 
     @Id
