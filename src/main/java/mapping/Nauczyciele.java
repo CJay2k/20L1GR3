@@ -1,15 +1,42 @@
+/**
+ * Package mapping przechowuje obiekty, ktore generuje Hibernate na podstawie naszej bazy danych
+ */
+
 package mapping;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Klasa Nauczyciele, przechowuje informacje o nauczycielach w szkole.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-05-11
+ */
+
 @Entity
 public class Nauczyciele {
+    /**
+     * Zmienna przechowująca id naszej klasy Nauczyciele.
+     */
     private int nauczycielId;
+    /**
+     * Zmienna przechowująca imie nauczyciela.
+     */
     private String imie;
+    /**
+     * Zmienna przechowująca nazwisko nauczyciela.
+     */
     private String nazwisko;
+    /**
+     * Zmienna przechowująca klucz główny klasy Konta.
+     */
     private Konta kontaByKontoId;
+    /**
+     * Zmienna przechowująca przedmioty pasując do danego nauczyciela.
+     */
     private Collection<Przedmioty> przedmiotiesByNauczycielId;
 
     @Id
