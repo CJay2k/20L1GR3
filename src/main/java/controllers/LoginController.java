@@ -1,3 +1,6 @@
+/**
+ * Package controllers przechowuje klasy, odpowiadające za sterowanie naszą aplikacją.
+ */
 package controllers;
 
 import javafx.fxml.FXML;
@@ -15,16 +18,44 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Klasa LoginController odpowiada za uwierzytelnianie oraz logowanie użytkowników.
+ *
+ * @author Adrian Hrycaj, Jakub Gałuszka, Paweł Kolano, Mateusz Jedziniak, Aleksander Jewuła
+ * @version 1.0
+ * @since   2020-04-03
+ */
+
 public class LoginController {
-
+    /**
+     * Zmienna do której jest przypisany zalogowany użytkownik.
+     */
     public static Konta authenticatedUser;
-
+    /**
+     * Zmienna do której jest przypisany przycisk logowania.
+     */
     public Button loginBT;
+    /**
+     * Zmienna do której jest przypisany przycisk wyjścia.
+     */
     public Button closeBT;
+    /**
+     * Zmienna do której jest przypisane pole do wprowadzenia loginu.
+     */
     public TextField loginLabel;
+    /**
+     * Zmienna do której jest przypisane pole do wprowadzenia hasła.
+     */
     public PasswordField passwordLabel;
+    /**
+     * Zmienna do której przypisane jest pole służące do wyświetlania informacji na temat logowania.
+     */
     public Label infoLabel;
 
+    /**
+     * Metoda handleLoginButtonAction sprawdza czy użytkownik podał prawdziwe dane oraz wypełnił wszystkie pola.
+     * @throws IOException Występuje w przypadku kiedy program ma problem ze znalezieniem lub otworzeniem fxmla.
+    */
     @FXML
     public void handleLoginButtonAction() throws IOException {
 
@@ -41,13 +72,19 @@ public class LoginController {
 
         }
     }
-
+    /**
+     * Metoda handleCloseButtonAction służy do zamknięcia aktualnego okna poprzez wciśniecie przycisku closeBT.
+     */
     @FXML
     public void handleCloseButtonAction() {
         Stage stage = (Stage) closeBT.getScene().getWindow();
         stage.close();
     }
-
+    /**
+     * Metoda authenticateUser sprawdza czy podane dane są prawidłowe, kompletne oraz zwraca użytkownikowi jego role.
+     * @return -1 Zwraca błąd, odnoszący się do pustego badź pustych pól.
+     * @return -2 Zwróci nam błąd, jeżeli index będzie wykraczał poza tablice.
+     */
     private int authenticateUser() {
 
         String login = loginLabel.getText().toLowerCase();
@@ -66,6 +103,11 @@ public class LoginController {
         }
 
     }
+
+    /**
+     * Funkcja start, która odpowiada za zaladowanie okna logowania *
+     * @throws IOException Jest to błąd, który aplikacja wychwytuje kiedy ma problem ze znalezieniem i wyświetlniem podanego pliku FXML.
+     */
 
     private void loadDiary() throws IOException {
 
